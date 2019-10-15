@@ -1,0 +1,11 @@
+{
+  "AzureADTenantId": "statoilsrm.onmicrosoft.com",
+  "AzureADClientId": "a5731408-cfa8-46f2-aca0-b4df2e324ab2",
+  "AppBaseUrl": "http://localhost:5001",
+  "Resources": {
+    "example": {
+      "AzureADResourceId": "e0463da0-1920-409f-9177-1d0af1260c07",
+      "ApiBaseUrl": "https://api.statoil.com/app/someawesomeapi/dev/api"
+    }
+  }
+}

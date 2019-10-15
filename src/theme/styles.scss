@@ -1,0 +1,188 @@
+
+@import 'variables';
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import '../../node_modules/loaders.css/src/loaders.scss';
+@import '../../node_modules/toastr/toastr.scss';
+
+body {
+  font-family: 'Arial', 'Lucida Grande', sans-serif;
+  font-size: 14px;
+  background-color: $white;
+  color: $equinor_GRAY;
+}
+
+body h2 {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: $equinor_GRAY;
+}
+
+body h3 {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+body h4 {
+  font-weight: 550;
+  font-size: 16px;
+  color: #000000;
+}
+
+.toast-top-right {
+  top: 80px;
+  right: 12px;
+}
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: inline-block;
+}
+
+.nav-item {
+  .link {
+    color: $black;
+  }
+}
+
+.navbar-dark {
+  padding: 0.1rem 0.5rem 0.1rem 1rem;
+  .navbar-nav {
+    .nav-link {
+      color: $black;
+      margin-top: 6px;
+
+      @include hover-focus {
+        color: $black;
+      }
+
+      &.disabled {
+        color: $black;
+      }
+    }
+
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      color: $black;
+    }
+  }
+}
+
+.app-header {
+  background-color: $white;
+  border-bottom: 1px solid $equinor_LIGHT_GRAY;
+  .brand {
+    white-space: nowrap;
+    img {
+      vertical-align: baseline;
+    }
+    .brand-logo {
+      margin-left: 12px;
+      margin-bottom: -2px;
+      max-width: 100px;
+    }
+    .divider {
+      border-left: 1px solid $equinor_LIGHT_GRAY;
+      width: 1px;
+      height: 30px;
+      display: inline-block;
+      margin-left: $brand-spacing;
+      margin-right: $brand-spacing;
+    }
+    .loader {
+      position: relative;
+      left: 8px;
+      bottom: 2px;
+    }
+    @include media-breakpoint-down(xs) {
+      .brand-logo {
+        max-width: 25vw;
+      }
+      .divider {
+        margin-left: $brand-spacing * 0.3;
+        margin-right: $brand-spacing * 0.3;
+      }
+      .app-logo {
+        max-width: 40vw;
+      }
+    }
+  }
+  .menu-item {
+    svg {
+      margin-top: -5px;
+      margin-right: 6px;
+    }
+  }
+}
+.people-container {
+  .col {
+    display: flex;
+    flex-direction: row;
+  }
+  .card {
+    display: flex;
+    border-color: $gray-600;
+    flex-direction: column;
+    margin: 12px 0;
+    box-shadow: 0 8px 8px rgba($gray-200, 0.8);
+    .card-header {
+      background-color: $gray-800;
+      border-bottom: 1px solid $equinor_LIGHT_GRAY;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      .card-title {
+        font-size: 14pt;
+        margin-bottom: 0.2em;
+        color: white;
+      }
+      .card-subtitle {
+        margin-bottom: 0;
+        font-size: 12pt;
+        font-weight: 200;
+        color: $gray-400;
+      }
+    }
+    .card-content {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      .card-image {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $gray-200;
+        justify-content: flex-start;
+        img {
+          @extend .img-fluid;
+          min-width: 120px;
+          max-width: 120px;
+        }
+        p {
+          color: $gray-600;
+          font-size: 10pt;
+          font-weight: 400;
+          margin-top: 4px;
+        }
+      }
+      .card-link {
+        position: absolute;
+        bottom: 6px;
+        right: 12px;
+      }
+    }
+  }
+}
+
+// Search Bar
+.search-bar {
+  padding-top: '20px';
+  padding-left: '15px';
+  padding-right: '15px';
+  padding-bottom: '5px';
+}
+
+

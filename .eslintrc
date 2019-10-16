@@ -28,10 +28,33 @@
   },
   "rules": {
     "linebreak-style": "warn",
-    "no-console": ["warn", { "allow": ["warn", "error"]}],
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
     "global-require": "off",
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/forbid-prop-types": ["error", { "forbid": ["any"]}],
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "react/forbid-prop-types": [
+      "error",
+      {
+        "forbid": [
+          "any"
+        ]
+      }
+    ],
     "react/prefer-stateless-function": "off",
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": 0,
@@ -42,5 +65,7 @@
     "jsx-a11y/href-no-hash": "off",
     "import/prefer-default-export": "off"
   },
-  "globals": { "fetch": false }
+  "globals": {
+    "fetch": false
+  }
 }

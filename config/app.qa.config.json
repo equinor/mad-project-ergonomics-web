@@ -1,0 +1,11 @@
+{
+  "AzureADTenantId": "statoilsrm.onmicrosoft.com",
+  "AzureADClientId": "f082fb6f-fbab-4136-88f1-387282e98bb9",
+  "AppBaseUrl": "https://ergonomics-web-qa.azurewebsites.net",
+  "Resources": {
+    "Ergonomics": {
+      "AzureADResourceId": "d38b7321-5c52-4a08-9ae3-d4c6688f900d",
+      "ApiBaseUrl": "https://api-test.gateway.equinor.com/ergonomics-qa"
+    }
+  }
+}

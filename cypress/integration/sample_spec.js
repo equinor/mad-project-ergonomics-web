@@ -3,3 +3,9 @@ describe('My first test', () => {
     .to
     .equal(true));
 });
+
+describe('My second test', () => {
+  it('opens the web-page', () => {
+    cy.visit('/');
+  });
+});

@@ -3,7 +3,7 @@ import { getResource } from '../../settings';
 import { NetworkException } from '../../utils/Exception';
 
 export const config = {
-  defaultResource: 'mad',
+  defaultResource: 'Ergonomics',
   jsonHeaders: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

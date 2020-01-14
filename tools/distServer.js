@@ -8,7 +8,7 @@ import chalk from 'chalk';
 
 console.log(chalk.green('Opening dist build...'));
 
-const port = parseInt(5001, 10);
+const port = parseInt(5000, 10);
 
 // Run Browsersync
 browserSync({

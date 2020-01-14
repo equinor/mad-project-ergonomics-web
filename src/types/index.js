@@ -28,6 +28,11 @@ export const stateKeys = {
   CHANGELOG: 'releaseNote',
   NAV: 'routes',
   PEOPLE: 'people',
+  LANGUAGES: 'languages',
+  CHALLENGES: 'challenges',
+  QUESTIONS: 'questions',
+  LABELS: 'labels',
+  AppSettings: 'AppSettings'
 };
 
 export const toastMessages = {

@@ -32,6 +32,10 @@ const persistConfig = {
   whitelist: [
     stateKeys.MANIFEST,
     stateKeys.VERSION,
+    stateKeys.LANGUAGES,
+    // stateKeys.CHALLENGES,
+    // stateKeys.QUESTIONS
+    stateKeys.AppSettings
   ],
   storage,
   migrate: createMigrate(manifest),

@@ -1,11 +1,11 @@
 {
   "AzureADTenantId": "statoilsrm.onmicrosoft.com",
-  "AzureADClientId": "87ff1420-234e-4682-a181-69d05ee377d5",
-  "AppBaseUrl": "https://ergonomics-web-dev.azurewebsites.net",
+  "AzureADClientId": "29dd45a7-b6e5-4de7-9bef-9d1e259c406e",
+  "AppBaseUrl": "http://localhost:5001",
   "Resources": {
     "Ergonomics": {
       "AzureADResourceId": "3cad2792-449a-473e-8bea-3031c7fae0f3",
-      "ApiBaseUrl": "https://api-dev.gateway.equinor.com/dev"
+      "ApiBaseUrl": "https://api-dev.gateway.equinor.com/ergonomics/v1.0"
     }
   }
 }

@@ -4,7 +4,9 @@
   "extends": [
     "airbnb",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "prettier",
+    "prettier/react"
   ],
   "plugins": [
     "react",
@@ -27,7 +29,6 @@
     "jest/globals": true
   },
   "rules": {
-    "linebreak-style": "warn",
     "no-console": [
       "warn",
       {

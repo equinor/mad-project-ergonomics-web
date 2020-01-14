@@ -7,6 +7,12 @@ const genericErrorMessage = 'An error happened';
 const processingErrorMessage = 'The API is having trouble processing this request.';
 
 export default function handelError(ex) {
+  // eslint-disable-next-line no-console
+  console.log({ ex });
+  if (!ex) {
+    addToast({ text: genericErrorMessage, type: ToastTypes.ERROR });
+    return;
+  }
   if (ex.status === 400) {
     addToast({ text: invalidRequestMessage, type: ToastTypes.ERROR });
   } else if (ex.status === 401) {
@@ -16,6 +22,6 @@ export default function handelError(ex) {
   } else if (ex.status === 500) {
     addToast({ text: processingErrorMessage, type: ToastTypes.ERROR });
   } else {
-    addToast({ text: genericErrorMessage, type: ToastTypes.ERROR });
+    addToast({ text: `${ex.status} - ${ex.message}`, type: ToastTypes.ERROR });
   }
 }

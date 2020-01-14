@@ -30,5 +30,22 @@ docker build -t ergonomics . && docker run -p 5001:5001 ergonomics
 npm test
 ```
 
+## UI, API-requests and State-handling
+The web-app is conversing with an API-backend. Take a look at its
+[Swagger](https://ergonomics-api-dev.azurewebsites.net/swagger/index.html).
+
+Here is an overview of the main-screen and api-requests that is used for different actions.
+![Overview image of the ](documentation/uiRequestsOverview.png)
+
+Api-endpoints are defined in `src/services/api/api-methods.js` and triggered by an _action_ (actually from a saga).
+We use redux together with Redux-saga to run our async requests and update our state.
+Each button in the UI will _dispatch_ an `action` and update the state.
+
+### Separating UI and Logic (Presenter & Controller)
+UI should be created to reflect the redux-store. Use `mapStateToProps` to listen to the state.
+
+Try to not modify the data that is received from the state in the ui-view. Instead, make a new `selector`. 
+This will make it easier to keep the code clean and to write good tests.
+
 ## More info
 This project was initially forked from [mad-webapp-template](https://github.com/equinor/mad-webapp-template). Check it out if you have any questions to the base-setup.

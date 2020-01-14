@@ -7,5 +7,425 @@
       "Fixed a few bugs",
       "Improved performance"
     ]
+  },
+  "Labels": {
+    "frontPageTitle": {
+      "id": 35,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Ergonomic calculator",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 3
+    },
+    "frontPageDescription": {
+      "id": 37,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Choose an ergonomic challenge related to the work",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "resultPageRiskRed": {
+      "id": 38,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Tiltak anbefales",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "resultPageRiskYellow": {
+      "id": 39,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Tiltak er gult",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "resultPageRiskGreen": {
+      "id": 39,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Measure is green",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "resultPageMeasureHeader": {
+      "id": 41,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "Measures",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "resultPageMeasureError": {
+      "id": 42,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "No measures...",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    },
+    "quizPageGotoResultsButton": {
+      "id": 42,
+      "languageId": 2,
+      "language": {
+        "id": 2,
+        "code": "EN",
+        "name": "English"
+      },
+      "text": "No measures...",
+      "answerId": null,
+      "questionId": null,
+      "challengeId": null,
+      "labelId": 4
+    }
+  },
+  "Languages": [
+    {
+      "id": 1,
+      "code": "PT",
+      "name": "Portuguese"
+    },
+    {
+      "id": 2,
+      "code": "EN",
+      "name": "English"
+    },
+    {
+      "id": 9,
+      "code": "NO",
+      "name": "Norwegian"
+    }
+  ],
+  "Challenges": [
+    {
+      "id": 22,
+      "sortOrder": "1",
+      "currentTranslation": {
+        "id": 296,
+        "language": "NO",
+        "text": "Løft"
+      },
+      "graphicId": 69
+    },
+    {
+      "id": 23,
+      "sortOrder": "2",
+      "currentTranslation": {
+        "id": 356,
+        "language": "NO",
+        "text": "Arbeid over skulderhøyde"
+      },
+      "graphicId": 83
+    },
+    {
+      "id": 24,
+      "sortOrder": "3",
+      "currentTranslation": {
+        "id": 359,
+        "language": "NO",
+        "text": "Arbeid på kne"
+      },
+      "graphicId": 84
+    },
+    {
+      "id": 25,
+      "sortOrder": "4",
+      "currentTranslation": {
+        "id": 362,
+        "language": "NO",
+        "text": "Dra -og skyvearbeid"
+      },
+      "graphicId": 85
+    }
+  ],
+  "ChallengesWithoutTranslation": [
+    {
+      "id": 22,
+      "sortOrder": "1",
+      "currentTranslation": null,
+      "graphicId": 69
+    },
+    {
+      "id": 23,
+      "sortOrder": "2",
+      "currentTranslation": null,
+      "graphicId": 83
+    },
+    {
+      "id": 24,
+      "sortOrder": "3",
+      "currentTranslation": null,
+      "graphicId": 84
+    },
+    {
+      "id": 25,
+      "sortOrder": "4",
+      "currentTranslation": null,
+      "graphicId": 85
+    }
+  ],
+  "Questions": [
+    {
+      "id": 30,
+      "currentTranslation": {
+        "id": 297,
+        "language": "EN",
+        "text": "What weight do you have to lift?"
+      },
+      "answers": [
+        {
+          "id": 53,
+          "currentTranslation": {
+            "id": 300,
+            "language": "EN",
+            "text": "0-15 kg"
+          },
+          "number": "1A",
+          "graphicId": 70
+        },
+        {
+          "id": 54,
+          "currentTranslation": {
+            "id": 303,
+            "language": "EN",
+            "text": "15-25 kg"
+          },
+          "number": "1B",
+          "graphicId": 71
+        },
+        {
+          "id": 55,
+          "currentTranslation": {
+            "id": 306,
+            "language": "EN",
+            "text": "Above 25 kg"
+          },
+          "number": "1C",
+          "graphicId": 72
+        }
+      ],
+      "number": "1",
+      "graphicId": null
+    },
+    {
+      "id": 31,
+      "currentTranslation": {
+        "id": 309,
+        "language": "EN",
+        "text": "How far from the body do you lift?"
+      },
+      "answers": [
+        {
+          "id": 56,
+          "currentTranslation": {
+            "id": 312,
+            "language": "EN",
+            "text": "Short"
+          },
+          "number": "2A",
+          "graphicId": 73
+        },
+        {
+          "id": 57,
+          "currentTranslation": {
+            "id": 315,
+            "language": "EN",
+            "text": "Long"
+          },
+          "number": "2B",
+          "graphicId": 74
+        }
+      ],
+      "number": "2",
+      "graphicId": null
+    },
+    {
+      "id": 32,
+      "currentTranslation": {
+        "id": 318,
+        "language": "EN",
+        "text": "Do you need to bend or twist your torso when lifting?"
+      },
+      "answers": [
+        {
+          "id": 58,
+          "currentTranslation": {
+            "id": 321,
+            "language": "EN",
+            "text": "Yes"
+          },
+          "number": "3A",
+          "graphicId": 75
+        },
+        {
+          "id": 59,
+          "currentTranslation": {
+            "id": 324,
+            "language": "EN",
+            "text": "No"
+          },
+          "number": "3B",
+          "graphicId": 76
+        }
+      ],
+      "number": "3",
+      "graphicId": null
+    }
+  ],
+  "QuestionsWithoutText": [
+    {
+      "id": 30,
+      "currentTranslation": null,
+      "answers": [
+        {
+          "id": 53,
+          "currentTranslation": null,
+          "number": "1A",
+          "graphicId": 70
+        },
+        {
+          "id": 54,
+          "currentTranslation": null,
+          "number": "1B",
+          "graphicId": 71
+        },
+        {
+          "id": 55,
+          "currentTranslation": null,
+          "number": "1C",
+          "graphicId": 72
+        }
+      ],
+      "number": "1",
+      "graphicId": null
+    },
+    {
+      "id": 31,
+      "currentTranslation": null,
+      "answers": [
+        {
+          "id": 56,
+          "currentTranslation": null,
+          "number": "2A",
+          "graphicId": 73
+        },
+        {
+          "id": 57,
+          "currentTranslation": null,
+          "number": "2B",
+          "graphicId": 74
+        }
+      ],
+      "number": "2",
+      "graphicId": null
+    },
+    {
+      "id": 32,
+      "currentTranslation": null,
+      "answers": [
+        {
+          "id": 58,
+          "currentTranslation": null,
+          "number": "3A",
+          "graphicId": 75
+        },
+        {
+          "id": 59,
+          "currentTranslation": null,
+          "number": "3B",
+          "graphicId": 76
+        }
+      ],
+      "number": "3",
+      "graphicId": null
+    }
+  ],
+  "CombinationResult": {
+    "id": 0,
+    "currentTranslation": {
+      "id": 0,
+      "languageCode": "string",
+      "languageId": 0,
+      "text": "Tyngde, bæreavstand og bæremåte øker belastningen på kroppen.\n\nTyngde på opptil 25kg for en mann og 15 kg for en kvinne anses for å være tungt selv om det bæres i en god arbeidsstilling med godt grep og på jevn overflate."
+    },
+    "measures": [
+      {
+        "id": 0,
+        "currentTranslation": {
+          "id": 0,
+          "languageCode": "string",
+          "languageId": 0,
+          "text": "Lorum ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        "graphicId": 71
+      },
+      {
+        "id": 1,
+        "currentTranslation": {
+          "id": 1,
+          "languageCode": "string",
+          "languageId": 0,
+          "text": "Lorum ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        "graphicId": 72
+      },
+      {
+        "id": 2,
+        "currentTranslation": {
+          "id": 2,
+          "languageCode": "string",
+          "languageId": 0,
+          "text": "Lorum ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        "graphicId": 73
+      }
+    ],
+    "keyId": "string",
+    "keyNumber": "string",
+    "risk": "Red",
+    "graphicId": 70
   }
 }

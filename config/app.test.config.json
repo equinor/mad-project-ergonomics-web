@@ -5,7 +5,7 @@
   "Resources": {
     "Ergonomics": {
       "AzureADResourceId": "ff479922-75ed-4376-8e2b-1ee870f73c0f",
-      "ApiBaseUrl": "https://api-test.gateway.equinor.com/ergonomics-test"
+      "ApiBaseUrl": "https://api-test.gateway.equinor.com/ergo-api/v1.0/api/v1"
     }
   }
 }

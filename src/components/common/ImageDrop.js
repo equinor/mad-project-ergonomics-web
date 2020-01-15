@@ -40,6 +40,13 @@ class ImageDrop extends Component {
     img: null
   };
 
+  componentWillReceiveProps(nextProps) {
+    const { parentEntity } = nextProps;
+    if (parentEntity && parentEntity.graphic && parentEntity.graphic.url) {
+      this.setState({ img: null });
+    }
+  }
+
   onDrop = (files) => {
     const { parentEntity, uploadImg } = this.props;
     files.forEach((file) => {

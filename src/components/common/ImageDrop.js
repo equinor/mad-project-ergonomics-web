@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
-import { getGraphic } from '../../services/api/api-methods';
 import placeholderImg from '../../../resources/images/photo_size_select_actual_24px.svg';
 
 const ImageDropZone = styled.div`
@@ -22,33 +21,27 @@ const ImageDropZone = styled.div`
 const DrawerIcon = styled.img`
   width:52px;
   height:44px;
+  border-radius: 8px;
   object-fit: cover;
 `;
 
 class ImageDrop extends Component {
 
   static propTypes = {
-    uploadImg: PropTypes.func.isRequired,
-    parentEntityId: PropTypes.number,
-    graphicId: PropTypes.number,
+    parentEntity: PropTypes.object.isRequired,
+    uploadImg: PropTypes.func,
   };
-  static defaultProps = { graphicId: null, parentEntityId: null };
+
+  static defaultProps = {
+    uploadImg: null,
+  };
+
   state = {
-    img: null,
-    graphicId: null
-  };
-
-
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.graphicId) {
-      this.updateImage(nextProps.graphicId);
-    } else {
-      this.usePlaceholderImage();
-    }
+    img: null
   };
 
   onDrop = (files) => {
-    const { parentEntityId, uploadImg } = this.props;
+    const { parentEntity, uploadImg } = this.props;
     files.forEach((file) => {
       const reader = new FileReader();
       // reader.onabort = () => console.log('file reading was aborted');
@@ -56,7 +49,7 @@ class ImageDrop extends Component {
       reader.onload = async () => {
         const binaryStr = await reader.result;
         const blob = await new Blob([binaryStr], { type: 'image/jpeg' });
-        uploadImg(parentEntityId, blob);
+        uploadImg(parentEntity.id, blob);
         // remember to update the graphic locally
         const img = URL.createObjectURL(blob);
         this.setState({ img });
@@ -65,49 +58,40 @@ class ImageDrop extends Component {
     });
   };
 
-  usePlaceholderImage = () => this.setState({ img: null });
-
-  updateImage = graphicId => {
-    // todo: use memoization
-    getGraphic(graphicId)
-      .then(response => response.blob())
-      .then(blob => {
-        const img = URL.createObjectURL(blob);
-        this.setState({ img });
-      });
-  };
+  getImageSrc(parentEntity) {
+    if (this.state.img) {
+      return this.state.img;
+    }
+    if (parentEntity && parentEntity.graphic && parentEntity.graphic.url) {
+      return parentEntity.graphic.url;
+    }
+    return placeholderImg;
+  }
 
   render() {
-    const { parentEntityId, graphicId } = this.props;
-    const { img } = this.state;
-    if (graphicId && !img) {
-      this.updateImage(graphicId);
+    const { parentEntity, uploadImg } = this.props;
+
+    // We cannot update the graphic
+    if (!uploadImg) {
+      return <DrawerIcon
+        src={this.getImageSrc(parentEntity)}/>;
     }
-    return (
-      <>
-        {parentEntityId ?
-          <Dropzone accept={'image/*'} onDrop={this.onDrop}>
-            {({ getRootProps, getInputProps }) => (
-              <section>
-                <ImageDropZone {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  {this.state.img
-                    ? <DrawerIcon
-                      src={this.state.img}
-                      alt={`graphicId ${graphicId}`}/>
-                    : <p>Drop image</p>
-                  }
-                </ImageDropZone>
-              </section>
-            )}
-          </Dropzone>
-          :
-          <DrawerIcon src={placeholderImg}/>
-        }
-      </>
-    );
+
+    // We may update the graphic
+    return <Dropzone accept={'image/*'} onDrop={this.onDrop}>
+      {({ getRootProps, getInputProps }) => (
+        <section>
+          <ImageDropZone {...getRootProps()}>
+            <input {...getInputProps()} />
+            <DrawerIcon src={this.getImageSrc(parentEntity)}/>
+          </ImageDropZone>
+        </section>
+      )}
+    </Dropzone>;
+
   }
 }
+
 
 const mapStateToProps = () => ({});
 

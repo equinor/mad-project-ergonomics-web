@@ -127,8 +127,7 @@ const SortableAnswerWrapper = SortableElement(({ answer, question, deleteAction,
   return <AnswerBox key={answer.id}>
     <AnswerDragHandle/>
     <ImagePlaceholderContainer>
-      <ImageDrop graphicId={answer.graphicId} parentEntityId={answer.id}
-                 uploadImg={uploadAnswerImg}/>
+      <ImageDrop parentEntity={answer} uploadImg={uploadAnswerImg}/>
     </ImagePlaceholderContainer>
     <TextInput
       placeholder={getPlaceholderText(answer) || 'Write an answer here'}
@@ -161,7 +160,7 @@ class Question extends Component {
     updateQuestionText: PropTypes.func.isRequired,
     updateAnswerText: PropTypes.func.isRequired,
     uploadAnswerImg: PropTypes.func.isRequired,
-    currentLanguage: PropTypes.string.isRequired
+    currentLanguage: PropTypes.object.isRequired
   };
 
   render() {

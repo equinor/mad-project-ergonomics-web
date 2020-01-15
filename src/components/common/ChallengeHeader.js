@@ -124,8 +124,7 @@ class ChallengeHeader extends Component {
       <HeaderSection>
         <ChallengeTitleTextBox>
           <ImagePlaceholderContainer>
-            <ImageDrop uploadImg={uploadChallengeImg} parentEntityId={selectedChallenge.id}
-                       graphicId={selectedChallenge.graphicId}/>
+            <ImageDrop uploadImg={uploadChallengeImg} parentEntity={selectedChallenge}/>
           </ImagePlaceholderContainer>
 
           <ChallengeTitleTextInput

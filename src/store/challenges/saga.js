@@ -72,7 +72,6 @@ function* uploadChallengeImage(action) {
     yield put(actions.uploadChallengeImageRequested());
     const response = yield call(api.uploadChallengeImage, { challengeId, image });
     yield put(actions.uploadChallengeImageSucceeded(response));
-    // Refresh our challenges so that image will load... (Todo: Andreas is preparing a better endpoint... but still not done)
     yield put(actions.fetchChallenges());
   } catch (e) {
     yield call(handleError, e);

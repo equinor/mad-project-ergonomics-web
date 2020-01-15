@@ -13,7 +13,7 @@ import * as challengeActions from '../../store/challenges/actions';
 import * as questionActions from '../../store/questions/actions';
 import { getDrawerIsOpen } from '../../store/appSettings';
 import * as appSettingsActions from '../../store/appSettings/actions';
-import MadImage from './MadImage';
+import ImageDrop from './ImageDrop';
 
 const ToggleDrawerButton = styled.button`
   margin: 8px;
@@ -107,7 +107,7 @@ class ChallengeDrawer extends Component {
                          drawerOpen={this.props.drawerOpen}
                          onClick={() => this.props.selectChallenge(challenge)}>
         {this.props.drawerOpen && <DragHandle/>}
-        <MadImage challenge={challenge}/>
+        <ImageDrop parentEntity={challenge}/>
         {this.props.drawerOpen &&
         <>
           <DrawerLabel active={challenge.isSelected}>

@@ -141,44 +141,166 @@
   ],
   "Challenges": [
     {
-      "id": 22,
-      "sortOrder": "1",
+      "id": 197,
+      "sortOrder": 1,
       "currentTranslation": {
-        "id": 296,
-        "language": "NO",
-        "text": "Løft"
+        "languageCode": "EN",
+        "text": "Jei kan a shneezeburg?"
       },
-      "graphicId": 69
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "I can haz cheeseburgerz?"
+      },
+      "graphic": {
+        "id": 463,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/d79782cc"
+      }
     },
     {
-      "id": 23,
-      "sortOrder": "2",
+      "id": 79,
+      "sortOrder": 2,
       "currentTranslation": {
-        "id": 356,
-        "language": "NO",
-        "text": "Arbeid over skulderhøyde"
+        "languageCode": "EN",
+        "text": "Hello World! This title is way too loong... what should we do about it? Maybe we should truncate the title?"
       },
-      "graphicId": 83
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Jysla tungt"
+      },
+      "graphic": {
+        "id": 439,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/Vyct5bKxLQ8="
+      }
     },
     {
-      "id": 24,
-      "sortOrder": "3",
+      "id": 81,
+      "sortOrder": 3,
       "currentTranslation": {
-        "id": 359,
-        "language": "NO",
+        "languageCode": "EN",
+        "text": "Work on knees"
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
         "text": "Arbeid på kne"
       },
-      "graphicId": 84
+      "graphic": {
+        "id": 440,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/12060393"
+      }
     },
     {
-      "id": 25,
-      "sortOrder": "4",
+      "id": 82,
+      "sortOrder": 4,
       "currentTranslation": {
-        "id": 362,
-        "language": "NO",
+        "languageCode": "EN",
+        "text": "Dragging and sliding"
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
         "text": "Dra -og skyvearbeid"
       },
-      "graphicId": 85
+      "graphic": {
+        "id": 441,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/1f36bce2"
+      }
+    },
+    {
+      "id": 80,
+      "sortOrder": 5,
+      "currentTranslation": {
+        "languageCode": "EN",
+        "text": "Work above shoulder height!"
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Arbeid over skulderhøyde."
+      },
+      "graphic": {
+        "id": 438,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/P99lEyY6UMQ="
+      }
+    },
+    {
+      "id": 231,
+      "sortOrder": 6,
+      "currentTranslation": {
+        "languageCode": "EN",
+        "text": "<- This hash is bad"
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "<- Denne hash-en er dårlig"
+      },
+      "graphic": {
+        "id": 495,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash//nJnfgYAy4A="
+      }
+    },
+    {
+      "id": 232,
+      "sortOrder": 7,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Tunge løft "
+      },
+      "graphic": {
+        "id": 492,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/0ARpgLoDzW8="
+      }
+    },
+    {
+      "id": 237,
+      "sortOrder": 8,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": {
+        "id": 501,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/gz80vnnkEgE"
+      }
+    },
+    {
+      "id": 238,
+      "sortOrder": 9,
+      "currentTranslation": {
+        "languageCode": "EN",
+        "text": "Server is down"
+      },
+      "suggestedTranslation": {
+        "languageCode": "EN",
+        "text": "Server is down"
+      },
+      "graphic": {
+        "id": 504,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/eSGxCHMu_cA"
+      }
+    },
+    {
+      "id": 240,
+      "sortOrder": 10,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": {
+        "id": 505,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/OzfCF7y_SiM"
+      }
+    },
+    {
+      "id": 241,
+      "sortOrder": 11,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": {
+        "id": 506,
+        "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/Vwl-htdHIZY"
+      }
+    },
+    {
+      "id": 242,
+      "sortOrder": 12,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
     }
   ],
   "ChallengesWithoutTranslation": [
@@ -205,6 +327,244 @@
       "sortOrder": "4",
       "currentTranslation": null,
       "graphicId": 85
+    }
+  ],
+  "MissingCombinationsForChallenge197": [
+    {
+      "answers": [
+        {
+          "id": 480,
+          "questionNumber": 1,
+          "answerNumber": 1
+        },
+        {
+          "id": 481,
+          "questionNumber": 2,
+          "answerNumber": 1
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "480-481-485",
+      "keyNumber": "1A-2A-3A"
+    },
+    {
+      "answers": [
+        {
+          "id": 480,
+          "questionNumber": 1,
+          "answerNumber": 1
+        },
+        {
+          "id": 482,
+          "questionNumber": 2,
+          "answerNumber": 2
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "480-482-485",
+      "keyNumber": "1A-2B-3A"
+    },
+    {
+      "answers": [
+        {
+          "id": 480,
+          "questionNumber": 1,
+          "answerNumber": 1
+        },
+        {
+          "id": 483,
+          "questionNumber": 2,
+          "answerNumber": 3
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "480-483-485",
+      "keyNumber": "1A-2C-3A"
+    },
+    {
+      "answers": [
+        {
+          "id": 479,
+          "questionNumber": 1,
+          "answerNumber": 2
+        },
+        {
+          "id": 481,
+          "questionNumber": 2,
+          "answerNumber": 1
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "479-481-485",
+      "keyNumber": "1B-2A-3A"
+    },
+    {
+      "answers": [
+        {
+          "id": 479,
+          "questionNumber": 1,
+          "answerNumber": 2
+        },
+        {
+          "id": 482,
+          "questionNumber": 2,
+          "answerNumber": 2
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "479-482-485",
+      "keyNumber": "1B-2B-3A"
+    },
+    {
+      "answers": [
+        {
+          "id": 479,
+          "questionNumber": 1,
+          "answerNumber": 2
+        },
+        {
+          "id": 483,
+          "questionNumber": 2,
+          "answerNumber": 3
+        },
+        {
+          "id": 485,
+          "questionNumber": 3,
+          "answerNumber": 1
+        }
+      ],
+      "keyId": "479-483-485",
+      "keyNumber": "1B-2C-3A"
+    }
+  ],
+  "Challenge197Questions": [
+    {
+      "id": 222,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Hello world!"
+      },
+      "answers": [
+        {
+          "id": 480,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "1"
+          },
+          "number": "1A",
+          "graphic": {
+            "id": 465,
+            "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/15fd03f7"
+          }
+        },
+        {
+          "id": 479,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "2"
+          },
+          "number": "1B",
+          "graphic": {
+            "id": 466,
+            "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/55d7e69e"
+          }
+        }
+      ],
+      "number": 1
+    },
+    {
+      "id": 223,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "2. is this a question?"
+      },
+      "answers": [
+        {
+          "id": 481,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "Technically yes"
+          },
+          "number": "2A",
+          "graphic": {
+            "id": 467,
+            "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/5287eec8"
+          }
+        },
+        {
+          "id": 482,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "Yes, but a bad one"
+          },
+          "number": "2B",
+          "graphic": {
+            "id": 468,
+            "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/z8TDEfidMFg="
+          }
+        },
+        {
+          "id": 483,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "is this an answer?"
+          },
+          "number": "2C",
+          "graphic": {
+            "id": 469,
+            "url": "http://ergonomics-api-dev.azurewebsites.net/api/v1/graphics/hash/tYC2R9xi0KI="
+          }
+        }
+      ],
+      "number": 2
+    },
+    {
+      "id": 224,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "No, that was a question"
+      },
+      "answers": [
+        {
+          "id": 485,
+          "currentTranslation": null,
+          "suggestedTranslation": {
+            "languageCode": "NO",
+            "text": "Touché"
+          },
+          "number": "3A",
+          "graphic": null
+        }
+      ],
+      "number": 3
     }
   ],
   "Questions": [

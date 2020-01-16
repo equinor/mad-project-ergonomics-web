@@ -6,6 +6,8 @@ import reducer, {
   getQuestions
 } from './reducer';
 import {
+  Challenge197Questions,
+  MissingCombinationsForChallenge197 as MissingCombinations,
   Questions as MockedQuestions,
   QuestionsWithoutText as MockedQuestionsNoText
 } from '../../mockData/mock-data.json';
@@ -103,6 +105,29 @@ describe('Questions actions, reducers and selectors', () => {
     updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 1 }));
     expect(getQuestions(state)[0].graphicId)
       .toBe(getQuestions(state)[0].answers[1].graphicId);
+  });
+
+  it('can select missing answers', () => {
+    updateState(actions.fetchQuestionsSucceeded(Challenge197Questions));
+
+    MissingCombinations.forEach(question => {
+      question.answers.forEach(answer => {
+
+        const questionIndex = answer.questionNumber - 1;
+        const answerIndex = answer.answerNumber - 1;  // Todo: update this (and mock data) when Andreas changes the back-end
+
+        //  Select all the answers
+        updateState(actions.selectAnswer({
+          questionIndex,
+          answerIndex,
+        }));
+      });
+
+      // Then check if we have selected all the required answers to add a result to it...
+      expect(getAllQuestionsAreAnswered(state))
+        .toBe(true);
+    });
+
   });
 
   it('can update a question text', () => {

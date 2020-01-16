@@ -116,7 +116,7 @@ describe('Challenges actions, reducers and selectors', () => {
 
   it('can add title of challenge when currentTranslation == null', () => {
     updateState(actions.fetchChallengesSucceeded(ChallengesNoTranslation));
-    const challengeToUpdate = MockedChallenges[0];
+    const challengeToUpdate = ChallengesNoTranslation[0];
     const newChallengeText = 'Jysla tunge løft!';
 
     const challengeId = challengeToUpdate.id;

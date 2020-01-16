@@ -229,7 +229,7 @@ class MainPage extends Component {
 
   static defaultProps = {
     // activeTab: 'QUESTIONS'
-    activeTab: 'RESULTS'
+    activeTab: 'QUESTIONS'
   };
 
   componentDidMount() {

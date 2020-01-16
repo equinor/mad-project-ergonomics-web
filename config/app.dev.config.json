@@ -1,6 +1,6 @@
 {
   "AzureADTenantId": "statoilsrm.onmicrosoft.com",
-  "AzureADClientId": "29dd45a7-b6e5-4de7-9bef-9d1e259c406e",
+  "AzureADClientId": "87ff1420-234e-4682-a181-69d05ee377d5",
   "AppBaseUrl": "https://ergonomics-web-dev.azurewebsites.net",
   "Resources": {
     "Ergonomics": {

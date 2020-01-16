@@ -1,7 +1,7 @@
 {
   "AzureADTenantId": "statoilsrm.onmicrosoft.com",
   "AzureADClientId": "29dd45a7-b6e5-4de7-9bef-9d1e259c406e",
-  "AppBaseUrl": "http://localhost:5001",
+  "AppBaseUrl": "https://ergonomics-web-dev.azurewebsites.net",
   "Resources": {
     "Ergonomics": {
       "AzureADResourceId": "3cad2792-449a-473e-8bea-3031c7fae0f3",

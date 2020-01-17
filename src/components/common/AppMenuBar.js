@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+import * as PropTypes from 'prop-types';
+import { getActiveTab } from '../../store/appSettings/reducer';
+import * as appSettingsActions from '../../store/appSettings/actions';
 
 
 const MenuBar = styled.div`
@@ -21,22 +24,40 @@ const MenuBarButton = styled.button`
 
   border: 0 solid white;
 
-  ${props =>
-  props.active &&
-  css`
-      border-bottom: 2px solid #007079;
-      color: #007079;
-    `};
+  &:hover{
+    background-color: #EFF8F8;
+    ${props => !props.active && css`
+      border-bottom: 2px solid #EFF8F8;
+    `}
+  }
+
+  ${props => props.active && css`
+    border-bottom: 2px solid #007079;
+    color: #007079;
+  `};
 `;
 
 class AppMenuBar extends Component {
+  static propTypes = {
+    activeTab: PropTypes.string.isRequired,
+    setActiveTab: PropTypes.func.isRequired
+  };
+
   render() {
+    const { activeTab } = this.props;
+    const { setActiveTab } = this.props;
     return (
       <MenuBar>
-        <MenuBarButton active>
+        <MenuBarButton
+          active={activeTab === 'Questions'}
+          onClick={() => setActiveTab('Questions')}
+        >
           Spørsmål
         </MenuBarButton>
-        <MenuBarButton>
+        <MenuBarButton
+          active={activeTab === 'Results'}
+          onClick={() => setActiveTab('Results')}
+        >
           Resultat og tiltak
         </MenuBarButton>
       </MenuBar>
@@ -44,13 +65,13 @@ class AppMenuBar extends Component {
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => ({
+  activeTab: getActiveTab(state),
+});
 
-};
-
-const mapDispatchToProps = () => {
-
-};
+const mapDispatchToProps = (dispatch) => ({
+  setActiveTab: (str) => dispatch(appSettingsActions.setActiveTab(str))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppMenuBar);
 

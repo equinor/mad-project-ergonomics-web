@@ -11,8 +11,8 @@ import ChallengeHeader from '../components/common/ChallengeHeader';
 import AppMenuBar from '../components/common/AppMenuBar';
 import ChallengeBody from '../components/common/ChallengeBody';
 import iconInfo from '../../resources/images/info.svg';
-import iconPlaceholderCircle from '../../resources/images/placeholderCircle.svg';
-import iconClose from '../../resources/images/close.svg';
+import iconPlaceholderCircle from '../../resources/images/simba.svg';
+import { getActiveTab } from '../store/appSettings/reducer';
 
 const TopColumn = styled.div`
   display: flex;
@@ -24,10 +24,6 @@ const Wrapper = styled.div`
   flex: 1;
 `;
 
-const Icon = styled.img`
-  width:24px;
-  height:24px;
-`;
 
 const Button = styled.button`
   border: 1px solid #007079;
@@ -45,6 +41,9 @@ const Button = styled.button`
   letter-spacing: 1px;
 
   background: #007079;
+  &:hover{
+    background-color: #008A8F;
+  }
   box-sizing: border-box;
 
   padding:10px 36px;
@@ -66,10 +65,17 @@ const ClickableContainer = styled.button`
   justify-items: center;
   /* Moss Green/ 55 */
   color: #73B1B5;
+  &:hover{
+ background-color:#EFF8F8;
+ border-radius: 8px;
+  }
 `;
 
 const PaddingContainer = styled.div`
   padding: 28px;
+
+  flex-direction: column;
+  display: flex;
 `;
 
 const PillContainer = styled.div`
@@ -77,14 +83,12 @@ const PillContainer = styled.div`
   border-radius: 20px;
 
   height:32px;
-  width: 200px;
   margin:4px;
-  padding:4px;
-
+  padding: 4px;
+  align-items: center;
   display: flex;
   flex-direction: row;
 
-  //justify-content: space-between;
   justify-content: ${props => {
   return props.center ? 'center' : 'space-between';
 }};
@@ -120,26 +124,27 @@ const StatusPill = styled.div`
   }
   return '#909090';
 }};
-
 `;
+
 const QuestionsTab = () => <>
   <ChallengeHeader/>
   <ChallengeBody/>
 </>;
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
 const Table = styled.table`
-  //border-collapse: collapse;
-    //border: 5px solid black;
-
-  //flex: 1;
+  width:100%;
 `;
 
 const TableHeader = styled.th`
-  font-size: 18px;
-
+  font-family: Equinor,sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
   padding: 16px;
   height: 54px;
   background-color: #F7F7F7;
@@ -148,88 +153,134 @@ const TableHeader = styled.th`
 
 const TableRow = styled.tr`
     border-bottom:  1px solid #E6E6E6;
+     &:hover {
+      background-color: #FAFAFA;
+      cursor: pointer;
+    }
 `;
 
 const TableData = styled.td`
     padding: 16px;
-  //flex:1;
-  //display: grid;
-  //border: 1px solid #666666;
-  //background-color: blue;
+    max-width: 1000px;
 `;
 
-const renderTableRow = combination => <TableRow>
-  <TableData>
-    <PillContainer center>
-      {combination.combination}
-    </PillContainer></TableData>
-  <TableData>
-    <StatusPill status={'GO'}/></TableData>
-  <TableData>
-    <Row>
-      <p>{combination.description}</p>
-    </Row>
-  </TableData>
-  <TableData>
-    <PillContainer>
-      <Icon src={iconPlaceholderCircle}/>
-      {combination.measureCards[0].title}
-      <ClickableContainer>
-        <Icon src={iconClose}/>
-      </ClickableContainer>
-    </PillContainer>
-  </TableData>
-</TableRow>;
+const renderTableRow = combination => {
+  return (
+    // eslint-disable-next-line no-console
+    <TableRow onClick={() => console.log(combination)}>
+      <TableData>
+        <PillContainer center>
+          {combination.combination}
+        </PillContainer></TableData>
+      <TableData>
+        <StatusPill status={combination.risk}/></TableData>
+      <TableData>
+        {combination.description}
+      </TableData>
+      <TableData>
+        {combination.measureCards.map(measureCard => {
+          return <PillContainer>
+            <img src={iconPlaceholderCircle} alt={'measure'}/>
+            {measureCard.title}
+            <div/>
+          </PillContainer>;
+        })}
+      </TableData>
+    </TableRow>
+  );
+};
+
+function renderTable(tableHeaders, combinations) {
+  return (
+    <Table>
+      <thead>
+      <TableRow>
+        {tableHeaders.map(text => <TableHeader>{text}</TableHeader>)}
+      </TableRow>
+      </thead>
+      <tbody>
+      {combinations.map(combination => renderTableRow(combination))}
+      </tbody>
+    </Table>
+  );
+}
 
 const ResultsTab = () => {
-  const headerOne = 'Svarkombinasjoner';
-  const headerTwo = 'Risiko';
-  const headerThree = 'Beskrivelse av konsekvens';
-  const headerFour = 'Tiltakskort';
+  const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Tiltakskort',];
   const combinations = [{
     combination: '1A,2A,3A',
     risk: 'GO',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' },]
+  }, {
+    combination: '1B,2A,3A',
+    risk: 'WAIT',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Et lengre tiltaksnavn #2' },]
+  }, {
+    combination: '1C,2A,3A',
+    risk: 'STOP',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
       '                elit, sed do eiusmod tempor\n' +
       '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
       '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #1' },]
-  }];
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
+  }, {
+    combination: '1A,2A,3A',
+    risk: 'GO',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' },]
+  }, {
+    combination: '1B,2A,3A',
+    risk: 'WAIT',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' },]
+  }, {
+    combination: '1C,2A,3A',
+    risk: 'STOP',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
+      '                elit, sed do eiusmod tempor\n' +
+      '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
+      '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
+  }, {
+    combination: '1A,2A,3A',
+    risk: 'GO',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' },]
+  }, {
+    combination: '1B,2A,3A',
+    risk: 'WAIT',
+    description: 'Lorem ipsum dolor osv osv osv osv...',
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' },]
+  }, {
+    combination: '1C,2A,3A',
+    risk: 'STOP',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
+      '                elit, sed do eiusmod tempor\n' +
+      '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
+      '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
+    measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
+  },];
   return (
     <PaddingContainer>
       <TopColumn>
+        {/* eslint-disable-next-line no-console */}
         <ClickableContainer onClick={() => console.log('Se resterende svarkombinasjoner')}>
-          <Icon src={iconInfo}/> Se resterende svarkombinasjoner (8)
+          <img src={iconInfo} alt={'info'}/> Se resterende svarkombinasjoner (8)
         </ClickableContainer>
+        {/* eslint-disable-next-line no-console */}
         <Button onClick={() => console.log('NEW RESULTAT!')}>Nytt resultat</Button>
       </TopColumn>
-
-      <Table>
-        <TableRow>
-          <TableHeader> {headerOne} </TableHeader>
-          <TableHeader>{headerTwo}</TableHeader>
-          <TableHeader>{headerThree}</TableHeader>
-          <TableHeader>{headerFour}</TableHeader>
-        </TableRow>
-
-        {renderTableRow(combinations[0])}
-        {renderTableRow(combinations[0])}
-        {renderTableRow(combinations[0])}
-      </Table>
+      {renderTable(tableHeaders, combinations)}
     </PaddingContainer>
-  )
-    ;
+  );
 };
 
 class MainPage extends Component {
   static propTypes = {
     fetchChallenges: PropTypes.func.isRequired,
-    activeTab: PropTypes.string,
-  };
-
-  static defaultProps = {
-    // activeTab: 'QUESTIONS'
-    activeTab: 'QUESTIONS'
+    activeTab: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -249,7 +300,7 @@ class MainPage extends Component {
         <ChallengeDrawer/>
         <Wrapper>
           <AppMenuBar/>
-          {this.props.activeTab === 'QUESTIONS' ?
+          {this.props.activeTab === 'Questions' ?
             <QuestionsTab/>
             : <ResultsTab/>
           }
@@ -259,7 +310,9 @@ class MainPage extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  activeTab: getActiveTab(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),

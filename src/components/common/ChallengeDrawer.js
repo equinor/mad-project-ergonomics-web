@@ -41,11 +41,16 @@ const DrawerAlternative = styled.div`
   align-items: center;
   justify-content: flex-start;
 
-  ${props => {
-  return props.active && css`
+  &:hover {
+    cursor: pointer;
+    ${props => !props.active && css`
+        background-color: #EFF8F8;
+    `};
+  }
+
+  ${props => props.active && css`
     background-color: #DEEDEE;
-  `;
-}};
+  `}
 `;
 
 const DrawerIcon = styled.img`

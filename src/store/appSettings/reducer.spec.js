@@ -1,10 +1,14 @@
 import { stateKeys } from '../../types';
-import reducer, { getActiveTab, getDrawerIsOpen } from './reducer';
-import { toggleDrawer , setActiveTab } from '../appSettings/actions';
+import reducer, { getActiveTab, getDrawerIsOpen, getResultsModalIsShowing } from './reducer';
+import { setActiveTab, toggleDrawer , hideResultsModal, showResultsModal } from '../appSettings/actions';
 
 
 
-const defaultState = { drawer: { isOpen: true }, activeTab: 'Questions' };
+const defaultState = {
+  drawer: { isOpen: true },
+  activeTab: 'Questions',
+  resultsModalIsShowing: false
+};
 let state = {
   [stateKeys.AppSettings]: {}
 };
@@ -65,6 +69,27 @@ describe('AppSettings actions, reducers and selectors', () => {
     };
     expect(getActiveTab(state))
       .toEqual(QuestionsTab);
+  });
+
+  it('can show and hide the modal-view in the results-tab', () => {
+    let action;
+
+    expect(getResultsModalIsShowing(state))
+      .toBe(false);
+
+    action = showResultsModal();
+    state = {
+      [stateKeys.AppSettings]: reducer(state.AppSettings, action),
+    };
+    expect(getResultsModalIsShowing(state))
+      .toBe(true);
+
+    action = hideResultsModal();
+    state = {
+      [stateKeys.AppSettings]: reducer(state.AppSettings, action),
+    };
+    expect(getResultsModalIsShowing(state))
+      .toBe(false);
 
   });
 

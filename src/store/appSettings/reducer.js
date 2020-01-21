@@ -12,10 +12,21 @@ export default handleActions(
       ...state,
       activeTab: action.payload
     }),
+    [actions.showResultsModal]: (state) => ({
+      ...state,
+      resultsModalIsShowing: true,
+    }),
+    [actions.hideResultsModal]: (state) => ({
+      ...state,
+      resultsModalIsShowing: false,
+    }),
   },
-  { drawer: { isOpen: true }, activeTab: 'Questions' }
+  { drawer: { isOpen: true }, activeTab: 'Questions', resultsModalIsShowing: false }
 );
 
 export const getDrawerIsOpen = state => state[stateKeys.AppSettings].drawer.isOpen;
 
 export const getActiveTab = state => state[stateKeys.AppSettings].activeTab;
+
+export const getResultsModalIsShowing = state => state[stateKeys.AppSettings].resultsModalIsShowing;
+

@@ -67,8 +67,6 @@ describe('Challenges actions, reducers and selectors', () => {
       expect(getSelectedChallenge(state))
         .toStrictEqual({ ...challenge, isSelected: true });
     });
-
-
   });
 
   it('can reorder challenges', () => {

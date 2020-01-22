@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-import iconInfo from '../../../resources/images/info.svg';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import * as PropTypes from 'prop-types';
 import iconPlaceholderCircle from '../../../resources/images/simba.svg';
 import ImageDrop from './ImageDrop';
 import { getActiveTab, getResultsModalIsShowing } from '../../store/appSettings/reducer';
 import * as challengeActions from '../../store/challenges/actions';
-import { connect } from 'react-redux';
-import styled from 'styled-components';
 import { getSelectedChallenge } from '../../store/challenges/reducer';
 import * as appSettingsActions from '../../store/appSettings/actions';
+import * as combinationActions from '../../store/combinations/actions';
+import * as questionActions from '../../store/questions/actions';
+import { getCombinations, getMissingCombinations } from '../../store/combinations';
+import { getPlaceholderText, getText } from '../../utils/helpers';
+import { getAllQuestionsAreAnswered, getQuestions } from '../../store/questions';
+
+const LoadingView = styled.div`
+  padding: 20vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 
 const TopColumn = styled.div`
@@ -105,13 +118,13 @@ const StatusPill = styled.div`
   border-radius: 20px;
 
   background-color: ${props => {
-  if (props.status === 'STOP') {
+  if (props.status === 'Red') {
     return '#FF0E2C';
   }
-  if (props.status === 'WAIT') {
+  if (props.status === 'Yellow') {
     return '#FFCA00';
   }
-  if (props.status === 'GO') {
+  if (props.status === 'Green') {
     return '#00BB32';
   }
   return '#909090';
@@ -179,22 +192,21 @@ const Spacer = styled.span`
 
 const renderTableRow = (combination, onClick) => {
   return (
-    // eslint-disable-next-line no-console
     <TableRow onClick={onClick}>
       <TableData>
         <PillContainer center>
-          {combination.combination}
+          {combination.keyNumber}
         </PillContainer></TableData>
       <TableData>
         <StatusPill status={combination.risk}/></TableData>
       <TableData>
-        {combination.description}
+        {getText(combination.currentTranslation) || 'Missing text'}
       </TableData>
       <TableData>
-        {combination.measureCards.map(measureCard => {
+        {combination.measures && combination.measures.map(measureCard => {
           return <PillContainer>
             <img src={iconPlaceholderCircle} alt={'measure'}/>
-            {measureCard.title}
+            {getText(measureCard.currentTranslation) || 'No Title'}
             <div/>
           </PillContainer>;
         })}
@@ -228,7 +240,6 @@ const ModalTopBar = styled.div`
   flex-direction: row;
   justify-content: space-between;
   height:40px;
-  //background-color: blue;
 `;
 const ModalButtons = styled.div`
   display: flex;
@@ -237,81 +248,59 @@ const ModalButtons = styled.div`
 `;
 
 class ResultsTab extends Component {
+  static propTypes = {
+    modalIsShowing: PropTypes.bool.isRequired,
+    selectedChallenge: PropTypes.object.isRequired,
+    showModal: PropTypes.func.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    combinations: PropTypes.array.isRequired,
+    missingCombinations: PropTypes.array.isRequired,
+    questions: PropTypes.array.isRequired,
+    selectAnswers: PropTypes.func.isRequired,
+    allQuestionsAreAnswered: PropTypes.bool.isRequired
+  };
   state = {
     showModal: false
   };
 
   render() {
     const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Tiltakskort',];
-    const results = [{
-      combination: '1A,2A,3A',
-      risk: 'GO',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' },]
-    }, {
-      combination: '1B,2A,3A',
-      risk: 'WAIT',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Et lengre tiltaksnavn #2' },]
-    }, {
-      combination: '1C,2A,3A',
-      risk: 'STOP',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
-        '                elit, sed do eiusmod tempor\n' +
-        '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
-        '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
-    }, {
-      combination: '1A,2A,3A',
-      risk: 'GO',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' },]
-    }, {
-      combination: '1B,2A,3A',
-      risk: 'WAIT',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' },]
-    }, {
-      combination: '1C,2A,3A',
-      risk: 'STOP',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
-        '                elit, sed do eiusmod tempor\n' +
-        '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
-        '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
-    }, {
-      combination: '1A,2A,3A',
-      risk: 'GO',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' },]
-    }, {
-      combination: '1B,2A,3A',
-      risk: 'WAIT',
-      description: 'Lorem ipsum dolor osv osv osv osv...',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' },]
-    }, {
-      combination: '1C,2A,3A',
-      risk: 'STOP',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing\n' +
-        '                elit, sed do eiusmod tempor\n' +
-        '                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis\n' +
-        '                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-      measureCards: [{ title: 'Tiltaksnavn #1' }, { title: 'Tiltaksnavn #2' }, { title: 'Tiltaksnavn #3' }, { title: 'Tiltaksnavn #4' }, { title: 'Tiltaksnavn #5' },]
-    },];
+    const { modalIsShowing, selectedChallenge, showModal, hideModal, combinations, questions, allQuestionsAreAnswered } = this.props;
     return (<>
         <PaddingContainer>
+
           <TopColumn>
-            {/* eslint-disable-next-line no-console */}
-            <ClickableContainer onClick={() => this.props.showModal()}>
-              <img src={iconInfo} alt={'info'}/> Se resterende svarkombinasjoner (8)
-            </ClickableContainer>
-            {/* eslint-disable-next-line no-console */}
-            <Button onClick={() => this.props.showModal()}>Nytt resultat</Button>
+            {this.props.missingCombinations.length > 0 &&
+            <div>
+              <h2>Resterende Kombinasjoner ({this.props.missingCombinations.length})</h2>
+              <p>Klikk på en kombinasjon for å legge den til.</p>
+
+              <PillGrid>
+                {this.props.missingCombinations.map(comb => {
+                  return <ClickableContainer onClick={() => {
+                    const answerIdArray = comb.answers.map(answer => answer.id);
+                    console.log(answerIdArray);
+                    this.props.selectAnswers(answerIdArray);
+                    showModal();
+                  }}>
+                    <PillContainer
+                      center>{comb.keyNumber}</PillContainer>
+                  </ClickableContainer>;
+                })}
+              </PillGrid>
+            </div>
+            }
           </TopColumn>
-          {renderTable(tableHeaders, results, () => this.props.showModal())}
+
+          {combinations.length > 0 ?
+            renderTable(tableHeaders, combinations, () => showModal())
+            : <LoadingView>
+              <h2> {selectedChallenge ? 'No combinations for selected challenge' : 'Please select a challenge'}</h2>
+            </LoadingView>
+          }
         </PaddingContainer>
 
-        {this.props.modalIsShowing &&
+        {modalIsShowing &&
         <ModalWrapper>
           <Modal>
             <ModalTopBar>
@@ -320,9 +309,10 @@ class ResultsTab extends Component {
                 <h2>Rediger resultat</h2>
               </ModalButtons>
               <ModalButtons>
-                <Button outline onClick={() => this.props.hideModal()}>Avbryt</Button>
+                <Button outline onClick={() => hideModal()}>Avbryt</Button>
                 <Spacer/>
-                <Button onClick={() => this.props.hideModal()}>Lagre</Button>
+                {allQuestionsAreAnswered &&
+                <Button onClick={() => hideModal()}>Lagre</Button>}
               </ModalButtons>
             </ModalTopBar>
             <Row>
@@ -336,26 +326,30 @@ class ResultsTab extends Component {
                   alignContent: 'center',
                   padding: '16px'
                 }}>1. Velg besvarelse</h2>
-                <h3>Hvilken stilling har du i ryggen når du utfører jobben?</h3>
-                <ul>
-                  <li>Mellom 0 -20º bøy eller rotasjon</li>
-                  <li>Mellom 20- 60º bøy eller rotasjon</li>
-                  <li>Mer enn 60º bøy eller rotasjon</li>
-                </ul>
-                <h3>Hvilken stilling har du i ryggen når du utfører jobben?</h3>
-                <ul>
-                  <li>Mellom 0 -20º bøy eller rotasjon</li>
-                  <li>Mellom 20- 60º bøy eller rotasjon</li>
-                  <li>Mer enn 60º bøy eller rotasjon</li>
-                </ul>
-                <h3>Hvilken stilling har du i ryggen når du utfører jobben?</h3>
-                <ul>
-                  <li>Mellom 0 -20º bøy eller rotasjon</li>
-                  <li>Mellom 20- 60º bøy eller rotasjon</li>
-                  <li>Mer enn 60º bøy eller rotasjon</li>
-                </ul>
-              </div>
 
+                {questions && questions.map(question => {
+                    return <span>
+                    <h2>{getText(question) || getPlaceholderText(question)}</h2>
+                     <div>
+                        {question.answers.map(answer => {
+                          return <div style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'flex-start',
+                            // alignContent: 'center'
+                          }}>
+                            <input type="radio" checked={answer.isSelected}
+                                   disabled
+                              // onClick={() => selectAnswer(answer.id)}
+                            />
+                            <p>{getText(answer) || getPlaceholderText(answer)}</p>
+                          </div>;
+                        })}
+                    </div>
+                      </span>;
+                  }
+                )}
+              </div>
               <div className="risk" style={{ flex: 1, overflowY: 'scroll' }}>
                 <h2 style={{
                   backgroundColor: '#F7F7F7',
@@ -413,22 +407,6 @@ class ResultsTab extends Component {
               </div>
 
             </Row>
-            <div>
-              <hr/>
-              <h3>Resterende kombinasjoner</h3>
-              <p>Klikk på en resterende kombinasjon for å legge den til.</p>
-              <PillGrid>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-                <PillContainer center>1A,2A,3A</PillContainer>
-              </PillGrid>
-            </div>
 
           </Modal>
         </ModalWrapper>
@@ -442,12 +420,20 @@ const mapStateToProps = (state) => ({
   activeTab: getActiveTab(state),
   selectedChallenge: getSelectedChallenge(state),
   modalIsShowing: getResultsModalIsShowing(state),
+  combinations: getCombinations(state),
+  missingCombinations: getMissingCombinations(state),
+  questions: getQuestions(state),
+  allQuestionsAreAnswered: getAllQuestionsAreAnswered(state)
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),
   showModal: () => dispatch(appSettingsActions.showResultsModal()),
-  hideModal: () => dispatch(appSettingsActions.hideResultsModal())
+  hideModal: () => dispatch(appSettingsActions.hideResultsModal()),
+  fetchCombinations: (challengeId) => dispatch(combinationActions.fetchCombinations(challengeId)),
+  fetchMissingCombinations: (challengeId) => dispatch(combinationActions.fetchMissingCombinations(challengeId)),
+  selectAnswer: (answerId) => dispatch(questionActions.selectAnswer({ answerId })),
+  selectAnswers: (answerIdArray) => dispatch(questionActions.selectAnswers({ answerIdArray }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsTab);

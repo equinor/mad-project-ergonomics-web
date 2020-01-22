@@ -5,12 +5,8 @@ import styled, { css } from 'styled-components';
 import { toast } from 'react-toastify';
 import { getPlaceholderText, getText } from '../../utils/helpers';
 import IconDelete from '../../../resources/images/delete_24px.svg';
-import { getChallenges, getIsFetchingChallenges } from '../../store/challenges';
-import { getIsFetchingQuestions, getQuestions } from '../../store/questions';
-import { getIsFetchingLabels } from '../../store/labels';
 import { getSelectedChallenge, getSomeChallengeIsSelected } from '../../store/challenges/reducer';
 import * as challengeActions from '../../store/challenges/actions';
-import * as questionActions from '../../store/questions/actions';
 import ImageDrop from './ImageDrop';
 
 
@@ -151,22 +147,11 @@ class ChallengeHeader extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isFetching: getIsFetchingChallenges(state) || getIsFetchingQuestions(state) || getIsFetchingLabels(state),
-  challenges: getChallenges(state),
-  questions: getQuestions(state),
   someChallengeIsSelected: getSomeChallengeIsSelected(state),
   selectedChallenge: getSelectedChallenge(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),
-  selectChallenge: (challenge) => {
-    dispatch(challengeActions.selectChallenge(challenge));
-    dispatch(questionActions.fetchQuestions(challenge.id));
-  },
-  createChallenge: () => dispatch(challengeActions.createChallenge()),
-  createQuestion: () => dispatch(questionActions.createQuestion()),
-  reorderQuestion: (payload) => dispatch(questionActions.reorderQuestions(payload)),
   deleteChallenge: challengeId => dispatch(challengeActions.deleteChallenge(challengeId)),
   setChallengeTitle: (challengeId, text) => dispatch(challengeActions.setChallengeTitle({
     challengeId,

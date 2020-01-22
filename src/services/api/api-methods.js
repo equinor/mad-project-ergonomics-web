@@ -26,6 +26,15 @@ export const getChallenges = (language) => fetchDataWithLanguage(`/Challenges`, 
 export const getChallenge = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}`, language);
 export const getQuestions = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Questions`, language);
 export const getGraphic = (graphicId) => fetchData(`/Graphics/${graphicId}`, `Ergonomics`, true);
+
+// Combinations
+export const getCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations`, language);
+export const getMissingCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/missingCombinations`, language);
+
+export const getInvalidCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/invalidCombinations`, language);
+
+export const getCombinationResult = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/result`, language);
+export const getAllPossibleCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/allCombinations`, language);
 // --------------------------------------------------------------------------------------------- //
 
 
@@ -53,7 +62,7 @@ export const orderAnswers = (questionId, answers) => submitDataWithLanguage(`/Qu
 // ////////////////////////////////////////////
 /**
  *
- * @param parentEntity => "Challenges","Questions" or "Answers".
+ * @param parentEntity => "Challenges","Questions", "Answers", "Measures" ...
  * @param id => The id of the parentEntity
  * @param languageCode => "EN","NO" etc...
  * @param text => The updated text
@@ -79,6 +88,13 @@ export const patchLanguage = (languageCode, id, code, name) => submitData(`/Lang
   name
 }, `PATCH`);
 // --------------------------------------------------------------------------------------------- //
+
+
+// /////////////////////////////////////////////
+// PUT-requests
+// ////////////////////////////////////////////
+// Todo:addMeasureToCombination
+// export const addMeasureToCombination = (combinationId,measureId) =>
 
 
 // /////////////////////////////////////////////

@@ -1,0 +1,93 @@
+import { handleActions } from 'redux-actions';
+import { cloneDeep } from 'lodash';
+import * as actions from './actions';
+import { stateKeys } from '../../types';
+
+
+const defaultState = {
+  isFetching: false,
+  combinations: [],
+  missingCombinations: [],
+  invalidCombinations: [],
+  allPossibleCombinations: [],
+  selectedCombination: {}
+};
+export default handleActions(
+  {
+
+    // COMBINATIONS
+    [actions.fetchCombinationsRequested]: (state) => ({
+      ...state,
+      isFetching: true,
+    }),
+    [actions.fetchCombinationsSuccess]: (state, action) => ({
+      ...state,
+      combinations: action.payload,
+      isFetching: false,
+    }),
+    [actions.fetchCombinationsFailed]: (state) => ({
+      ...state,
+      combinations: [],
+      isFetching: false,
+    }),
+    // MISSING COMBINATIONS
+    [actions.fetchMissingCombinationsRequested]: (state) => ({
+      ...state,
+      isFetching: true,
+    }),
+    [actions.fetchMissingCombinationsSuccess]: (state, action) => ({
+      ...state,
+      isFetching: false,
+      missingCombinations: action.payload,
+    }),
+    [actions.fetchMissingCombinationsFailed]: (state) => ({
+      ...state,
+      missingCombinations: [],
+      isFetching: false
+    }),
+    // ALL POSSIBLE COMBINATIONS
+    [actions.fetchAllPossibleCombinationsRequested]: (state) => ({
+      ...state,
+      isFetching: true,
+    }),
+    [actions.fetchAllPossibleCombinationsSuccess]: (state, action) => ({
+      allPossibleCombinations: action.payload,
+      ...state,
+      isFetching: false
+    }),
+    [actions.fetchAllPossibleCombinationsFailed]: (state) => ({
+      ...state,
+      allPossibleCombinations: [],
+      isFetching: false
+    }),
+    // INVALID COMBINATIONS
+    [actions.fetchInvalidCombinationsRequested]: (state) => ({
+      ...state,
+      isFetching: true
+    }),
+    [actions.fetchInvalidCombinationsSuccess]: (state, action) => ({
+      invalidCombinations: action.payload,
+      ...state,
+      isFetching: false
+    }),
+    [actions.fetchInvalidCombinationsFailed]: (state) => ({
+      ...state,
+      invalidCombinations: [],
+      isFetching: false
+    }),
+    [actions.selectCombination]: (state, action) => ({
+      selectedCombination: action.payload,
+      ...state,
+    }),
+  },
+  defaultState
+);
+// We want to protect the default state against mutability.
+export const getDefaultState = cloneDeep(defaultState); // Exporting this so that we may test it...
+
+export const getCombinations = state => state[stateKeys.COMBINATIONS].combinations;
+export const getMissingCombinations = state => state[stateKeys.COMBINATIONS].missingCombinations;
+export const getInvalidCombinations = state => state[stateKeys.COMBINATIONS].invalidCombinations;
+export const getAllPossibleCombinations = state => state[stateKeys.COMBINATIONS].allPossibleCombinations;
+
+export const getSelectedCombination = state => state[stateKeys.COMBINATIONS].selectedCombination;

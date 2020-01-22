@@ -94,28 +94,92 @@ export default handleActions(
       });
     },
     [actions.selectAnswer]: (state, action) => {
-      const { questionIndex, answerIndex } = action.payload;
+      // const { questionIndex, answerIndex } = action.payload;
+      const { answerId } = action.payload;
 
       const clonedState = cloneDeep(state);
+      let questionIndex = null;
+      let answerIndex = null;
 
-      // clear all answers
-      clonedState.questions[questionIndex].answers = clonedState.questions[
-        questionIndex
-        ].answers.map(answer => {
-        return { ...answer, isSelected: false };
+      // find the answer inside one of the questions
+      for (let i = 0; i < clonedState.questions.length; i+=1) {
+        const question = clonedState.questions[i];
+        if (question) {
+          const aIndex = question.answers.findIndex(answer => answer.id === answerId);
+          if (aIndex !== -1) {
+            answerIndex = aIndex;
+            questionIndex = i;
+            break; // We have what we came for
+          }
+        }
+      }
+
+      if (questionIndex !== null) {
+        // clear all answers
+        clonedState.questions[questionIndex].answers =
+          clonedState.questions[questionIndex].answers.map(answer => {
+            return { ...answer, isSelected: false };
+          });
+        if (answerIndex !== null) {
+
+          // select the new answer
+          clonedState.questions[questionIndex].answers[answerIndex].isSelected = true;
+
+          // Also, let's set the question-group to answered.
+          // (for our logic checking if we can show the results)
+          clonedState.questions[questionIndex].isAnswered = true;
+
+          // And set our current image to the one that is selected
+          clonedState.questions[questionIndex].graphicId =
+            clonedState.questions[questionIndex].answers[answerIndex].graphicId;
+        }
+      }
+
+      return clonedState;
+    },
+    [actions.selectAnswers]: (state, action) => {
+      const { answerIdArray} = action.payload;
+      const clonedState = cloneDeep(state);
+
+      answerIdArray.forEach(answerId => {
+
+        let questionIndex = null;
+        let answerIndex = null;
+
+        // find the answer inside one of the questions
+        for (let i = 0; i < clonedState.questions.length; i+=1) {
+          const question = clonedState.questions[i];
+          if (question) {
+            const aIndex = question.answers.findIndex(answer => answer.id === answerId);
+            if (aIndex !== -1) {
+              answerIndex = aIndex;
+              questionIndex = i;
+              break; // We have what we came for
+            }
+          }
+        }
+
+        if (questionIndex !== null) {
+          // clear all answers
+          clonedState.questions[questionIndex].answers =
+            clonedState.questions[questionIndex].answers.map(answer => {
+              return { ...answer, isSelected: false };
+            });
+          if (answerIndex !== null) {
+
+            // select the new answer
+            clonedState.questions[questionIndex].answers[answerIndex].isSelected = true;
+
+            // Also, let's set the question-group to answered.
+            // (for our logic checking if we can show the results)
+            clonedState.questions[questionIndex].isAnswered = true;
+
+            // And set our current image to the one that is selected
+            clonedState.questions[questionIndex].graphicId =
+              clonedState.questions[questionIndex].answers[answerIndex].graphicId;
+          }
+        }
       });
-
-      // select the new answer
-      clonedState.questions[questionIndex].answers[answerIndex].isSelected = true;
-
-      // Also, let's set the question-group to answered.
-      // (for our logic checking if we can show the results)
-      clonedState.questions[questionIndex].isAnswered = true;
-
-      // And set our current image to the one that is selected
-      clonedState.questions[questionIndex].graphicId =
-        clonedState.questions[questionIndex].answers[answerIndex].graphicId;
-
       return clonedState;
     },
     [actions.addAlternativeSucceeded]: (state, action) => {

@@ -20,6 +20,12 @@ import watchFetchQuestions, {
   watchUploadAnswerImage
 } from './questions/saga';
 import watchGetLabels from './labels/saga';
+import {
+  watchFetchAllPossibleCombinations,
+  watchFetchCombinations,
+  watchFetchInvalidCombinations,
+  watchFetchMissingCombinations
+} from './combinations/saga';
 
 const root = function* rootSaga() {
   yield [
@@ -44,6 +50,10 @@ const root = function* rootSaga() {
     watchUploadChallengeImage(),
     watchUploadAnswerImage(),
     watchReorderChallenge(),
+    watchFetchCombinations(),
+    watchFetchMissingCombinations(),
+    watchFetchInvalidCombinations(),
+    watchFetchAllPossibleCombinations(),
   ];
 };
 

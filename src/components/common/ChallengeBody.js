@@ -116,10 +116,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),
-  selectChallenge: (challenge) => {
-    dispatch(challengeActions.selectChallenge(challenge));
-    dispatch(questionActions.fetchQuestions(challenge.id));
-  },
   createChallenge: () => dispatch(challengeActions.createChallenge()),
   createQuestion: () => dispatch(questionActions.createQuestion()),
   reorderQuestion: (payload) => dispatch(questionActions.reorderQuestions(payload)),

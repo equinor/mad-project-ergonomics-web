@@ -4,6 +4,8 @@ import { SortableContainer, SortableElement, SortableHandle } from 'react-sortab
 import { connect } from 'react-redux';
 import * as PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { Button } from '@equinor/eds-core-react';
+
 
 import IconClose from '../../../resources/images/close_24px.svg';
 import IconAdd from '../../../resources/images/add_24px.svg';
@@ -64,38 +66,8 @@ const AnswerBox = styled.div`
   padding-right: 64px;
 `;
 
-const TransparentButton = styled.button`
-  font-family: Equinor,sans-serif;
-
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1em;
-  line-height: 16px;
-
-  display: flex;
-  align-items: center;
-  letter-spacing: 1px;
-
-  color: #007079;
-  background-color: transparent;
-
-  border: 0 solid white;
-
-  margin-left: 116px;
-  padding: 20px 64px;
-`;
-
-const DeleteQuestionButton = styled.button`
-  border: 0 solid white;
-  background-color: transparent;
-  padding: 8px 72px;
-`;
-
-
-const DeleteAlternativeButtonContainer = styled.button`
-    background-color: transparent;
-    border: 0 solid white;
-    margin:10px 20px;
+const AddSomeLeftPadding = styled.div`
+  padding-left:210px;
 `;
 
 const ChallengeBoxBottomActionsBox = styled.div`
@@ -109,12 +81,21 @@ const AlignCenter = styled.div`
   display: flex;
   justify-content: center;
 `;
+const DragHandlePadding = styled.div`
+ padding: 8px 16px;
+ border-radius: 4px;
+ border: 1px #FFFFFF dashed;
+ &:hover {
+ border: 1px #C2C2C2 dashed;
+ cursor:pointer;
+ }
+`;
 
 const DragHandle = SortableHandle(() => {
-  return <div style={{ padding: 8, paddingLeft: 16, paddingRight: 16 }}>
+  return <DragHandlePadding>
     <img src={IconDragNode}
          alt={'Drag handle for reordering questions'}/>
-  </div>;
+  </DragHandlePadding>;
 });
 
 const AnswerDragHandle = SortableHandle(() => {
@@ -138,11 +119,11 @@ const SortableAnswerWrapper = SortableElement(({ answer, question, deleteAction,
           answer.id,
           newText, languageCode);
       }}/>
-    <DeleteAlternativeButtonContainer
-      onClick={() => deleteAction({ answer, question })}>
+    <Button color={'danger'} variant={'ghost'}
+            onClick={() => deleteAction({ answer, question })}>
       <img src={IconClose} alt={'Delete alternative'}
       />
-    </DeleteAlternativeButtonContainer>
+    </Button>
   </AnswerBox>;
 });
 
@@ -197,18 +178,20 @@ class Question extends Component {
                                  languageCode={this.props.currentLanguage.code}/>
         )}
       </MySortableContainer>
-      <TransparentButton onClick={() => addAlternative(question.id)}>
-        <img src={IconAdd} alt={'Add answer'}/>
-        Legg til nytt alternativ
-      </TransparentButton>
+      <AddSomeLeftPadding>
+        <Button variant={'ghost'} onClick={() => addAlternative(question.id)}>
+          <img src={IconAdd} alt={'Add answer'}/>
+          Legg til nytt alternativ
+        </Button>
+      </AddSomeLeftPadding>
 
       <ChallengeBoxBottomActionsBox>
-        <DeleteQuestionButton onClick={() => {
+        <Button color={'danger'} variant={'ghost'} onClick={() => {
           toast(`Deleted question "${getText(question)}"`);
           return this.props.removeQuestion(question);
         }}>
           <img src={IconDelete} alt={'Delete answer'}/>
-        </DeleteQuestionButton>
+        </Button>
       </ChallengeBoxBottomActionsBox>
     </QuestionBox>;
   }

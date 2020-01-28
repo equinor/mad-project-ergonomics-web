@@ -1,0 +1,13 @@
+@startuml
+
+actor User as u
+participant Web as w
+participant API as a
+
+u -> w: Does something
+u <- w: Shows the updated state (locally)
+w -> a: requests something
+w <- a: delivers something
+u <- w: Updates the local state
+
+@enduml

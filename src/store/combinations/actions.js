@@ -22,3 +22,17 @@ export const fetchAllPossibleCombinationsSuccess = createAction('Combinations/GE
 export const fetchAllPossibleCombinationsFailed = createAction('Combinations/GET_AllPossible_FAILED');
 
 export const selectCombination = createAction('Combinatin/Set_current');
+
+
+export const creatOrUpdateCombination = createAction('Combination_CreateOrUpdate');
+export const creatOrUpdateCombinationRequested = createAction('Combination_CreateOrUpdate/POST_Requested');
+export const creatOrUpdateCombinationSuccess = createAction('Combination_CreateOrUpdate/POST_Success');
+export const creatOrUpdateCombinationFailed = createAction('Combination_CreateOrUpdate/POST_Failed');
+
+
+export const setSelectedCombinationText = createAction('Combination_TEXT/Local_update');
+export const setSelectedCombinationTextRequested = createAction('Combination_TEXT/PATCH_REQUESTED');
+export const setSelectedCombinationTextSucceeded = createAction('Combination_TEXT/PATCH_SUCCEEDED');
+export const setSelectedCombinationTextFailed = createAction('Combination_TEXT/PATCH_FAILED');
+
+

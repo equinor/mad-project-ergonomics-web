@@ -26,15 +26,17 @@ export const getChallenges = (language) => fetchDataWithLanguage(`/Challenges`, 
 export const getChallenge = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}`, language);
 export const getQuestions = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Questions`, language);
 export const getGraphic = (graphicId) => fetchData(`/Graphics/${graphicId}`, `Ergonomics`, true);
+export const getAllMeasures = ({ language }) => fetchDataWithLanguage(`/Measures`, language);
 
 // Combinations
-export const getCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations`, language);
-export const getMissingCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/missingCombinations`, language);
+export const getCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations`, language);
+export const getMissingCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/missingCombinations`, language);
 
-export const getInvalidCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/invalidCombinations`, language);
+export const getInvalidCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/invalidCombinations`, language);
 
-export const getCombinationResult = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/result`, language);
-export const getAllPossibleCombinations = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/allCombinations`, language);
+export const getCombinationResult = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/result`, language);
+export const getAllPossibleCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/allCombinations`, language);
+
 // --------------------------------------------------------------------------------------------- //
 
 
@@ -54,6 +56,12 @@ export const uploadAnswerImage = ({ answerId, image }) => uploadImage('Answers',
 export const orderChallenges = (challenges) => submitDataWithLanguage(`/Challenges/ordering`, challenges);
 export const orderQuestions = (challengeId, questions) => submitDataWithLanguage(`/Challenges/${challengeId}/Questions/ordering`, questions);
 export const orderAnswers = (questionId, answers) => submitDataWithLanguage(`/Questions/${questionId}/Answers/ordering`, answers);
+
+// Combinations
+export const createOrUpdateCombination = ({ challengeId, combination }) => console.log('AAAAAA!!! createOrUpdateCombination?!', {
+  challengeId,
+  combination
+});
 // --------------------------------------------------------------------------------------------- //
 
 
@@ -81,6 +89,7 @@ export const createOrUpdateTranslation = (parentEntity, id, languageCode, text) 
 export const updateChallengeText = ({ challengeId, text, languageCode }) => createOrUpdateTranslation('Challenges', challengeId, languageCode, text);
 export const updateQuestionText = ({ questionId, text, languageCode }) => createOrUpdateTranslation('Questions', questionId, languageCode, text);
 export const updateAnswerText = ({ answerId, text, languageCode }) => createOrUpdateTranslation('Answers', answerId, languageCode, text);
+export const updateCombinationText = ({ combinationId, text, languageCode }) => createOrUpdateTranslation('Combinations', combinationId, languageCode, text);
 
 export const patchLanguage = (languageCode, id, code, name) => submitData(`/Languages/${id}`, {
   id,

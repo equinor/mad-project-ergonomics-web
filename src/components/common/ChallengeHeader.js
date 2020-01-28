@@ -8,6 +8,7 @@ import IconDelete from '../../../resources/images/delete_24px.svg';
 import { getSelectedChallenge, getSomeChallengeIsSelected } from '../../store/challenges/reducer';
 import * as challengeActions from '../../store/challenges/actions';
 import ImageDrop from './ImageDrop';
+import { Button } from '@equinor/eds-core-react';
 
 
 const HeaderSection = styled.div`
@@ -129,17 +130,15 @@ class ChallengeHeader extends Component {
             onChange={(change) => setChallengeTitle(selectedChallenge.id, change.target.value)}
           />
         </ChallengeTitleTextBox>
-        <ButtonWithLabel
-          onClick={() => {
-            deleteChallenge(selectedChallenge.id);
-            return toast(`Deleted Challenge "${getText(selectedChallenge)}"`);
-          }}
+        <Button variant={'ghost'}
+                onClick={() => {
+                  deleteChallenge(selectedChallenge.id);
+                  return toast(`Deleted Challenge "${getText(selectedChallenge)}"`);
+                }}
         >
           <img src={IconDelete} alt={'Delete Challenge'}/>
-          <DrawerLabel active>
-            Slett utfordring
-          </DrawerLabel>
-        </ButtonWithLabel>
+          Slett utfordring
+        </Button>
       </HeaderSection>
       }
     </>;

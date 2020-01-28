@@ -1,15 +1,23 @@
 import { stateKeys } from '../../types';
-import reducer, { getDefaultState, getSelectedCombination } from './reducer';
-import { selectCombination } from './actions';
+import reducer, { getCombinations, getSelectedCombination } from './reducer';
+import * as actions from './actions';
 
-const defaultState = getDefaultState;
+const defaultState = {
+  isFetching: false,
+  combinations: [],
+  missingCombinations: [],
+  invalidCombinations: [],
+  allPossibleCombinations: [],
+  selectedCombination: {}
+};
 let state = {
   [stateKeys.COMBINATIONS]: {},
 };
 
+
 function updateState(action) {
   state = {
-    [stateKeys.COMBINATIONS]: reducer(state, action), // Todo: What happened here? only state in the reducer?
+    [stateKeys.COMBINATIONS]: reducer(state.combinations, action),
   };
 }
 
@@ -103,32 +111,61 @@ const mockedCombinations = [
 
 describe('Combinations => actions, reducers and selectors', () => {
   beforeEach(() => {
-    state = { [stateKeys.CHALLENGES]: { ...defaultState } };
+    state = { [stateKeys.COMBINATIONS]: { ...defaultState } };
   });
+
 
   it('can set combinations for a challenge', () => {
-    console.warn('Please write some tests...');
-    expect(true)
-      .toBe(false);
+    const action = actions.fetchCombinationsSuccess(mockedCombinations);
+    updateState(action);
+
+    expect(getCombinations(state))
+      .toEqual(mockedCombinations);
+
   });
-  // todo: Write proper tests
 
   it('can select a combination', () => {
-    const action = selectCombination(mockedCombinations[0]);
+    const action = actions.selectCombination(mockedCombinations[0]);
     updateState(action);
     expect(getSelectedCombination(state))
       .toEqual(mockedCombinations[0]);
   });
 
   it('can replace the selected combination ', () => {
-    let action = selectCombination(mockedCombinations[0]);
+    let action = actions.selectCombination(mockedCombinations[0]);
     updateState(action);
     expect(getSelectedCombination(state))
       .toEqual(mockedCombinations[0]);
-    action = selectCombination(mockedCombinations[1]);
+    action = actions.selectCombination(mockedCombinations[1]);
     updateState(action);
     expect(getSelectedCombination(state))
       .toEqual(mockedCombinations[1]);
+  });
+
+  it('can change text of selectedCombination', () => {
+    // updateState(actions.fetchCombinationsSuccess(mockedCombinations));
+    // expect(getCombinations(state))
+    //   .toEqual(mockedCombinations);
+
+    updateState(actions.selectCombination(mockedCombinations[0]));
+    expect(getSelectedCombination(state))
+      .toEqual(mockedCombinations[0]);
+
+    // const combinationToUpdate = mockedCombinations[0];
+    const newCombinationText = 'Jysla tunge løft krever at du passer godt på ryggen. Lat som at du er en robot. Det pleier å hjelpe på arbeidsmoralen.';
+
+    // const combinationId = combinationToUpdate.id;
+    updateState(actions.setSelectedCombinationText({
+       newCombinationText
+    }));
+
+    expect(getSelectedCombination(state).currentTranslation.text)
+      .toEqual(newCombinationText);
+
+  });
+
+  it('can change text on selectedCombination', () => {
+
   });
 
 });

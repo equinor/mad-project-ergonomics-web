@@ -21,10 +21,11 @@ import watchFetchQuestions, {
 } from './questions/saga';
 import watchGetLabels from './labels/saga';
 import {
+  watchCreatOrUpdateCombination,
   watchFetchAllPossibleCombinations,
   watchFetchCombinations,
   watchFetchInvalidCombinations,
-  watchFetchMissingCombinations
+  watchFetchMissingCombinations, watchSetSelectedCombinationText
 } from './combinations/saga';
 
 const root = function* rootSaga() {
@@ -54,6 +55,8 @@ const root = function* rootSaga() {
     watchFetchMissingCombinations(),
     watchFetchInvalidCombinations(),
     watchFetchAllPossibleCombinations(),
+    watchCreatOrUpdateCombination(),
+    watchSetSelectedCombinationText(),
   ];
 };
 

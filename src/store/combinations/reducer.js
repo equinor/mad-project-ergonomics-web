@@ -51,8 +51,8 @@ export default handleActions(
       isFetching: true,
     }),
     [actions.fetchAllPossibleCombinationsSuccess]: (state, action) => ({
-      allPossibleCombinations: action.payload,
       ...state,
+      allPossibleCombinations: action.payload,
       isFetching: false
     }),
     [actions.fetchAllPossibleCombinationsFailed]: (state) => ({
@@ -75,10 +75,29 @@ export default handleActions(
       invalidCombinations: [],
       isFetching: false
     }),
-    [actions.selectCombination]: (state, action) => ({
-      selectedCombination: action.payload,
-      ...state,
-    }),
+    [actions.selectCombination]: (state, action) => {
+      return ({
+        ...state,
+        selectedCombination: action.payload,
+      });
+    },
+    [actions.setSelectedCombinationText]: (state, action) => {
+      const { newCombinationText } = action.payload;
+      const clonedState = cloneDeep(state);
+
+      clonedState.selectedCombination.currentTranslation = {
+        ...clonedState.selectedCombination.currentTranslation,
+        text: newCombinationText
+      };
+
+      // const combinationToUpdate = clonedState.combinations.find(combination => combination.id === combinationId);
+      // combinationToUpdate.currentTranslation = {
+      //   ...combinationToUpdate.currentTranslation,
+      //   text: newCombinationText
+      // };
+
+      return (clonedState);
+    },
   },
   defaultState
 );

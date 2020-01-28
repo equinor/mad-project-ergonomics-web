@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as PropTypes from 'prop-types';
+import { Button, Typography } from '@equinor/eds-core-react';
 import iconPlaceholderCircle from '../../../resources/images/simba.svg';
-import ImageDrop from './ImageDrop';
 import { getActiveTab, getResultsModalIsShowing } from '../../store/appSettings/reducer';
 import * as challengeActions from '../../store/challenges/actions';
 import { getSelectedChallenge } from '../../store/challenges/reducer';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import * as combinationActions from '../../store/combinations/actions';
 import * as questionActions from '../../store/questions/actions';
-import { getCombinations, getMissingCombinations } from '../../store/combinations';
+import {
+  getCombinations,
+  getInvalidCombinations,
+  getMissingCombinations,
+  getSelectedCombination
+} from '../../store/combinations';
 import { getPlaceholderText, getText } from '../../utils/helpers';
 import { getAllQuestionsAreAnswered, getQuestions } from '../../store/questions';
+import ImageDrop from './ImageDrop';
+
 
 const LoadingView = styled.div`
   padding: 20vw;
@@ -22,6 +29,27 @@ const LoadingView = styled.div`
   align-items: center;
 `;
 
+const MultilineInput = styled.textarea`
+  border: 0 solid white;
+  border-bottom: 1px solid #243746;
+
+  background: #F7F7F7;
+  border-radius: 4px 4px 0 0;
+  padding: 12px 12px 0 12px;
+  margin:  12px 0 0 0  ;
+
+  width: 100%;
+  min-height:200px;
+  font-family: Equinor,sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  //align-items: center;
+  letter-spacing: 1px;
+  //text-wrap: normal;
+`;
+
 
 const TopColumn = styled.div`
   display: flex;
@@ -29,31 +57,31 @@ const TopColumn = styled.div`
 
   padding-bottom: 24px;
 `;
-const Button = styled.button`
-  border: 2px solid #007079;
-  border-radius: 4px;
-
-  color: ${props => props.outline ? '#007079' : '#FFFFFF'};
-  font-family: Equinor,sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 1px;
-
-  background-color: ${props => props.outline ? '#FFFFFF' : '#007079'};
-  &:hover{
-    background-color:
-    ${props => props.outline ? '#C0E4E5' : '#008A8F'}
-  }
-  box-sizing: border-box;
-
-  padding:10px 36px;
-
-`;
+// const Button = styled.button`
+//   border: 2px solid #007079;
+//   border-radius: 4px;
+//
+//   color: ${props => props.outline ? '#007079' : '#FFFFFF'};
+//   font-family: Equinor,sans-serif;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 14px;
+//   line-height: 16px;
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   letter-spacing: 1px;
+//
+//   background-color: ${props => props.outline ? '#FFFFFF' : '#007079'};
+//   &:hover{
+//     background-color:
+//     ${props => props.outline ? '#C0E4E5' : '#008A8F'}
+//   }
+//   box-sizing: border-box;
+//
+//   padding:10px 36px;
+//
+// `;
 
 const ClickableContainer = styled.button`
   border: 0 solid #FFFFFF;
@@ -84,7 +112,7 @@ const PaddingContainer = styled.div`
   display: flex;
 `;
 
-const PillContainer = styled.div`
+const PillContainer = styled.span`
   background: #F7F7F7;
   border-radius: 20px;
 
@@ -183,30 +211,39 @@ const Modal = styled.div`
   transform: translate(-50%, -50%);
 
    display: grid;
-  grid-auto-rows: minmax(100px, auto);
+   grid-template-rows: 50px;
 `;
 
 const Spacer = styled.span`
   width:18px;
 `;
 
+const ModalGrid = styled.div`
+display: grid;
+grid-template-columns: auto auto auto;
+grid-template-rows: auto auto;
+`;
+
 const renderTableRow = (combination, onClick) => {
   return (
-    <TableRow onClick={onClick}>
+    <TableRow onClick={() => onClick(combination)}>
       <TableData>
-        <PillContainer center>
+        {/* <PillContainer center> */}
+        <Button variant={'ghost'}>
           {combination.keyNumber}
-        </PillContainer></TableData>
+        </Button>
+        {/* </PillContainer> */}
+      </TableData>
       <TableData>
         <StatusPill status={combination.risk}/></TableData>
       <TableData>
-        {getText(combination.currentTranslation) || 'Missing text'}
+        {getText(combination) || getPlaceholderText(combination) || 'Ingen beskrivelse'}
       </TableData>
       <TableData>
         {combination.measures && combination.measures.map(measureCard => {
           return <PillContainer>
             <img src={iconPlaceholderCircle} alt={'measure'}/>
-            {getText(measureCard.currentTranslation) || 'No Title'}
+            {getText(measureCard) || getPlaceholderText(measureCard) || 'Mangler navn på tiltak'}
             <div/>
           </PillContainer>;
         })}
@@ -215,7 +252,7 @@ const renderTableRow = (combination, onClick) => {
   );
 };
 
-function renderTable(tableHeaders, combinations, onClickRow) {
+function renderTable(tableHeaders, combinations, onClick) {
   return (
     <Table>
       <thead>
@@ -224,7 +261,7 @@ function renderTable(tableHeaders, combinations, onClickRow) {
       </TableRow>
       </thead>
       <tbody>
-      {combinations.map(combination => renderTableRow(combination, onClickRow))}
+      {combinations.map(combination => renderTableRow(combination, onClick))}
       </tbody>
     </Table>
   );
@@ -232,7 +269,7 @@ function renderTable(tableHeaders, combinations, onClickRow) {
 
 const PillGrid = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   grid-gap: 10px;
 `;
 const ModalTopBar = styled.div`
@@ -241,11 +278,45 @@ const ModalTopBar = styled.div`
   justify-content: space-between;
   height:40px;
 `;
-const ModalButtons = styled.div`
+const ModalGroup = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
+
+const AnswerGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Radio = styled.div`
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+  color: black;
+
+${props => props.checked && css`
+  background-color: #007079;
+  color: #FFFFFF;
+`};
+
+font-size: 20px;
+text-align: center;
+`;
+
+const AnswerText = styled.div`
+padding-left: 12px;
+padding-right: 12px;
+color:black;
+${props => props.selected && css`
+  color: #007079;
+
+`};
+
+`;
+
+const alphas = 'ABCDEFGHIJKLMNOPGRSTUVWXYZ';
 
 class ResultsTab extends Component {
   static propTypes = {
@@ -257,46 +328,61 @@ class ResultsTab extends Component {
     missingCombinations: PropTypes.array.isRequired,
     questions: PropTypes.array.isRequired,
     selectAnswers: PropTypes.func.isRequired,
-    allQuestionsAreAnswered: PropTypes.bool.isRequired
+    invalidCombinations: PropTypes.array.isRequired,
+    selectedCombination: PropTypes.array.isRequired,
+    createOrUpdateCombination: PropTypes.func.isRequired
   };
   state = {
     showModal: false
   };
 
+
   render() {
     const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Tiltakskort',];
-    const { modalIsShowing, selectedChallenge, showModal, hideModal, combinations, questions, allQuestionsAreAnswered } = this.props;
+    const { modalIsShowing, selectedChallenge, showModal, hideModal, combinations, questions, missingCombinations, invalidCombinations, selectedCombination } = this.props;
     return (<>
         <PaddingContainer>
 
           <TopColumn>
-            {this.props.missingCombinations.length > 0 &&
+            {missingCombinations.length > 0 &&
             <div>
               <h2>Resterende Kombinasjoner ({this.props.missingCombinations.length})</h2>
               <p>Klikk på en kombinasjon for å legge den til.</p>
 
               <PillGrid>
-                {this.props.missingCombinations.map(comb => {
-                  return <ClickableContainer onClick={() => {
-                    const answerIdArray = comb.answers.map(answer => answer.id);
-                    console.log(answerIdArray);
-                    this.props.selectAnswers(answerIdArray);
+                {this.props.missingCombinations.map(combination => {
+                  return <Button variant={'ghost'} onClick={() => {
+                    // const answerIdArray = combination.answers.map(answer => answer.id);
+                    // const combination = { answers: comb.answers, };
+                    console.log(combination);
+                    this.props.selectCombination(combination);
+                    this.props.selectAnswers(combination.answers.map(answer => answer.id));
                     showModal();
                   }}>
-                    <PillContainer
-                      center>{comb.keyNumber}</PillContainer>
-                  </ClickableContainer>;
+                    {combination.keyNumber}
+                  </Button>;
                 })}
               </PillGrid>
+
             </div>
             }
           </TopColumn>
 
+          {invalidCombinations.length > 0 && <>
+            <Typography variant="h3">Ugyldige Kombinasjoner</Typography>
+            {renderTable(tableHeaders, combinations, () => showModal())}</>
+          }
+          <Typography variant="h3">Kombinasjoner</Typography>
           {combinations.length > 0 ?
-            renderTable(tableHeaders, combinations, () => showModal())
-            : <LoadingView>
-              <h2> {selectedChallenge ? 'No combinations for selected challenge' : 'Please select a challenge'}</h2>
-            </LoadingView>
+            renderTable(tableHeaders, combinations, (combination) => {
+              console.log(combination);
+              this.props.selectCombination(combination);
+              this.props.selectAnswers(combination.answers.map(answer => answer.id));
+              showModal();
+            })
+            :
+            <p> {selectedChallenge ? 'Ingen kombinasjoner for valgt utfordring' : 'Velg en utfordring'}</p>
+
           }
         </PaddingContainer>
 
@@ -304,109 +390,80 @@ class ResultsTab extends Component {
         <ModalWrapper>
           <Modal>
             <ModalTopBar>
-              <ModalButtons>
-                <img src={iconPlaceholderCircle} alt={'edit'}/>
-                <h2>Rediger resultat</h2>
-              </ModalButtons>
-              <ModalButtons>
-                <Button outline onClick={() => hideModal()}>Avbryt</Button>
-                <Spacer/>
-                {allQuestionsAreAnswered &&
-                <Button onClick={() => hideModal()}>Lagre</Button>}
-              </ModalButtons>
+              <ModalGroup>
+                <Typography variant={'h2'}>Rediger Resultat</Typography>
+              </ModalGroup>
+              <Button variant="ghost" onClick={() => hideModal()}>Done</Button>
             </ModalTopBar>
-            <Row>
-              <div className="question" style={{
-                flex: 1,
-                overflowY: 'scroll'
-              }}>
-                <h2 style={{
-                  backgroundColor: '#F7F7F7',
-                  height: '50px',
-                  alignContent: 'center',
-                  padding: '16px'
-                }}>1. Velg besvarelse</h2>
-
-                {questions && questions.map(question => {
-                    return <span>
-                    <h2>{getText(question) || getPlaceholderText(question)}</h2>
-                     <div>
-                        {question.answers.map(answer => {
-                          return <div style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            // alignContent: 'center'
-                          }}>
-                            <input type="radio" checked={answer.isSelected}
-                                   disabled
-                              // onClick={() => selectAnswer(answer.id)}
-                            />
-                            <p>{getText(answer) || getPlaceholderText(answer)}</p>
-                          </div>;
-                        })}
-                    </div>
-                      </span>;
-                  }
-                )}
+            <ModalGrid>
+              <div>
+                <Typography
+                  variant={'h3'}>{selectedCombination.keyNumber} ({selectedCombination.answers ? selectedCombination.answers.map(a => a.id)
+                  .toString() : 'ingen svar'})</Typography>
+                <hr/>
+                {questions && questions.map((question, index) => {
+                  return <div>
+                    <h2>{`${index + 1}. ${getText(question)}` || getPlaceholderText(question)}</h2>
+                    {question.answers && question.answers.map((answer, answerIndex) => {
+                      return (<AnswerGroup key={answer.id}>
+                        <Radio checked={answer.isSelected}>{alphas[answerIndex]}</Radio>
+                        <AnswerText selected={answer.isSelected}
+                                    variant={'ghost'}>({answer.id}) {getText(answer) || getPlaceholderText(answer)}</AnswerText>
+                      </AnswerGroup>);
+                    })}
+                    <hr/>
+                  </div>;
+                })}
               </div>
-              <div className="risk" style={{ flex: 1, overflowY: 'scroll' }}>
-                <h2 style={{
-                  backgroundColor: '#F7F7F7',
-                  height: '50px',
-                  alignContent: 'center',
-                  padding: '16px'
-                }}>2. Sett risikograd og gi beskrivelse av konsekvens</h2>
-                Risikograd: /vis hensyn/
-                <br/>
-                <ImageDrop/>Velg figur
-                <br/>
-                <input/>
+              <div>
+                <Typography variant={'h3'}>
+                  Sett risikograd og beskrivelse av konsekvens
+                </Typography>
+                <hr/>
+                <select value={selectedCombination.risk}
+                        onChange={(change) => {
+                          this.props.createOrUpdateCombination({
+                            ...selectedCombination,
+                            risk: change.target.value,
+                          });
+                        }}>
+                  <option value={null}>--Ikke satt--</option>
+                  <option value={'Green'}>All
+                    good!
+                  </option>
+                  <option value={'Yellow'}>Vis
+                    Hensyn
+                  </option>
+                  <option value={'Red'}>Tiltak
+                    anbefales
+                  </option>
+                </select>
+                <ImageDrop parentEntity={selectedCombination} uploadImg={(e) => console.log(e)}/>
+                <MultilineInput
+                  placeholder={getPlaceholderText(selectedCombination) || 'Beskrivelse av konsekvens... '}
+                  value={getText(selectedCombination) || ''}
+                  onChange={(change) => this.props.setSelectedCombinationText(change.target.value)}
+                />
               </div>
+              <div>
+                <Typography variant={'h3'}>Velg tiltakskort</Typography>
+                <hr/>
+                <Button variant="ghost"
+                        onClick={() => console.log('Legg til tiltak for kombinasjon', {
+                          selectedCombination,
+                          selectedChallenge
+                        })}>+
+                  Legg til
+                  tiltak</Button>
 
-              <div className="measure" style={{
-                // border: '1px solid #E6E6E6',
-                flex: '2',
-                overflowY: 'scroll'
-              }}>
-                <h2 style={{
-                  backgroundColor: '#F7F7F7',
-                  height: '50px',
-                  alignContent: 'center',
-                  padding: '16px'
-                }}>3. Velg tiltakskort</h2>
-                <br/>
-                <ClickableContainer>
-                  + Legg til tiltakskort
-                </ClickableContainer>
-                <br/>
-                <br/>
-
-                <PillGrid>
-                  <PillContainer>
-                    <img src={iconPlaceholderCircle} alt={'measure'}/>
-                    Tiltaksnavn #1
-                    <div/>
-                  </PillContainer>
-                  <PillContainer>
-                    <img src={iconPlaceholderCircle} alt={'measure'}/>
-                    Tiltaksnavn #1
-                    <div/>
-                  </PillContainer>
-                  <PillContainer>
-                    <img src={iconPlaceholderCircle} alt={'measure'}/>
-                    Tiltaksnavn #1
-                    <div/>
-                  </PillContainer>
-                  <PillContainer>
-                    <img src={iconPlaceholderCircle} alt={'measure'}/>
-                    Tiltaksnavn #1
-                    <div/>
-                  </PillContainer>
-                </PillGrid>
+                {selectedCombination.measures && selectedCombination.measures.map(measure => {
+                  return <Button variant={'outlined'}>
+                    <img src={measure.graphic} alt={''}/>
+                    {getText(measure) || getPlaceholderText(measure) || 'No Title'}
+                  </Button>;
+                })}
               </div>
-
-            </Row>
+            </ModalGrid>
 
           </Modal>
         </ModalWrapper>
@@ -423,7 +480,9 @@ const mapStateToProps = (state) => ({
   combinations: getCombinations(state),
   missingCombinations: getMissingCombinations(state),
   questions: getQuestions(state),
-  allQuestionsAreAnswered: getAllQuestionsAreAnswered(state)
+  allQuestionsAreAnswered: getAllQuestionsAreAnswered(state),
+  selectedCombination: getSelectedCombination(state),
+  invalidCombinations: getInvalidCombinations(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -433,7 +492,13 @@ const mapDispatchToProps = dispatch => ({
   fetchCombinations: (challengeId) => dispatch(combinationActions.fetchCombinations(challengeId)),
   fetchMissingCombinations: (challengeId) => dispatch(combinationActions.fetchMissingCombinations(challengeId)),
   selectAnswer: (answerId) => dispatch(questionActions.selectAnswer({ answerId })),
-  selectAnswers: (answerIdArray) => dispatch(questionActions.selectAnswers({ answerIdArray }))
+  selectAnswers: (answerIdArray) => dispatch(questionActions.selectAnswers({ answerIdArray })),
+  selectCombination: (combination) => dispatch(combinationActions.selectCombination(combination)),
+  addMeasure: (measureId, combinationId) => console.log({ measureId, combinationId }),
+  createOrUpdateCombination: (combination) => dispatch(combinationActions.creatOrUpdateCombination(combination)),
+  setSelectedCombinationText: ( text) => dispatch(combinationActions.setSelectedCombinationText({
+    newCombinationText: text
+  })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsTab);

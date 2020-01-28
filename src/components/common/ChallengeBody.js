@@ -11,6 +11,8 @@ import { getSomeChallengeIsSelected } from '../../store/challenges/reducer';
 import * as challengeActions from '../../store/challenges/actions';
 import * as questionActions from '../../store/questions/actions';
 import Question from './Question';
+import { getCombinations, getMissingCombinations } from '../../store/combinations';
+import { Button } from '@equinor/eds-core-react';
 
 
 const LoadingView = styled.div`
@@ -35,28 +37,28 @@ const MySortableContainer = SortableContainer(({ children }) => {
   return <ul>{children}</ul>;
 });
 
-const Button = styled.button`
-  border: 1px solid #007079;
-  border-radius: 4px;
-
-  color: #FFFFFF;
-  font-family: Equinor,sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  letter-spacing: 1px;
-
-  background: #007079;
-  box-sizing: border-box;
-
-  padding:16px 36px;
-
-  margin: 16px;
-`;
+// const Button = styled.button`
+//   border: 1px solid #007079;
+//   border-radius: 4px;
+//
+//   color: #FFFFFF;
+//   font-family: Equinor,sans-serif;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 14px;
+//   line-height: 16px;
+//   display: flex;
+//   align-items: center;
+//   text-align: center;
+//   letter-spacing: 1px;
+//
+//   background: #007079;
+//   box-sizing: border-box;
+//
+//   padding:16px 36px;
+//
+//   margin: 16px;
+// `;
 
 class ChallengeBody extends Component {
   static propTypes = {
@@ -69,7 +71,7 @@ class ChallengeBody extends Component {
   };
 
   render() {
-    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges } = this.props;
+    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges, combinations, missingCombinations } = this.props;
     if (isFetching) {
       return (
         <LoadingView>
@@ -80,6 +82,14 @@ class ChallengeBody extends Component {
     }
     if (someChallengeIsSelected) {
       return (<QuestionView>
+          {combinations.length > 0 && <div><h2>ADVARSEL!</h2>
+            <p>Det finnes {combinations.length} konfigurerte kombinasjoner for denne ergonomiske
+              utfordringen. </p>
+            <p><b>Dersom du legger til eller sletter ett spørsmål vil du måtte sette
+              opp disse {combinations.length} kombinasjonene på nytt.</b></p>
+            <p><b>Tips:</b> Det er bedre å legge til eller fjerne ett svar for ett spørsmål, da
+              dette kun har innvirkning på nye kombinasjoner.</p>
+          </div>}
           <MySortableContainer
             useDragHandle
             onSortEnd={reorderQuestion}
@@ -92,9 +102,7 @@ class ChallengeBody extends Component {
                                          question={question}/>
               ))}
           </MySortableContainer>
-          <Button
-            onClick={() => createQuestion()}
-          >
+          <Button onClick={() => createQuestion()}>
             Nytt spørsmål
           </Button>
         </QuestionView>
@@ -112,6 +120,8 @@ const mapStateToProps = (state) => ({
   challenges: getChallenges(state),
   questions: getQuestions(state),
   someChallengeIsSelected: getSomeChallengeIsSelected(state),
+  combinations: getCombinations(state),
+  missingCombinations: getMissingCombinations(state),
 });
 
 const mapDispatchToProps = dispatch => ({

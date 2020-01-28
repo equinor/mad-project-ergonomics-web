@@ -1,0 +1,62 @@
+@startuml
+actor User as u
+participant Web as w
+participant API as a
+group QuestionsTab | init
+u -> w: click Questions-Tab
+w->a: GET challenges
+w <- a: return challenges
+u <- w: show challenge in left drawer
+end
+group QuestionsTab | select challenge
+u -> w: Select challenge
+w -> a: GET questions for challenge
+w -> a: GET combinations
+
+w <- a: return questions
+u <- w: Updates the local state
+w <- a: return combinations
+u <- w: Updates the local state
+
+end
+group QuestionsTab | Reorder answers
+u -> w: Reorder answers
+u <- w: Shows the updated state (locally)
+w -> a: requests reorder
+w <- a: 200 OK
+end
+
+group ResultsTab | init
+u->w:click results-tab
+
+w -> a: GET combinations
+w -> a: GET missingCombinations
+w -> a: GET invalidCombinations
+
+w <- a: return combinations
+u <- w: Updates the local state
+
+w <- a: return missingCombinations
+u <- w: Updates the local state
+
+w <- a: return invalidCombinations
+u <- w: Updates the local state
+end
+
+group ResultsTab
+u -> w: Select challenge
+w -> a: GET combinations
+w -> a: GET missingCombinations
+w -> a: GET invalidCombinations
+
+w <- a: return combinations
+u <- w: Updates the local state
+
+w <- a: return missingCombinations
+u <- w: Updates the local state
+
+w <- a: return invalidCombinations
+u <- w: Updates the local state
+end
+
+@enduml

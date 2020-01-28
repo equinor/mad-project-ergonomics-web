@@ -1,0 +1,39 @@
+@startuml
+start
+
+:Show the QuestionsTab;
+note
+  App defaults to the QuestionsTab
+endnote
+
+if(language is selected) then(yes)
+  :use the selected language;
+else
+  :default to Norwegian;
+endif
+
+
+if(challenge is selected OR user selects a challenge) then (yes)
+  :Show the challenge;
+  note
+    GET: challenges/259/Questions
+    GET combinations
+  endnote
+endif
+
+if(user selects ResultsTab) then (yes)
+  :Show the ResultsTab;
+  note
+'    GET: challenges/259/Questions
+    GET combinations
+    GET missingCombinations
+    GET invalidCombinations
+  endnote
+
+endif
+
+
+
+
+stop
+@enduml

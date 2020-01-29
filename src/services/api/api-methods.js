@@ -50,6 +50,7 @@ export const newAnswerAlternative = (questionId) => submitDataWithLanguage(`/Que
 export const uploadImage = (parentEntity, id, image) => postImage(`/Graphics/${parentEntity}/${id}`, image);
 export const uploadChallengeImage = ({ challengeId, image }) => uploadImage('Challenges', challengeId, image);
 export const uploadAnswerImage = ({ answerId, image }) => uploadImage('Answers', answerId, image);
+export const uploadCombinationImage = ({ combinationId, image }) => uploadImage('Combinations', combinationId, image);
 
 // /ReOrdering things
 export const orderChallenges = (challenges) => submitDataWithLanguage(`/Challenges/ordering`, challenges);

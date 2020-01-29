@@ -282,6 +282,7 @@ class ResultsTab extends Component {
     removeMeasure: PropTypes.func.isRequired,
     fetchMeasures: PropTypes.func.isRequired,
     measures: PropTypes.array.isRequired,
+    uploadCombinationImg: PropTypes.func.isRequired,
   };
   state = {
     showModal: false
@@ -311,6 +312,7 @@ class ResultsTab extends Component {
       removeMeasure,
       measures,
       fetchMeasures,
+      uploadCombinationImg,
     } = this.props;
 
     const combinationModalTopBar = () => <ModalTopBar>
@@ -362,7 +364,8 @@ class ResultsTab extends Component {
           <option value={'Yellow'}>Vis Hensyn</option>
           <option value={'Red'}>Tiltak anbefales</option>
         </select>
-        <ImageDrop parentEntity={selectedCombination} uploadImg={(e) => console.log(e)}/>
+        <p>{selectedCombination.id}</p>
+        <ImageDrop parentEntity={selectedCombination} uploadImg={uploadCombinationImg}/>
         <MultilineInput
           placeholder={getPlaceholderText(selectedCombination) || 'Beskrivelse av konsekvens... '}
           value={getText(selectedCombination) || ''}
@@ -511,6 +514,10 @@ const mapDispatchToProps = dispatch => ({
     newCombinationText: text
   })),
   fetchMeasures: () => dispatch(measuresActions.fetchMeasures()),
+  uploadCombinationImg: (combinationId, image) => dispatch(combinationActions.uploadCombinationImage({
+    combinationId,
+    image
+  })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsTab);

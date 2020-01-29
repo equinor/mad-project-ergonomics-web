@@ -45,3 +45,8 @@ export const setSelectedCombinationTextSucceeded = createAction('Combination_TEX
 export const setSelectedCombinationTextFailed = createAction('Combination_TEXT/PATCH_FAILED');
 
 
+// IMAGE UPLOAD (Combination)
+export const uploadCombinationImage = createAction('COMBINATION_IMAGE');
+export const uploadCombinationImageRequested = createAction('COMBINATION_IMAGE/POST_REQUESTED');
+export const uploadCombinationImageSucceeded = createAction('COMBINATION_IMAGE/POST_SUCCEEDED');
+export const uploadCombinationImageFailed = createAction('COMBINATION_IMAGE/POST_FAILED');

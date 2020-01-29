@@ -26,7 +26,10 @@ import {
   watchFetchAllPossibleCombinations,
   watchFetchCombinations,
   watchFetchInvalidCombinations,
-  watchFetchMissingCombinations, watchRemoveMeasureFromCombination, watchSetSelectedCombinationText
+  watchFetchMissingCombinations,
+  watchRemoveMeasureFromCombination,
+  watchSetSelectedCombinationText,
+  watchUploadCombinationImage
 } from './combinations/saga';
 import watchFetchMeasures from './measures/saga';
 
@@ -62,6 +65,7 @@ const root = function* rootSaga() {
     watchAddMeasureToCombination(),
     watchFetchMeasures(),
     watchRemoveMeasureFromCombination(),
+    watchUploadCombinationImage(),
   ];
 };
 

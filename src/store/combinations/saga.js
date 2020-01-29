@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import * as actions from './actions';
 import handleError from '../../utils/handleNetworkErrors';
 import api from '../../services/api';
@@ -142,6 +142,22 @@ function* removeMeasureFromCombination(action) {
   }
 }
 
+
+function* uploadCombinationImage(action) {
+  try {
+    const { combinationId, image } = action.payload;
+    yield put(actions.uploadCombinationImageRequested());
+    const response = yield call(api.uploadCombinationImage, { combinationId, image });
+    yield put(actions.uploadCombinationImageSucceeded(response));
+    // TODO: FETCH SOMETHING?
+    const selectedChallenge = yield select(getSelectedChallenge);
+    yield put(actions.fetchCombinations(selectedChallenge.id));
+  } catch (e) {
+    yield call(handleError, e);
+    yield put(actions.uploadCombinationImageFailed());
+  }
+}
+
 export function* watchFetchCombinations() {
   yield takeLatest(actions.fetchCombinations.toString(), fetchCombinations);
 }
@@ -172,4 +188,8 @@ export function* watchAddMeasureToCombination() {
 
 export function* watchRemoveMeasureFromCombination() {
   yield takeLatest(actions.removeMeasureFromCombination.toString(), removeMeasureFromCombination);
+}
+
+export function* watchUploadCombinationImage() {
+  yield takeEvery(actions.uploadCombinationImage.toString(), uploadCombinationImage);
 }

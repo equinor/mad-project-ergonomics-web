@@ -21,12 +21,14 @@ import watchFetchQuestions, {
 } from './questions/saga';
 import watchGetLabels from './labels/saga';
 import {
+  watchAddMeasureToCombination,
   watchCreatOrUpdateCombination,
   watchFetchAllPossibleCombinations,
   watchFetchCombinations,
   watchFetchInvalidCombinations,
-  watchFetchMissingCombinations, watchSetSelectedCombinationText
+  watchFetchMissingCombinations, watchRemoveMeasureFromCombination, watchSetSelectedCombinationText
 } from './combinations/saga';
+import watchFetchMeasures from './measures/saga';
 
 const root = function* rootSaga() {
   yield [
@@ -57,6 +59,9 @@ const root = function* rootSaga() {
     watchFetchAllPossibleCombinations(),
     watchCreatOrUpdateCombination(),
     watchSetSelectedCombinationText(),
+    watchAddMeasureToCombination(),
+    watchFetchMeasures(),
+    watchRemoveMeasureFromCombination(),
   ];
 };
 

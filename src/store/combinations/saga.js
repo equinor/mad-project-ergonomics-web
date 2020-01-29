@@ -4,6 +4,7 @@ import handleError from '../../utils/handleNetworkErrors';
 import api from '../../services/api';
 import { getCurrentLanguage } from '../languages';
 import { getSelectedCombination } from './reducer';
+import { getSelectedChallenge } from '../challenges/reducer';
 
 
 function* fetchCombinations(action) {
@@ -14,7 +15,7 @@ function* fetchCombinations(action) {
     const response = yield call(api.getCombinations, { challengeId, language: language.code });
     yield put(actions.fetchCombinationsSuccess(response));
   } catch (e) {
-    yield handleError(e);
+    yield call(handleError, e);
     yield put(actions.fetchCombinationsFailed());
   }
 }
@@ -30,7 +31,7 @@ function* fetchMissingCombinations(action) {
     });
     yield put(actions.fetchMissingCombinationsSuccess(response));
   } catch (e) {
-    yield handleError(e);
+    yield call(handleError, e);
     yield put(actions.fetchMissingCombinationsFailed());
   }
 }
@@ -46,7 +47,7 @@ function* fetchInvalidCombinations(action) {
     });
     yield put(actions.fetchInvalidCombinationsSuccess(response));
   } catch (e) {
-    yield handleError(e);
+    yield call(handleError, e);
     yield put(actions.fetchInvalidCombinationsFailed());
   }
 }
@@ -62,7 +63,7 @@ function* fetchAllPossibleCombinations(action) {
     });
     yield put(actions.fetchAllPossibleCombinationsSuccess(response));
   } catch (e) {
-    yield handleError(e);
+    yield call(handleError, e);
     yield put(actions.fetchAllPossibleCombinationsFailed());
   }
 }
@@ -71,12 +72,17 @@ function* fetchAllPossibleCombinations(action) {
 function* creatOrUpdateCombination(action) {
   try {
     const combination = action.payload;
-    console.log('creatOrUpdateCombination Combination', combination);
     yield put(actions.creatOrUpdateCombinationRequested());
-    yield put(actions.creatOrUpdateCombinationSuccess());
+    const selectedChallenge = yield select(getSelectedChallenge);
+    const response = yield call(api.createOrUpdateCombination({
+      challengeId: selectedChallenge.id,
+      combination
+    }));
+    console.log(response);
+    yield put(actions.creatOrUpdateCombinationSuccess(response));
 
   } catch (e) {
-    yield handleError(e);
+    yield call(handleError, e);
     yield put(actions.creatOrUpdateCombinationFailed());
   }
 }
@@ -103,6 +109,39 @@ function* setSelectedCombinationText(action) {
   }
 }
 
+function* addMeasureToCombination(action) {
+
+  try {
+    const { combinationId, measureId } = action.payload;
+    yield put(actions.addMeasureToCombinationRequested());
+    const response = yield call(api.addMeasureToCombination, {
+      combinationId,
+      measureId
+    });
+    yield put(actions.addMeasureToCombinationSucceeded(response));
+    //  Fetch combination and select it.
+    // TODO: What do we need to refresh???
+  } catch (e) {
+    yield call(handleError, e);
+    yield put(actions.addMeasureToCombinationFailed());
+  }
+}
+
+function* removeMeasureFromCombination(action) {
+  try {
+    const { combinationId, measureId } = action.payload;
+    yield put(actions.removeMeasureFromCombinationRequested());
+    const response = yield call(api.removeMeasureFromCombination, {
+      combinationId,
+      measureId
+    });
+    yield put(actions.removeMeasureFromCombinationSucceeded(response));
+  } catch (e) {
+    yield call(handleError, e);
+    yield put(actions.removeMeasureFromCombinationFailed());
+  }
+}
+
 export function* watchFetchCombinations() {
   yield takeLatest(actions.fetchCombinations.toString(), fetchCombinations);
 }
@@ -125,5 +164,12 @@ export function* watchCreatOrUpdateCombination() {
 
 export function* watchSetSelectedCombinationText() {
   yield takeLatest(actions.setSelectedCombinationText.toString(), setSelectedCombinationText);
+}
 
+export function* watchAddMeasureToCombination() {
+  yield takeLatest(actions.addMeasureToCombination.toString(), addMeasureToCombination);
+}
+
+export function* watchRemoveMeasureFromCombination() {
+  yield takeLatest(actions.removeMeasureFromCombination.toString(), removeMeasureFromCombination);
 }

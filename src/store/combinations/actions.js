@@ -1,5 +1,14 @@
 import { createAction } from 'redux-actions';
 
+export const addMeasureToCombination = createAction('Combination/ADD_MEASURE');
+export const addMeasureToCombinationRequested = createAction('Combination/ADD_MEASURE-Requested');
+export const addMeasureToCombinationSucceeded = createAction('Combination/ADD_MEASURE-Succeeded');
+export const addMeasureToCombinationFailed = createAction('Combination/ADD_MEASURE-Failed');
+
+export const removeMeasureFromCombination = createAction('Combination/REMOVE_MEASURE');
+export const removeMeasureFromCombinationRequested = createAction('Combination/REMOVE_MEASURE-Requested');
+export const removeMeasureFromCombinationSucceeded = createAction('Combination/REMOVE_MEASURE-Succeeded');
+export const removeMeasureFromCombinationFailed = createAction('Combination/REMOVE_MEASURE-Failed');
 
 export const fetchCombinations = createAction('Combinations/GET');
 export const fetchCombinationsRequested = createAction('Combinations/GET_Requested');

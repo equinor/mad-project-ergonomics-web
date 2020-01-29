@@ -21,7 +21,7 @@
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
     "test": "jest",
-    "test:save": "jest ",
+    "test:save": "jest --json --outputFile=test-results --coverage-true",
     "test:watch": "npm run test -- --watch",
     "clean-build": "npm run remove-build && mkdir build && mkdir build/dist",
     "remove-build": "rimraf ./build",
@@ -165,7 +165,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm test"
+      "pre-commit": "lint-staged && npm test:save"
     }
   },
   "lint-staged": {

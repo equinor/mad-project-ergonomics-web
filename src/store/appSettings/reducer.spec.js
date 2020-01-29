@@ -1,13 +1,25 @@
 import { stateKeys } from '../../types';
-import reducer, { getActiveTab, getDrawerIsOpen, getResultsModalIsShowing } from './reducer';
-import { setActiveTab, toggleDrawer , hideResultsModal, showResultsModal } from '../appSettings/actions';
-
+import reducer, {
+  getActiveTab,
+  getDrawerIsOpen,
+  getMeasuresModalIsShowing,
+  getResultsModalIsShowing
+} from './reducer';
+import {
+  hideMeasuresModal,
+  hideResultsModal,
+  setActiveTab,
+  showMeasuresModal,
+  showResultsModal,
+  toggleDrawer
+} from '../appSettings/actions';
 
 
 const defaultState = {
   drawer: { isOpen: true },
   activeTab: 'Questions',
-  resultsModalIsShowing: false
+  resultsModalIsShowing: false,
+  measuresModalIsShowing: false
 };
 let state = {
   [stateKeys.AppSettings]: {}
@@ -89,6 +101,28 @@ describe('AppSettings actions, reducers and selectors', () => {
       [stateKeys.AppSettings]: reducer(state.AppSettings, action),
     };
     expect(getResultsModalIsShowing(state))
+      .toBe(false);
+
+  });
+
+  it('can show and hide the Measures-modal-view in the results-tab', () => {
+    let action;
+
+    expect(getMeasuresModalIsShowing(state))
+      .toBe(false);
+
+    action = showMeasuresModal();
+    state = {
+      [stateKeys.AppSettings]: reducer(state.AppSettings, action),
+    };
+    expect(getMeasuresModalIsShowing(state))
+      .toBe(true);
+
+    action = hideMeasuresModal();
+    state = {
+      [stateKeys.AppSettings]: reducer(state.AppSettings, action),
+    };
+    expect(getMeasuresModalIsShowing(state))
       .toBe(false);
 
   });

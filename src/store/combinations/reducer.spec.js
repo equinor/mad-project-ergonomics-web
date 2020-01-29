@@ -156,7 +156,7 @@ describe('Combinations => actions, reducers and selectors', () => {
 
     // const combinationId = combinationToUpdate.id;
     updateState(actions.setSelectedCombinationText({
-       newCombinationText
+      newCombinationText
     }));
 
     expect(getSelectedCombination(state).currentTranslation.text)
@@ -164,8 +164,15 @@ describe('Combinations => actions, reducers and selectors', () => {
 
   });
 
-  it('can change text on selectedCombination', () => {
-
-  });
+  // it('can add a measure to the selectedCombination', () => {
+  //   // addMeasureToCombination
+  //   updateState(actions.selectCombination(mockedCombinations[0]));
+  //   expect(getSelectedCombination(state))
+  //     .toEqual(mockedCombinations[0]);
+  //
+  //
+  //
+  //
+  // });
 
 });

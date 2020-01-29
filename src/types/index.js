@@ -33,7 +33,8 @@ export const stateKeys = {
   QUESTIONS: 'questions',
   LABELS: 'labels',
   AppSettings: 'AppSettings',
-  COMBINATIONS: 'Combinations'
+  COMBINATIONS: 'Combinations',
+  MEASURES: 'Measures'
 };
 
 export const toastMessages = {

@@ -787,5 +787,307 @@
     "keyNumber": "string",
     "risk": "Red",
     "graphicId": 70
-  }
+  },
+  "Measures": [
+    {
+      "id": 68,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Skulderen trives best når hendene er nærmere kroppen og albuene lavere enn brysthøyde."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Skulderen trives best når hendene er nærmere kroppen og albuene lavere enn brysthøyde."
+      },
+      "graphic": null
+    },
+    {
+      "id": 69,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Planlegg jobben for optimal tilkomst og god arbeidsstilling med bruk av plattformer, lift, stiger, stillas samt bruk av hjelpemidler."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Planlegg jobben for optimal tilkomst og god arbeidsstilling med bruk av plattformer, lift, stiger, stillas samt bruk av hjelpemidler."
+      },
+      "graphic": null
+    },
+    {
+      "id": 70,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Bruk støttepunkter for å unngå statisk belastning på skulder og lang vektarm."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Bruk støttepunkter for å unngå statisk belastning på skulder og lang vektarm."
+      },
+      "graphic": null
+    },
+    {
+      "id": 71,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Vær oppmerksom på at en kan tåle mindre av denne type arbeid dersom en har eller tidligere har hatt skulder/nakkeplager. \\n\\nDet er viktig å lytte til kroppen og være bevisst på belastningene når en gjør denne jobben."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Vær oppmerksom på at en kan tåle mindre av denne type arbeid dersom en har eller tidligere har hatt skulder/nakkeplager. \\n\\nDet er viktig å lytte til kroppen og være bevisst på belastningene når en gjør denne jobben."
+      },
+      "graphic": null
+    },
+    {
+      "id": 72,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "En bør unngå å arbeide med arm over skulderhøyde mer enn 30-60 minutter totalt i løpet av arbeidsdagen."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "En bør unngå å arbeide med arm over skulderhøyde mer enn 30-60 minutter totalt i løpet av arbeidsdagen."
+      },
+      "graphic": null
+    },
+    {
+      "id": 73,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Dersom det ikke er mulig å få god tilkomst og/eller redusert kraftbruk, må en sørge for teamarbeid og jobbrotasjon for å begrense arbeidstiden i denne arbeidsstillingen."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Dersom det ikke er mulig å få god tilkomst og/eller redusert kraftbruk, må en sørge for teamarbeid og jobbrotasjon for å begrense arbeidstiden i denne arbeidsstillingen."
+      },
+      "graphic": null
+    },
+    {
+      "id": 74,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Tilrettelegg arbeidet slik at en kan skifte mellom forskjellige typer arbeid og arbeidsstillinger i løpet av dagen."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Tilrettelegg arbeidet slik at en kan skifte mellom forskjellige typer arbeid og arbeidsstillinger i løpet av dagen."
+      },
+      "graphic": null
+    },
+    {
+      "id": 75,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Det er viktig å ta hyppige pauser på 5 -10 min, samt hyppige mikropauser hvis belastningen er statisk over tid."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Det er viktig å ta hyppige pauser på 5 -10 min, samt hyppige mikropauser hvis belastningen er statisk over tid."
+      },
+      "graphic": null
+    },
+    {
+      "id": 76,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Reduser kraftbruken  i armen eller tyngden på verktøyet. Vurder om det finnes lettere verktøy."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Reduser kraftbruken  i armen eller tyngden på verktøyet. Vurder om det finnes lettere verktøy."
+      },
+      "graphic": null
+    },
+    {
+      "id": 77,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Kneputer gir kun en viss beskyttelse av huden og slimposer i kneet. Bruk derfor  matter som en bedre avlastning."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Kneputer gir kun en viss beskyttelse av huden og slimposer i kneet. Bruk derfor  matter som en bedre avlastning."
+      },
+      "graphic": {
+        "id": 486,
+        "url": "https://api-dev.gateway.equinor.com/ergonomics/v1.0/api/v1/graphics/hash/1f1704bf"
+      }
+    },
+    {
+      "id": 78,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Dersom mulig – bruk krakk eller lignende en kan sitte på når jobben utføres."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Dersom mulig – bruk krakk eller lignende en kan sitte på når jobben utføres."
+      },
+      "graphic": {
+        "id": 487,
+        "url": "https://api-dev.gateway.equinor.com/ergonomics/v1.0/api/v1/graphics/hash/bc6c101b"
+      }
+    },
+    {
+      "id": 79,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Det er lurt å reise seg opp og variere mellom å sitte og stå underveis i arbeidet."
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Det er lurt å reise seg opp og variere mellom å sitte og stå underveis i arbeidet."
+      },
+      "graphic": {
+        "id": 488,
+        "url": "https://api-dev.gateway.equinor.com/ergonomics/v1.0/api/v1/graphics/hash/7a45f098"
+      }
+    },
+    {
+      "id": 80,
+      "currentTranslation": {
+        "languageCode": "NO",
+        "text": "Sørg for gode rotasjonsordninger / teamarbeid som gir variasjon i arbeidsstillinger og type arbeid. "
+      },
+      "suggestedTranslation": {
+        "languageCode": "NO",
+        "text": "Sørg for gode rotasjonsordninger / teamarbeid som gir variasjon i arbeidsstillinger og type arbeid. "
+      },
+      "graphic": null
+    },
+    {
+      "id": 83,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 84,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 85,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 86,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 87,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 89,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 90,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 91,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 92,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 93,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 94,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 95,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 96,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 97,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 98,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 99,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 100,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 101,
+      "currentTranslation": null,
+      "suggestedTranslation": null,
+      "graphic": null
+    },
+    {
+      "id": 102,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "EN",
+        "text": "Hello World!"
+      },
+      "graphic": null
+    },
+    {
+      "id": 103,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "EN",
+        "text": "MeasureABC"
+      },
+      "graphic": null
+    },
+    {
+      "id": 104,
+      "currentTranslation": null,
+      "suggestedTranslation": {
+        "languageCode": "EN",
+        "text": "MeasureABC"
+      },
+      "graphic": null
+    }
+  ]
 }

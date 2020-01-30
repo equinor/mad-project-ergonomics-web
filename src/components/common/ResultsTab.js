@@ -437,10 +437,10 @@ class ResultsTab extends Component {
               <PillGrid>
                 {missingCombinations.map(combination => {
                   return <Button variant={'ghost'} onClick={() => {
-                    selectCombination(combination);
+                    // selectCombination(combination);
                     createOrUpdateCombination(combination);
-                    selectAnswers(combination.answers.map(answer => answer.id));
-                    showModal();
+                    // selectAnswers(combination.answers.map(answer => answer.id));
+                    // showModal();
                   }}>
                     {combination.keyNumber}
                   </Button>;

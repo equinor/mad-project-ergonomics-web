@@ -4,7 +4,8 @@ import watchGetLanguages, { watchSetCurrentLanguage } from './languages/saga';
 import watchFetchChallenges, {
   watchCreateChallenge,
   watchDeleteChallenge,
-  watchReorderChallenge, watchSelectChallenge,
+  watchReorderChallenge,
+  watchSelectChallenge,
   watchSetChallengeTitle,
   watchUploadChallengeImage
 } from './challenges/saga';
@@ -28,6 +29,7 @@ import {
   watchFetchInvalidCombinations,
   watchFetchMissingCombinations,
   watchRemoveMeasureFromCombination,
+  watchSelectCombination,
   watchSetSelectedCombinationText,
   watchUploadCombinationImage
 } from './combinations/saga';
@@ -69,6 +71,7 @@ const root = function* rootSaga() {
     watchUploadCombinationImage(),
     watchSetActiveTab(),
     watchSelectChallenge(),
+    watchSelectCombination(),
   ];
 };
 

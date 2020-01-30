@@ -5,6 +5,8 @@ import api from '../../services/api';
 import { getCurrentLanguage } from '../languages';
 import { getSelectedCombination } from './reducer';
 import { getSelectedChallenge } from '../challenges/reducer';
+import { showResultsModal } from '../appSettings/actions';
+import { selectAnswers } from '../questions/actions';
 
 
 function* fetchCombinations(action) {
@@ -72,21 +74,42 @@ function* fetchAllPossibleCombinations(action) {
 function* creatOrUpdateCombination(action) {
   try {
     const combination = action.payload;
+    console.log(combination);
     yield put(actions.creatOrUpdateCombinationRequested());
     const language = yield select(getCurrentLanguage);
-
     const selectedChallenge = yield select(getSelectedChallenge);
-    const response = yield call(api.createOrUpdateCombination({
+    const response = yield call(api.createOrUpdateCombination, {
       challengeId: selectedChallenge.id,
       combination,
       language: language.code
-    }));
+    });
     yield put(actions.creatOrUpdateCombinationSuccess(response));
+
+    yield put(actions.fetchMissingCombinations(selectedChallenge.id));
+    yield put(actions.fetchCombinations(selectedChallenge.id));
+    yield put(actions.selectCombination(response));
 
   } catch (e) {
     yield call(handleError, e);
     yield put(actions.creatOrUpdateCombinationFailed());
   }
+}
+
+/**
+ * Select combination extra tasks. Makes sure that the answers for the combination is also selected. And shows the modal
+ * @param action
+ * @return {Generator<*, void, ?>}
+ */
+function* selectCombination(action) {
+  try {
+    const response = action.payload;
+    const answerIdArray = response.answers.map(answer => answer.id);
+    yield put(selectAnswers({ answerIdArray }));
+    yield put(showResultsModal());
+  } catch (e) {
+    yield call(handleError, e);
+  }
+
 }
 
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
@@ -194,4 +217,8 @@ export function* watchRemoveMeasureFromCombination() {
 
 export function* watchUploadCombinationImage() {
   yield takeEvery(actions.uploadCombinationImage.toString(), uploadCombinationImage);
+}
+
+export function* watchSelectCombination() {
+  yield takeEvery(actions.selectCombination.toString(), selectCombination);
 }

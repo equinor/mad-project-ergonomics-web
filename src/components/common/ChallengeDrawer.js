@@ -10,8 +10,6 @@ import IconDragNode from '../../../resources/images/dragNode.svg';
 import { getPlaceholderText, getText } from '../../utils/helpers';
 import { getChallenges } from '../../store/challenges';
 import * as challengeActions from '../../store/challenges/actions';
-import * as questionActions from '../../store/questions/actions';
-import * as combinationsActions from '../../store/combinations/actions';
 import { getDrawerIsOpen } from '../../store/appSettings';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import ImageDrop from './ImageDrop';
@@ -171,11 +169,6 @@ const mapDispatchToProps = (dispatch) => {
     toggleDrawer: () => dispatch(appSettingsActions.toggleDrawer()),
     selectChallenge: (challenge) => {
       dispatch(challengeActions.selectChallenge(challenge));
-      dispatch(questionActions.fetchQuestions(challenge.id));
-      dispatch(combinationsActions.fetchCombinations(challenge.id));
-      dispatch(combinationsActions.fetchMissingCombinations(challenge.id));
-      // dispatch(combinationsActions.fetchInvalidCombinations(challenge.id));
-      // dispatch(combinationsActions.fetchAllPossibleCombinations(challenge.id));
     },
     uploadChallengeImg: (challengeId, image) => dispatch(challengeActions.uploadChallengeImage({
       challengeId,

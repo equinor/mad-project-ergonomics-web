@@ -73,12 +73,14 @@ function* creatOrUpdateCombination(action) {
   try {
     const combination = action.payload;
     yield put(actions.creatOrUpdateCombinationRequested());
+    const language = yield select(getCurrentLanguage);
+
     const selectedChallenge = yield select(getSelectedChallenge);
     const response = yield call(api.createOrUpdateCombination({
       challengeId: selectedChallenge.id,
-      combination
+      combination,
+      language: language.code
     }));
-    console.log(response);
     yield put(actions.creatOrUpdateCombinationSuccess(response));
 
   } catch (e) {

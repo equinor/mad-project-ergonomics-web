@@ -167,8 +167,6 @@ const Modal = styled.div`
 `;
 const ModalGrid = styled.div`
 display: grid;
-// grid-template-columns: auto auto auto;
-// grid-template-rows: auto auto;
   overflow-y: auto;
 `;
 

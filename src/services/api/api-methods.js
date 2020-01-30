@@ -58,10 +58,7 @@ export const orderQuestions = (challengeId, questions) => submitDataWithLanguage
 export const orderAnswers = (questionId, answers) => submitDataWithLanguage(`/Questions/${questionId}/Answers/ordering`, answers);
 
 // Combinations
-export const createOrUpdateCombination = ({ challengeId, combination }) => {
-  console.log(`/Challenges/${challengeId}/Combinations`, combination);
-  return submitData(`/Challenges/${challengeId}/Combinations`, combination);
-};
+export const createOrUpdateCombination = ({ challengeId, combination, language }) => submitDataWithLanguage(`/Challenges/${challengeId}/Combinations`, combination, language);
 // --------------------------------------------------------------------------------------------- //
 
 

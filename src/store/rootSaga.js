@@ -4,7 +4,7 @@ import watchGetLanguages, { watchSetCurrentLanguage } from './languages/saga';
 import watchFetchChallenges, {
   watchCreateChallenge,
   watchDeleteChallenge,
-  watchReorderChallenge,
+  watchReorderChallenge, watchSelectChallenge,
   watchSetChallengeTitle,
   watchUploadChallengeImage
 } from './challenges/saga';
@@ -32,6 +32,7 @@ import {
   watchUploadCombinationImage
 } from './combinations/saga';
 import watchFetchMeasures from './measures/saga';
+import watchSetActiveTab from './appSettings/saga';
 
 const root = function* rootSaga() {
   yield [
@@ -66,6 +67,8 @@ const root = function* rootSaga() {
     watchFetchMeasures(),
     watchRemoveMeasureFromCombination(),
     watchUploadCombinationImage(),
+    watchSetActiveTab(),
+    watchSelectChallenge(),
   ];
 };
 

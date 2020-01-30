@@ -101,7 +101,7 @@ export const patchLanguage = (languageCode, id, code, name) => submitData(`/Lang
 // ////////////////////////////////////////////
 // Todo:Remove challengeId = 0 ....
 export const addMeasureToCombination = ({ combinationId, measureId }) =>
-  submitData(`/Challenges/0/Combinations/${combinationId}/Measures/${measureId}`, null, 'PUT');
+  submitData(`/Combinations/${combinationId}/Measures/${measureId}`, null, 'PUT');
 
 
 // /////////////////////////////////////////////

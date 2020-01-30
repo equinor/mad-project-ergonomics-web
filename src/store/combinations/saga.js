@@ -143,6 +143,7 @@ function* addMeasureToCombination(action) {
       combinationId,
       measureId
     });
+    console.log('addMeasureToCombination', { response });
     yield put(actions.addMeasureToCombinationSucceeded(response));
     //  Fetch combination and select it.
     // TODO: What do we need to refresh???

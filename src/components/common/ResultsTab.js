@@ -357,7 +357,6 @@ class ResultsTab extends Component {
                     risk: change.target.value,
                   });
                 }}>
-          <option value={null}>--Ikke satt--</option>
           <option value={'Green'}>All good!</option>
           <option value={'Yellow'}>Vis Hensyn</option>
           <option value={'Red'}>Tiltak anbefales</option>

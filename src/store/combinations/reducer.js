@@ -90,18 +90,11 @@ export default handleActions(
         text: newCombinationText
       };
 
-      // const combinationToUpdate = clonedState.combinations.find(combination => combination.id === combinationId);
-      // combinationToUpdate.currentTranslation = {
-      //   ...combinationToUpdate.currentTranslation,
-      //   text: newCombinationText
-      // };
-
       return (clonedState);
     },
     [actions.addMeasureToCombination]: (state, action) => {
       const { measure } = action.payload;
       const clonedState = cloneDeep(state);
-      console.log('addMeasureToCombination', { measure, clonedState });
 
       clonedState.selectedCombination.measures.push(measure);
 
@@ -110,11 +103,9 @@ export default handleActions(
     [actions.removeMeasureFromCombination]: (state, action) => {
       const { measure } = action.payload;
       const clonedState = cloneDeep(state);
-      console.log('removeMeasureFromCombination', { measure, clonedState });
 
       const indexOfObjectToRemove = clonedState.selectedCombination.measures.findIndex(m => m.id === measure.id);
       clonedState.selectedCombination.measures.splice(indexOfObjectToRemove, 1);
-
 
       return clonedState;
     }

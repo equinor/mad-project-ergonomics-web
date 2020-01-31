@@ -9,11 +9,9 @@ import {
   getMeasuresModalIsShowing,
   getResultsModalIsShowing
 } from '../../store/appSettings/reducer';
-import * as challengeActions from '../../store/challenges/actions';
 import { getSelectedChallenge } from '../../store/challenges/reducer';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import * as combinationActions from '../../store/combinations/actions';
-import * as questionActions from '../../store/questions/actions';
 import {
   getCombinations,
   getInvalidCombinations,
@@ -74,25 +72,6 @@ const PillContainer = styled.span`
   color: #007079;
 
 `;
-// border: black solid thin;
-// background: #F7F7F7;
-// border-radius: 8px;
-//
-//
-// margin:10px;
-// max-width:80px;
-//
-// padding: 10px;
-// height:32px;
-// padding: 12px;
-// align-items: center;
-// display: flex;
-// flex-direction: row;
-// max-width: 200px;
-// line-height: 24px;
-// text-overflow:ellipsis ;
-// overflow: hidden;
-// white-space: nowrap;
 
 const StatusPill = styled.div`
   width: 12px;
@@ -174,11 +153,9 @@ const renderTableRow = (combination, onClick) => {
   return (
     <TableRow onClick={() => onClick(combination)}>
       <TableData>
-        {/* <PillContainer center> */}
         <Button variant={'ghost'}>
           {combination.keyNumber}
         </Button>
-        {/* </PillContainer> */}
       </TableData>
       <TableData>
         <StatusPill status={combination.risk}/></TableData>
@@ -260,41 +237,54 @@ const alphas = 'ABCDEFGHIJKLMNOPGRSTUVWXYZ';
 
 class ResultsTab extends Component {
   static propTypes = {
-    modalIsShowing: PropTypes.bool.isRequired,
-    measuresModalIsShowing: PropTypes.bool.isRequired,
+    // Selectors
     selectedChallenge: PropTypes.object.isRequired,
-    showModal: PropTypes.func.isRequired,
-    hideModal: PropTypes.func.isRequired,
+    questions: PropTypes.array.isRequired,
+
+    missingCombinations: PropTypes.array.isRequired,
+    invalidCombinations: PropTypes.array.isRequired,
+
+    combinations: PropTypes.array.isRequired,
+    selectedCombination: PropTypes.array.isRequired,
+
+    measures: PropTypes.array.isRequired,
+
+    resultsModalIsShowing: PropTypes.bool.isRequired,
+    measuresModalIsShowing: PropTypes.bool.isRequired,
+
+    // Actions | Combinations
+    selectCombination: PropTypes.func.isRequired,
+
+    showResultsModal: PropTypes.func.isRequired,
+    hideResultsModal: PropTypes.func.isRequired,
+
+    createOrUpdateCombination: PropTypes.func.isRequired,
+    setSelectedCombinationText: PropTypes.func.isRequired,
+    uploadCombinationImg: PropTypes.func.isRequired,
+
+    // Actions | Measures
+    fetchMeasures: PropTypes.func.isRequired,
+
     showMeasuresModal: PropTypes.func.isRequired,
     hideMeasuresModal: PropTypes.func.isRequired,
-    combinations: PropTypes.array.isRequired,
-    missingCombinations: PropTypes.array.isRequired,
-    questions: PropTypes.array.isRequired,
-    invalidCombinations: PropTypes.array.isRequired,
-    selectedCombination: PropTypes.array.isRequired,
-    selectCombination: PropTypes.func.isRequired,
-    createOrUpdateCombination: PropTypes.func.isRequired,
-    selectAnswers: PropTypes.func.isRequired,
-    setSelectedCombinationText: PropTypes.func.isRequired,
+
     addMeasure: PropTypes.func.isRequired,
     removeMeasure: PropTypes.func.isRequired,
-    fetchMeasures: PropTypes.func.isRequired,
-    measures: PropTypes.array.isRequired,
-    uploadCombinationImg: PropTypes.func.isRequired,
+
   };
   state = {
-    showModal: false
+    showResultsModal: false
   };
 
 
   render() {
     const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Tiltakskort',];
     const {
-      modalIsShowing,
+      resultsModalIsShowing,
       measuresModalIsShowing,
       selectedChallenge,
-      showModal,
-      hideModal,
+      showResultsModal,
+      hideResultsModal,
       showMeasuresModal,
       hideMeasuresModal,
       combinations,
@@ -302,7 +292,6 @@ class ResultsTab extends Component {
       missingCombinations,
       invalidCombinations,
       selectedCombination,
-      selectAnswers,
       selectCombination,
       createOrUpdateCombination,
       setSelectedCombinationText,
@@ -316,13 +305,7 @@ class ResultsTab extends Component {
     const combinationModalTopBar = () => <ModalTopBar>
       <Typography variant={'h2'}>Rediger Resultat
         | {getText(selectedChallenge) || getPlaceholderText(selectedChallenge)}</Typography>
-      <Button variant="ghost" onClick={() => {
-        // Todo: Fetch aevaeuleryething!
-        // fetchChallenges();
-        // fetchCombinations(selectedCombination.id);
-        // fetchMissingCombinations(selectedCombination.id);
-        return hideModal();
-      }}>Done</Button>
+      <Button variant="ghost" onClick={() => hideResultsModal()}>Done</Button>
     </ModalTopBar>;
 
     const getQuestionsSection = () => <div>
@@ -357,11 +340,10 @@ class ResultsTab extends Component {
                     risk: change.target.value,
                   });
                 }}>
-          <option value={'Green'}>All good!</option>
+          <option value={'Green'}>Alt OK</option>
           <option value={'Yellow'}>Vis Hensyn</option>
-          <option value={'Red'}>Tiltak anbefales</option>
+          <option value={'Red'}>Tiltak Anbefales</option>
         </select>
-        <p>{selectedCombination.id}</p>
         <ImageDrop parentEntity={selectedCombination} uploadImg={uploadCombinationImg}/>
         <MultilineInput
           placeholder={getPlaceholderText(selectedCombination) || 'Beskrivelse av konsekvens... '}
@@ -380,9 +362,7 @@ class ResultsTab extends Component {
                 showMeasuresModal();
               }}>+ Legg til tiltak</Button>
       {selectedCombination.measures && selectedCombination.measures.map(measure => {
-        return <Button variant={'outlined'}
-                       onClick={() => console.log(measure)}
-        >
+        return <Button variant={'ghost'}>
           <img src={measure.graphic} alt={''}/>
           {getText(measure) || getPlaceholderText(measure) || 'No Title'}
         </Button>;
@@ -436,10 +416,7 @@ class ResultsTab extends Component {
               <PillGrid>
                 {missingCombinations.map(combination => {
                   return <Button variant={'ghost'} onClick={() => {
-                    // selectCombination(combination);
                     createOrUpdateCombination(combination);
-                    // selectAnswers(combination.answers.map(answer => answer.id));
-                    // showModal();
                   }}>
                     {combination.keyNumber}
                   </Button>;
@@ -451,21 +428,19 @@ class ResultsTab extends Component {
 
           {invalidCombinations.length > 0 && <>
             <Typography variant="h3">Ugyldige Kombinasjoner</Typography>
-            {renderTable(tableHeaders, combinations, () => showModal())}</>
+            {renderTable(tableHeaders, combinations, () => showResultsModal())}</>
           }
           <Typography variant="h3">Kombinasjoner</Typography>
           {combinations.length > 0 ?
             renderTable(tableHeaders, combinations, (combination) => {
               selectCombination(combination);
-              selectAnswers(combination.answers.map(answer => answer.id));
-              showModal();
             })
             :
             <p> {selectedChallenge ? 'Ingen kombinasjoner for valgt utfordring' : 'Velg en utfordring'}</p>
           }
         </PaddingContainer>
 
-        {modalIsShowing && renderCombinationModal()}
+        {resultsModalIsShowing && renderCombinationModal()}
         {measuresModalIsShowing && renderMeasuresModal()}
       </>
     );
@@ -475,34 +450,25 @@ class ResultsTab extends Component {
 const mapStateToProps = (state) => ({
   activeTab: getActiveTab(state),
   selectedChallenge: getSelectedChallenge(state),
-  modalIsShowing: getResultsModalIsShowing(state),
+  questions: getQuestions(state),
+  resultsModalIsShowing: getResultsModalIsShowing(state),
   measuresModalIsShowing: getMeasuresModalIsShowing(state),
   combinations: getCombinations(state),
   missingCombinations: getMissingCombinations(state),
-  questions: getQuestions(state),
+  invalidCombinations: getInvalidCombinations(state),
   allQuestionsAreAnswered: getAllQuestionsAreAnswered(state),
   selectedCombination: getSelectedCombination(state),
-  invalidCombinations: getInvalidCombinations(state),
   measures: getMeasures(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),
-  showModal: () => dispatch(appSettingsActions.showResultsModal()),
-  hideModal: () => dispatch(appSettingsActions.hideResultsModal()),
+  fetchMeasures: () => dispatch(measuresActions.fetchMeasures()),
+  showResultsModal: () => dispatch(appSettingsActions.showResultsModal()),
+  hideResultsModal: () => dispatch(appSettingsActions.hideResultsModal()),
   showMeasuresModal: () => dispatch(appSettingsActions.showMeasuresModal()),
   hideMeasuresModal: () => dispatch(appSettingsActions.hideMeasuresModal()),
-  fetchCombinations: (challengeId) => dispatch(combinationActions.fetchCombinations(challengeId)),
-  fetchMissingCombinations: (challengeId) => dispatch(combinationActions.fetchMissingCombinations(challengeId)),
-  selectAnswer: (answerId) => dispatch(questionActions.selectAnswer({ answerId })),
-  selectAnswers: (answerIdArray) => dispatch(questionActions.selectAnswers({ answerIdArray })),
   selectCombination: (combination) => dispatch(combinationActions.selectCombination(combination)),
   addMeasure: (measure, combinationId) => dispatch(combinationActions.addMeasureToCombination({
-    measure,
-    measureId: measure.id,
-    combinationId
-  })),
-  removeMeasure: (measure, combinationId) => dispatch(combinationActions.removeMeasureFromCombination({
     measure,
     measureId: measure.id,
     combinationId
@@ -511,10 +477,14 @@ const mapDispatchToProps = dispatch => ({
   setSelectedCombinationText: (text) => dispatch(combinationActions.setSelectedCombinationText({
     newCombinationText: text
   })),
-  fetchMeasures: () => dispatch(measuresActions.fetchMeasures()),
   uploadCombinationImg: (combinationId, image) => dispatch(combinationActions.uploadCombinationImage({
     combinationId,
     image
+  })),
+  removeMeasure: (measure, combinationId) => dispatch(combinationActions.removeMeasureFromCombination({
+    measure,
+    measureId: measure.id,
+    combinationId
   })),
 });
 

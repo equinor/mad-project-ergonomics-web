@@ -13,7 +13,7 @@ let state = {
 
 function updateState(action) {
   state = {
-    [stateKeys.MEASURES]: reducer(state.measures, action),
+    [stateKeys.MEASURES]: reducer(state[stateKeys.MEASURES], action),
   };
 }
 
@@ -42,7 +42,7 @@ describe('Measures actions, reducers and selectors', () => {
     updateState(actions.fetchMeasuresRequested());
     expect(getIsFetchingMeasures(state))
       .toBe(true);
-
+    
     updateState(actions.fetchMeasuresFailed());
     expect(getIsFetchingMeasures(state))
       .toBe(false);

@@ -98,6 +98,26 @@ export default handleActions(
 
       return (clonedState);
     },
+    [actions.addMeasureToCombination]: (state, action) => {
+      const { measure } = action.payload;
+      const clonedState = cloneDeep(state);
+      console.log('addMeasureToCombination', { measure, clonedState });
+
+      clonedState.selectedCombination.measures.push(measure);
+
+      return clonedState;
+    },
+    [actions.removeMeasureFromCombination]: (state, action) => {
+      const { measure } = action.payload;
+      const clonedState = cloneDeep(state);
+      console.log('removeMeasureFromCombination', { measure, clonedState });
+
+      const indexOfObjectToRemove = clonedState.selectedCombination.measures.findIndex(m => m.id === measure.id);
+      clonedState.selectedCombination.measures.splice(indexOfObjectToRemove, 1);
+
+
+      return clonedState;
+    }
   },
   defaultState
 );

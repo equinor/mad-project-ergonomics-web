@@ -416,7 +416,7 @@ class ResultsTab extends Component {
                 return <div>
                   <p>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
                   <input type={'checkbox'} checked={measureIsAdded}
-                         onChange={(e) => e.target.checked ? addMeasure(measure.id, selectedCombination.id) : removeMeasure(measure.id, selectedCombination.id)}/>
+                         onChange={(e) => e.target.checked ? addMeasure(measure, selectedCombination.id) : removeMeasure(measure, selectedCombination.id)}/>
                   <ImageDrop parentEntity={measure}/>
                 </div>;
               })}
@@ -497,14 +497,15 @@ const mapDispatchToProps = dispatch => ({
   selectAnswer: (answerId) => dispatch(questionActions.selectAnswer({ answerId })),
   selectAnswers: (answerIdArray) => dispatch(questionActions.selectAnswers({ answerIdArray })),
   selectCombination: (combination) => dispatch(combinationActions.selectCombination(combination)),
-  addMeasure: (measureId, combinationId) => dispatch(combinationActions.addMeasureToCombination({
-    measureId,
+  addMeasure: (measure, combinationId) => dispatch(combinationActions.addMeasureToCombination({
+    measure,
+    measureId: measure.id,
     combinationId
   })),
-  removeMeasure: (measureId, combinationId) => dispatch(combinationActions.removeMeasureFromCombination({
-    measureId,
+  removeMeasure: (measure, combinationId) => dispatch(combinationActions.removeMeasureFromCombination({
+    measure,
+    measureId: measure.id,
     combinationId
-
   })),
   createOrUpdateCombination: (combination) => dispatch(combinationActions.creatOrUpdateCombination(combination)),
   setSelectedCombinationText: (text) => dispatch(combinationActions.setSelectedCombinationText({

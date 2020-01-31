@@ -35,7 +35,7 @@ export const getInvalidCombinations = ({ challengeId, language }) => fetchDataWi
 export const getCombinationResult = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/result`, language);
 export const getAllPossibleCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/allCombinations`, language);
 
-export const getMeasures = language => fetchDataWithLanguage('/Measures', language);
+export const getMeasures = ({ language }) => fetchDataWithLanguage('/Measures', language);
 // --------------------------------------------------------------------------------------------- //
 
 
@@ -113,4 +113,4 @@ export const deleteAnswer = (id) => submitData(`/Answers/${id}`, null, `DELETE`)
 export const deleteQuestion = (id) => submitData(`/Questions/${id}`, null, `DELETE`);
 export const deleteChallenge = (id) => submitData(`/Challenges/${id}`, null, `DELETE`);
 export const removeMeasureFromCombination = ({ combinationId, measureId }) =>
-  submitData(`/Challenges/0/Combinations/${combinationId}/Measures/${measureId}`, null, 'DELETE');
+  submitData(`/Combinations/${combinationId}/Measures/${measureId}`, null, 'DELETE');

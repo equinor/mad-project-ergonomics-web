@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import brandLogo from '../../../resources/images/countryInformationIcon.png';
 import userIcon from '../../../resources/images/userIcon.svg';
 import { getAppVersion } from '../../settings';
 import { getCurrentLanguage, getLanguages } from '../../store/languages';
@@ -97,13 +96,13 @@ class AppHeader extends Component {
     const { languages, currentLanguage, setCurrentLanguage } = this.props;
     return (
       <div className="navbar navbar-dark navbar-expand-md app-header">
-        <NavLink onClick={() => this.onNavigateHome()} className="link" to={'/'} exact>
-          <span className="navbar-brand">
-            <div className="brand">
-              <img className="brand-logo" alt="Equinor" src={brandLogo}/>
-            </div>
-          </span>
-        </NavLink>
+        {/* <NavLink onClick={() => this.onNavigateHome()} className="link" to={'/'} exact> */}
+        {/*  <span className="navbar-brand"> */}
+        {/*    <div className="brand"> */}
+        {/*      <img className="brand-logo" alt="Equinor" src={brandLogo}/> */}
+        {/*    </div> */}
+        {/*  </span> */}
+        {/* </NavLink> */}
         <button className="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#header-menu" aria-controls="header-menu" aria-expanded="false">
           <span className="navbar-toggler-icon"/>

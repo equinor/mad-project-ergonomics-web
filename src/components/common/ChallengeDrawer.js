@@ -10,7 +10,6 @@ import IconDragNode from '../../../resources/images/dragNode.svg';
 import { getPlaceholderText, getText } from '../../utils/helpers';
 import { getChallenges } from '../../store/challenges';
 import * as challengeActions from '../../store/challenges/actions';
-import * as questionActions from '../../store/questions/actions';
 import { getDrawerIsOpen } from '../../store/appSettings';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import ImageDrop from './ImageDrop';
@@ -41,11 +40,16 @@ const DrawerAlternative = styled.div`
   align-items: center;
   justify-content: flex-start;
 
-  ${props => {
-  return props.active && css`
+  &:hover {
+    cursor: pointer;
+    ${props => !props.active && css`
+        background-color: #EFF8F8;
+    `};
+  }
+
+  ${props => props.active && css`
     background-color: #DEEDEE;
-  `;
-}};
+  `}
 `;
 
 const DrawerIcon = styled.img`
@@ -165,7 +169,6 @@ const mapDispatchToProps = (dispatch) => {
     toggleDrawer: () => dispatch(appSettingsActions.toggleDrawer()),
     selectChallenge: (challenge) => {
       dispatch(challengeActions.selectChallenge(challenge));
-      dispatch(questionActions.fetchQuestions(challenge.id));
     },
     uploadChallengeImg: (challengeId, image) => dispatch(challengeActions.uploadChallengeImage({
       challengeId,

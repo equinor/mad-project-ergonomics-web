@@ -33,8 +33,8 @@ const persistConfig = {
     stateKeys.MANIFEST,
     stateKeys.VERSION,
     stateKeys.LANGUAGES,
-    // stateKeys.CHALLENGES,
-    // stateKeys.QUESTIONS
+    stateKeys.CHALLENGES,
+    stateKeys.QUESTIONS,
     stateKeys.AppSettings
   ],
   storage,

@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN apk update && apk add --no-cache bash git openssh python2
 COPY package*.json ./
-RUN npm install
+RUN npm install prod
 COPY . .
 RUN npm run build -s
 

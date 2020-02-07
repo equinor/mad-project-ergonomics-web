@@ -10,19 +10,26 @@ import ChallengeDrawer from '../components/common/ChallengeDrawer';
 import ChallengeHeader from '../components/common/ChallengeHeader';
 import AppMenuBar from '../components/common/AppMenuBar';
 import ChallengeBody from '../components/common/ChallengeBody';
-
-const Column = styled.div`
-  display: flex;
-  flex: 1;
-`;
+import { getActiveTab } from '../store/appSettings/reducer';
+import ResultsTab from '../components/common/ResultsTab';
 
 const Wrapper = styled.div`
   flex: 1;
+`;
+const QuestionsTab = () => <>
+  <ChallengeHeader/>
+  <ChallengeBody/>
+</>;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 class MainPage extends Component {
   static propTypes = {
     fetchChallenges: PropTypes.func.isRequired,
+    activeTab: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -38,19 +45,23 @@ class MainPage extends Component {
         pauseOnFocusLoss={false}
         // onClick={() => toast('Undooo it!')}
       />
-      <Column>
+      <Row>
         <ChallengeDrawer/>
         <Wrapper>
           <AppMenuBar/>
-          <ChallengeHeader/>
-          <ChallengeBody/>
+          {this.props.activeTab === 'Questions' ?
+            <QuestionsTab/>
+            : <ResultsTab/>
+          }
         </Wrapper>
-      </Column>
+      </Row>
     </>;
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  activeTab: getActiveTab(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchChallenges: () => dispatch(challengeActions.fetchChallenges()),

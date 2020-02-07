@@ -21,6 +21,7 @@
     "lint": "esw webpack.config.* src tools --color",
     "lint:watch": "npm run lint -- --watch",
     "test": "jest",
+    "test:save": "jest --json --outputFile=test-results.json",
     "test:watch": "npm run test -- --watch",
     "clean-build": "npm run remove-build && mkdir build && mkdir build/dist",
     "remove-build": "rimraf ./build",
@@ -70,13 +71,11 @@
     "chalk": "^2.4.2",
     "connect-history-api-fallback": "^1.6.0",
     "css-loader": "^3.2.0",
-    "cypress": "^3.4.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^4.18.2",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-config-prettier": "^6.4.0",
-    "eslint-plugin-cypress": "^2.7.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-jsx-a11y": "^5.1.1",
@@ -121,6 +120,7 @@
     "webpack-md5-hash": "^0.0.5"
   },
   "dependencies": {
+    "@equinor/eds-core-react": "0.0.1-alpha.10",
     "adal-angular": "^1.0.16",
     "array-move": "^2.2.0",
     "global": "^4.4.0",
@@ -163,13 +163,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm test"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.js": [
       "eslint --fix",
       "stylelint './src/**/*.js'",
+      "npm run test:save",
       "git add"
     ]
   }

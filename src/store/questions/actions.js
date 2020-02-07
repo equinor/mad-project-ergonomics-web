@@ -6,6 +6,7 @@ export const fetchQuestionsSucceeded = createAction('Questions/GET_SUCCEEDED');
 export const fetchQuestionsFailed = createAction('Questions/GET_FAILED');
 
 export const selectAnswer = createAction('Questions/SELECT_ANSWER');
+export const selectAnswers = createAction('Questions/SELECT_ARRAY_OF_ANSWERS');
 
 export const removeQuestion = createAction('Question/remove');
 

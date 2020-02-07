@@ -6,6 +6,8 @@ import reducer, {
   getQuestions
 } from './reducer';
 import {
+  Challenge197Questions,
+  MissingCombinationsForChallenge197 as MissingCombinations,
   Questions as MockedQuestions,
   QuestionsWithoutText as MockedQuestionsNoText
 } from '../../mockData/mock-data.json';
@@ -43,22 +45,22 @@ describe('Questions actions, reducers and selectors', () => {
     expect(getAllQuestionsAreAnswered(state))
       .toBe(false);
 
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 0 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[0].id }));
     // 1 out of 3 question answered
     expect(getAllQuestionsAreAnswered(state))
       .toBe(false);
 
-    updateState(actions.selectAnswer({ questionIndex: 1, answerIndex: 0 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[1].answers[0].id }));
     // 2 out of 3 questions are answered
     expect(getAllQuestionsAreAnswered(state))
       .toBe(false);
 
-    updateState(actions.selectAnswer({ questionIndex: 2, answerIndex: 0 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[2].answers[0].id }));
     // 3 out of 3 questions are answered
     expect(getAllQuestionsAreAnswered(state))
       .toBe(true);
 
-    updateState(actions.selectAnswer({ questionIndex: 2, answerIndex: 1 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[2].answers[1].id }));
     // Should still be valid when selecting another answer in the same question
     expect(getAllQuestionsAreAnswered(state))
       .toBe(true);
@@ -68,7 +70,7 @@ describe('Questions actions, reducers and selectors', () => {
     updateState(actions.fetchQuestionsSucceeded(MockedQuestions));
 
     // Only the last selected question should be selected
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 0 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[0].id }));
     expect(getQuestions(state)[0].answers[0].isSelected)
       .toBe(true);
     expect(getQuestions(state)[0].answers[1].isSelected)
@@ -76,7 +78,7 @@ describe('Questions actions, reducers and selectors', () => {
     expect(getQuestions(state)[0].answers[2].isSelected)
       .toBe(false);
 
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 1 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[1].id }));
     expect(getQuestions(state)[0].answers[0].isSelected)
       .toBe(false);
     expect(getQuestions(state)[0].answers[1].isSelected)
@@ -84,7 +86,7 @@ describe('Questions actions, reducers and selectors', () => {
     expect(getQuestions(state)[0].answers[2].isSelected)
       .toBe(false);
 
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 2 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[2].id }));
     expect(getQuestions(state)[0].answers[0].isSelected)
       .toBe(false);
     expect(getQuestions(state)[0].answers[1].isSelected)
@@ -96,13 +98,44 @@ describe('Questions actions, reducers and selectors', () => {
 
   it('changes current image when selecting an alternative', () => {
     updateState(actions.fetchQuestionsSucceeded(MockedQuestions));
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 0 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[0].id }));
     expect(getQuestions(state)[0].graphicId)
       .toBe(getQuestions(state)[0].answers[0].graphicId);
 
-    updateState(actions.selectAnswer({ questionIndex: 0, answerIndex: 1 }));
+    updateState(actions.selectAnswer({ answerId: MockedQuestions[0].answers[1].id }));
     expect(getQuestions(state)[0].graphicId)
       .toBe(getQuestions(state)[0].answers[1].graphicId);
+  });
+
+  it('can select missing answers', () => {
+    updateState(actions.fetchQuestionsSucceeded(Challenge197Questions));
+
+    MissingCombinations.forEach(question => {
+      question.answers.forEach(answer => {
+
+        const answerId = answer.id;
+        //  Select all the answers
+        updateState(actions.selectAnswer({ answerId }));
+      });
+
+      // Then check if we have selected all the required answers to add a result to it...
+      expect(getAllQuestionsAreAnswered(state))
+        .toBe(true);
+    });
+
+  });
+
+  it('can select an array of answerIds', () => {
+    updateState(actions.fetchQuestionsSucceeded(MockedQuestions));
+    const answerIdArray = [];
+    MockedQuestions.forEach(question => {
+      answerIdArray.push(question.answers[0].id);
+    });
+
+    updateState(actions.selectAnswers({ answerIdArray }));
+    expect(getAllQuestionsAreAnswered(state))
+      .toBe(true);
+
   });
 
   it('can update a question text', () => {

@@ -4,6 +4,13 @@ import * as actions from './actions';
 import handleError from '../../utils/handleNetworkErrors';
 import { getCurrentLanguage } from '../languages/reducer';
 import { getChallenges } from '../challenges/reducer';
+import { getActiveTab } from '../appSettings/reducer';
+import {
+  fetchCombinations,
+  fetchInvalidCombinations,
+  fetchMissingCombinations
+} from '../combinations/actions';
+import { fetchQuestions } from '../questions/actions';
 
 function* fetchChallenges() {
   try {
@@ -93,6 +100,24 @@ function* reorderChallenge(action) {
   }
 }
 
+function* selectChallenge(action) {
+  try {
+    const selectedChallenge = action.payload;
+
+    const tab = yield select(getActiveTab);
+
+    yield put(fetchCombinations(selectedChallenge.id));
+    yield put(fetchQuestions(selectedChallenge.id));
+    if (tab === 'Results') {
+      yield put(fetchMissingCombinations(selectedChallenge.id));
+      yield put(fetchInvalidCombinations(selectedChallenge.id));
+    }
+
+  } catch (ex) {
+    yield call(handleError, ex);
+  }
+}
+
 export default function* watchFetchChallenges() {
   yield takeLatest(actions.fetchChallenges.toString(), fetchChallenges);
 }
@@ -115,4 +140,9 @@ export function* watchUploadChallengeImage() {
 
 export function* watchReorderChallenge() {
   yield takeLatest(actions.reorderChallenges.toString(), reorderChallenge);
+}
+
+export function* watchSelectChallenge() {
+  yield takeLatest(actions.selectChallenge.toString(), selectChallenge);
+
 }

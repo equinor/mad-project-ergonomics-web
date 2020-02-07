@@ -5,6 +5,7 @@ import watchFetchChallenges, {
   watchCreateChallenge,
   watchDeleteChallenge,
   watchReorderChallenge,
+  watchSelectChallenge,
   watchSetChallengeTitle,
   watchUploadChallengeImage
 } from './challenges/saga';
@@ -20,6 +21,20 @@ import watchFetchQuestions, {
   watchUploadAnswerImage
 } from './questions/saga';
 import watchGetLabels from './labels/saga';
+import {
+  watchAddMeasureToCombination,
+  watchCreatOrUpdateCombination,
+  watchFetchAllPossibleCombinations,
+  watchFetchCombinations,
+  watchFetchInvalidCombinations,
+  watchFetchMissingCombinations,
+  watchRemoveMeasureFromCombination,
+  watchSelectCombination,
+  watchSetSelectedCombinationText,
+  watchUploadCombinationImage
+} from './combinations/saga';
+import watchFetchMeasures from './measures/saga';
+import watchSetActiveTab from './appSettings/saga';
 
 const root = function* rootSaga() {
   yield [
@@ -44,6 +59,19 @@ const root = function* rootSaga() {
     watchUploadChallengeImage(),
     watchUploadAnswerImage(),
     watchReorderChallenge(),
+    watchFetchCombinations(),
+    watchFetchMissingCombinations(),
+    watchFetchInvalidCombinations(),
+    watchFetchAllPossibleCombinations(),
+    watchCreatOrUpdateCombination(),
+    watchSetSelectedCombinationText(),
+    watchAddMeasureToCombination(),
+    watchFetchMeasures(),
+    watchRemoveMeasureFromCombination(),
+    watchUploadCombinationImage(),
+    watchSetActiveTab(),
+    watchSelectChallenge(),
+    watchSelectCombination(),
   ];
 };
 

@@ -10,6 +10,8 @@ import challengesReducer from './challenges/reducer';
 import labelsReducer from './labels/reducer';
 import questionsReducer from './questions/reducer';
 import appSettingsReducer from './appSettings/reducer';
+import combinationsReducer from './combinations/reducer';
+import measuresReducer from './measures/reducer';
 
 export default combineReducers({
   [stateKeys.MANIFEST]: manifestReducer,
@@ -22,4 +24,6 @@ export default combineReducers({
   [stateKeys.QUESTIONS]: questionsReducer,
   [stateKeys.LABELS]: labelsReducer,
   [stateKeys.AppSettings]: appSettingsReducer,
+  [stateKeys.COMBINATIONS]: combinationsReducer,
+  [stateKeys.MEASURES]: measuresReducer,
 });

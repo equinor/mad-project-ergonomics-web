@@ -32,7 +32,9 @@ export const stateKeys = {
   CHALLENGES: 'challenges',
   QUESTIONS: 'questions',
   LABELS: 'labels',
-  AppSettings: 'AppSettings'
+  AppSettings: 'AppSettings',
+  COMBINATIONS: 'Combinations',
+  MEASURES: 'Measures'
 };
 
 export const toastMessages = {

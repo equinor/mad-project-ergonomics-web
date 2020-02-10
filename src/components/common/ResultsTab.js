@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import * as PropTypes from 'prop-types';
 import { Button, Typography } from '@equinor/eds-core-react';
-import iconPlaceholderCircle from '../../../resources/images/simba.svg';
 import {
   getActiveTab,
   getMeasuresModalIsShowing,
@@ -56,21 +55,6 @@ const PaddingContainer = styled.div`
 
   flex-direction: column;
   display: flex;
-`;
-
-const PillContainer = styled.span`
-
-  justify-content: ${props => {
-  return props.center ? 'center' : 'space-between';
-}};
-
-  font-family: Equinor,sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #007079;
-
 `;
 
 const StatusPill = styled.div`
@@ -163,13 +147,7 @@ const renderTableRow = (combination, onClick) => {
         {getText(combination) || getPlaceholderText(combination) || 'Ingen beskrivelse'}
       </TableData>
       <TableData>
-        {combination.measures && combination.measures.map(measureCard => {
-          return <PillContainer>
-            <img src={iconPlaceholderCircle} alt={'measure'}/>
-            {getText(measureCard) || getPlaceholderText(measureCard) || 'Mangler navn på tiltak'}
-            <div/>
-          </PillContainer>;
-        })}
+        <p>#{combination.measures && combination.measures.length ? combination.measures.length : '0'}</p>
       </TableData>
     </TableRow>
   );
@@ -278,7 +256,7 @@ class ResultsTab extends Component {
 
 
   render() {
-    const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Tiltakskort',];
+    const tableHeaders = ['Svarkombinasjoner', 'Risiko', 'Beskrivelse av konsekvens', 'Antall Tiltakskort',];
     const {
       resultsModalIsShowing,
       measuresModalIsShowing,
@@ -303,15 +281,14 @@ class ResultsTab extends Component {
     } = this.props;
 
     const combinationModalTopBar = () => <ModalTopBar>
-      <Typography variant={'h2'}>Rediger Resultat
-        | {getText(selectedChallenge) || getPlaceholderText(selectedChallenge)}</Typography>
+      <Typography variant={'h2'}>{`Rediger Resultat
+        for "${getText(selectedChallenge) || getPlaceholderText(selectedChallenge)}"`}</Typography>
       <Button variant="ghost" onClick={() => hideResultsModal()}>Done</Button>
     </ModalTopBar>;
 
     const getQuestionsSection = () => <div>
       <Typography
-        variant={'h3'}>{selectedCombination.keyNumber} ({selectedCombination.answers ? selectedCombination.answers.map(a => a.id)
-        .toString() : 'ingen svar'})</Typography>
+        variant={'h3'}>{selectedCombination.keyNumber}</Typography>
       <hr/>
       {questions && questions.map((question, index) => {
         return <div>
@@ -320,7 +297,7 @@ class ResultsTab extends Component {
             return (<AnswerGroup key={answer.id}>
               <Radio checked={answer.isSelected}>{alphas[answerIndex]}</Radio>
               <AnswerText selected={answer.isSelected} variant={'ghost'}>
-                ({answer.id}) {getText(answer) || getPlaceholderText(answer)}
+                {getText(answer) || getPlaceholderText(answer)}
               </AnswerText>
             </AnswerGroup>);
           })}
@@ -360,12 +337,19 @@ class ResultsTab extends Component {
               onClick={() => {
                 fetchMeasures();
                 showMeasuresModal();
-              }}>+ Legg til tiltak</Button>
+              }}>+ Legg til eller fjern tiltak</Button>
+      <hr/>
       {selectedCombination.measures && selectedCombination.measures.map(measure => {
-        return <Button variant={'ghost'}>
-          <img src={measure.graphic} alt={''}/>
-          {getText(measure) || getPlaceholderText(measure) || 'No Title'}
-        </Button>;
+        return <div style={{
+          display: 'flex',
+          paddingBottom: 12,
+          borderBottom: '1px solid #E6E6E6',
+          marginBottom: '10px'
+        }}>
+          <ImageDrop parentEntity={measure}/>
+          <p
+            style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
+        </div>;
       })}
     </div>;
 
@@ -393,11 +377,17 @@ class ResultsTab extends Component {
             {measures.length > 0 && measures
               .map(measure => {
                 const measureIsAdded = selectedCombination.measures.findIndex(m => m.id === measure.id) !== -1;
-                return <div>
-                  <p>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
-                  <input type={'checkbox'} checked={measureIsAdded}
+                return <div style={{
+                  display: 'flex',
+                  paddingBottom: 12,
+                  borderBottom: '1px solid #E6E6E6',
+                  marginBottom: '10px'
+                }}>
+                  <input style={{ marginRight: 12 }} type={'checkbox'} checked={measureIsAdded}
                          onChange={(e) => e.target.checked ? addMeasure(measure, selectedCombination.id) : removeMeasure(measure, selectedCombination.id)}/>
                   <ImageDrop parentEntity={measure}/>
+                  <p
+                    style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
                 </div>;
               })}
           </div>

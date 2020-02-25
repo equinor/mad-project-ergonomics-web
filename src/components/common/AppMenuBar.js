@@ -10,6 +10,7 @@ const MenuBar = styled.div`
   background: white;
   border-bottom: 2px solid #F7F7F7;
   padding-left: 2em;
+  margin-bottom: 32px;
 `;
 
 const MenuBarButton = styled.button`

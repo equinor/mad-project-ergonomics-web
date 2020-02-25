@@ -1,10 +1,6 @@
-import {
-  applyMiddleware,
-  compose,
-  createStore,
-} from 'redux';
+import { applyMiddleware, compose, createStore, } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { createMigrate, persistStore, persistReducer } from 'redux-persist';
+import { createMigrate, persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import { routerMiddleware } from 'react-router-redux';
@@ -32,10 +28,10 @@ const persistConfig = {
   whitelist: [
     stateKeys.MANIFEST,
     stateKeys.VERSION,
-    stateKeys.LANGUAGES,
-    stateKeys.CHALLENGES,
-    stateKeys.QUESTIONS,
-    stateKeys.AppSettings
+    // stateKeys.LANGUAGES,
+    // stateKeys.CHALLENGES,
+    // stateKeys.QUESTIONS,
+    // stateKeys.AppSettings
   ],
   storage,
   migrate: createMigrate(manifest),

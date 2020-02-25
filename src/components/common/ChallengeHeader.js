@@ -3,22 +3,20 @@ import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { toast } from 'react-toastify';
+import { Button } from '@equinor/eds-core-react';
 import { getPlaceholderText, getText } from '../../utils/helpers';
 import IconDelete from '../../../resources/images/delete_24px.svg';
 import { getSelectedChallenge, getSomeChallengeIsSelected } from '../../store/challenges/reducer';
 import * as challengeActions from '../../store/challenges/actions';
 import ImageDrop from './ImageDrop';
-import { Button } from '@equinor/eds-core-react';
+import AppMenuBar from './AppMenuBar';
 
 
 const HeaderSection = styled.div`
   display:flex;
-  height:200px;
-  border-bottom: 1px solid #E6E6E6;
-  margin: 32px;
+  margin: 60px;
   justify-content: center;
   align-items: center;
-  padding-bottom: 18px;
 `;
 
 const ChallengeTitleTextBox = styled.div`
@@ -58,49 +56,6 @@ const ImagePlaceholderContainer = styled.div`
     `};
 `;
 
-const ButtonWithLabel = styled.button`
-  padding: 8px;
-  font-family: Equinor,sans-serif;
-  border: 0 solid white;
-  display: flex;
-  min-width: 48px;
-  border-radius: 4px;
-  margin:8px;
-
-  background-color: transparent;
-
-  align-items: center;
-  justify-content: flex-start;
-
-  ${props => {
-  return props.active && css`
-    background-color: #DEEDEE;
-  `;
-}};
-`;
-
-const DrawerLabel = styled.div`
-  font-family: Equinor,sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 24px;
-  display: flex;
-  letter-spacing: 0.7px;
-
-  color:#243746;
-
-  padding-left: 20px;
-  padding-right: 8px;
-  ${props => {
-  return props.active && css`
-    color:  #007079;
-  `;
-}};
-
-`;
-
-
 class ChallengeHeader extends Component {
   static propTypes = {
     someChallengeIsSelected: PropTypes.bool.isRequired,
@@ -118,28 +73,31 @@ class ChallengeHeader extends Component {
     const { selectedChallenge, someChallengeIsSelected, deleteChallenge, uploadChallengeImg, setChallengeTitle } = this.props;
     return <>
       {someChallengeIsSelected &&
-      <HeaderSection>
-        <ChallengeTitleTextBox>
-          <ImagePlaceholderContainer>
-            <ImageDrop uploadImg={uploadChallengeImg} parentEntity={selectedChallenge}/>
-          </ImagePlaceholderContainer>
+      <>
+        <HeaderSection>
+          <ChallengeTitleTextBox>
+            <ImagePlaceholderContainer>
+              <ImageDrop uploadImg={uploadChallengeImg} parentEntity={selectedChallenge}/>
+            </ImagePlaceholderContainer>
 
-          <ChallengeTitleTextInput
-            placeholder={getPlaceholderText(selectedChallenge) || 'Write some title here...'}
-            value={getText(selectedChallenge) || ''}
-            onChange={(change) => setChallengeTitle(selectedChallenge.id, change.target.value)}
-          />
-        </ChallengeTitleTextBox>
-        <Button variant={'ghost'}
-                onClick={() => {
-                  deleteChallenge(selectedChallenge.id);
-                  return toast(`Deleted Challenge "${getText(selectedChallenge)}"`);
-                }}
-        >
-          <img src={IconDelete} alt={'Delete Challenge'}/>
-          Slett utfordring
-        </Button>
-      </HeaderSection>
+            <ChallengeTitleTextInput
+              placeholder={getPlaceholderText(selectedChallenge) || 'Write some title here...'}
+              value={getText(selectedChallenge) || ''}
+              onChange={(change) => setChallengeTitle(selectedChallenge.id, change.target.value)}
+            />
+          </ChallengeTitleTextBox>
+          <Button variant={'ghost'}
+                  onClick={() => {
+                    deleteChallenge(selectedChallenge.id);
+                    return toast(`Deleted Challenge "${getText(selectedChallenge)}"`);
+                  }}
+          >
+            <img src={IconDelete} alt={'Delete Challenge'}/>
+            Slett utfordring
+          </Button>
+        </HeaderSection>
+        <AppMenuBar/>
+      </>
       }
     </>;
   }

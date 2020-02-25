@@ -4,6 +4,7 @@ import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { Button } from '@equinor/eds-core-react';
 import { getChallenges, getIsFetchingChallenges } from '../../store/challenges';
 import { getIsFetchingQuestions, getQuestions } from '../../store/questions';
 import { getIsFetchingLabels } from '../../store/labels';
@@ -12,7 +13,6 @@ import * as challengeActions from '../../store/challenges/actions';
 import * as questionActions from '../../store/questions/actions';
 import Question from './Question';
 import { getCombinations, getMissingCombinations } from '../../store/combinations';
-import { Button } from '@equinor/eds-core-react';
 
 
 const LoadingView = styled.div`
@@ -37,29 +37,6 @@ const MySortableContainer = SortableContainer(({ children }) => {
   return <ul>{children}</ul>;
 });
 
-// const Button = styled.button`
-//   border: 1px solid #007079;
-//   border-radius: 4px;
-//
-//   color: #FFFFFF;
-//   font-family: Equinor,sans-serif;
-//   font-style: normal;
-//   font-weight: 500;
-//   font-size: 14px;
-//   line-height: 16px;
-//   display: flex;
-//   align-items: center;
-//   text-align: center;
-//   letter-spacing: 1px;
-//
-//   background: #007079;
-//   box-sizing: border-box;
-//
-//   padding:16px 36px;
-//
-//   margin: 16px;
-// `;
-
 class ChallengeBody extends Component {
   static propTypes = {
     isFetching: PropTypes.bool.isRequired,
@@ -67,11 +44,12 @@ class ChallengeBody extends Component {
     createQuestion: PropTypes.func.isRequired,
     questions: PropTypes.array.isRequired,
     someChallengeIsSelected: PropTypes.bool.isRequired,
-    challenges: PropTypes.array.isRequired
+    challenges: PropTypes.array.isRequired,
+    combinations: PropTypes.array.isRequired,
   };
 
   render() {
-    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges, combinations, missingCombinations } = this.props;
+    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges, combinations } = this.props;
     if (isFetching) {
       return (
         <LoadingView>

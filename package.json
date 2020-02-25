@@ -2,9 +2,6 @@
   "name": "mad-project-ergonomics-web",
   "version": "0.1.0",
   "author": "MAD-Equinor",
-  "engines": {
-    "node": "13.6.0"
-  },
   "repository": "https://github.com/equinor/mad-project-ergonomics-web",
   "bugs": "https://equinor-sds-si.atlassian.net/secure/RapidBoard.jspa?projectKey=GDEE",
   "keywords": [
@@ -163,14 +160,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test:save && git add test-results.json"
     }
   },
   "lint-staged": {
     "*.js": [
       "eslint --fix",
       "stylelint './src/**/*.js'",
-      "npm run test:save",
       "git add"
     ]
   }

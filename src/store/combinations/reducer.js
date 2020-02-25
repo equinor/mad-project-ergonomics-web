@@ -121,3 +121,5 @@ export const getInvalidCombinations = state => state[stateKeys.COMBINATIONS].inv
 export const getAllPossibleCombinations = state => state[stateKeys.COMBINATIONS].allPossibleCombinations;
 
 export const getSelectedCombination = state => state[stateKeys.COMBINATIONS].selectedCombination;
+
+export const getIsFetchingCombinations = state => state[stateKeys.COMBINATIONS].isFetching;

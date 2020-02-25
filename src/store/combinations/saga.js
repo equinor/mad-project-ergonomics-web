@@ -74,7 +74,6 @@ function* fetchAllPossibleCombinations(action) {
 function* creatOrUpdateCombination(action) {
   try {
     const combination = action.payload;
-    console.log(combination);
     yield put(actions.creatOrUpdateCombinationRequested());
     const language = yield select(getCurrentLanguage);
     const selectedChallenge = yield select(getSelectedChallenge);

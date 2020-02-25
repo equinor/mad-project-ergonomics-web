@@ -14,9 +14,9 @@ import './favicon.ico'; // Tell webpack to load favicon.ico
 const wireUp = Application => (
   <AppContainer>
     <Provider store={store}>
-      {/* <PersistGate persistor={persistor} loading={<Loader />}> */}
-        <Application />
-      {/* </PersistGate> */}
+      <PersistGate persistor={persistor} loading={<Loader/>}>
+        <Application/>
+      </PersistGate>
     </Provider>
   </AppContainer>
 );

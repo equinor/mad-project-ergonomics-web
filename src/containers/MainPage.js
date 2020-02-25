@@ -8,7 +8,6 @@ import './SortableContainerStyle.css';
 import * as challengeActions from '../store/challenges/actions';
 import ChallengeDrawer from '../components/common/ChallengeDrawer';
 import ChallengeHeader from '../components/common/ChallengeHeader';
-import AppMenuBar from '../components/common/AppMenuBar';
 import ChallengeBody from '../components/common/ChallengeBody';
 import { getActiveTab } from '../store/appSettings/reducer';
 import ResultsTab from '../components/common/ResultsTab';
@@ -48,7 +47,6 @@ class MainPage extends Component {
       <Row>
         <ChallengeDrawer/>
         <Wrapper>
-          <AppMenuBar/>
           {this.props.activeTab === 'Questions' ?
             <QuestionsTab/>
             : <ResultsTab/>

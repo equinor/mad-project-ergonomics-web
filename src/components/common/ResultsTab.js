@@ -3,25 +3,32 @@ import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import * as PropTypes from 'prop-types';
 import { Button, Typography } from '@equinor/eds-core-react';
+import { Spinner } from 'react-bootstrap';
 import {
   getActiveTab,
   getMeasuresModalIsShowing,
   getResultsModalIsShowing
 } from '../../store/appSettings/reducer';
-import { getSelectedChallenge } from '../../store/challenges/reducer';
+import { getIsFetchingChallenges, getSelectedChallenge } from '../../store/challenges/reducer';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import * as combinationActions from '../../store/combinations/actions';
 import {
   getCombinations,
-  getInvalidCombinations,
+  getIsFetchingCombinations,
   getMissingCombinations,
   getSelectedCombination
 } from '../../store/combinations';
 import { getPlaceholderText, getText } from '../../utils/helpers';
-import { getAllQuestionsAreAnswered, getQuestions } from '../../store/questions';
+import {
+  getAllQuestionsAreAnswered,
+  getIsFetchingQuestions,
+  getQuestions
+} from '../../store/questions';
 import ImageDrop from './ImageDrop';
 import { getMeasures } from '../../store/measures';
 import * as measuresActions from '../../store/measures/actions';
+import ChallengeHeader from './ChallengeHeader';
+import { getIsFetchingLabels } from '../../store/labels';
 
 const MultilineInput = styled.textarea`
   border: 0 solid white;
@@ -133,6 +140,15 @@ display: grid;
   overflow-y: auto;
 `;
 
+const LoadingView = styled.div`
+  padding: 20vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+
 const renderTableRow = (combination, onClick) => {
   return (
     <TableRow onClick={() => onClick(combination)}>
@@ -220,7 +236,7 @@ class ResultsTab extends Component {
     questions: PropTypes.array.isRequired,
 
     missingCombinations: PropTypes.array.isRequired,
-    invalidCombinations: PropTypes.array.isRequired,
+    // invalidCombinations: PropTypes.array.isRequired,
 
     combinations: PropTypes.array.isRequired,
     selectedCombination: PropTypes.array.isRequired,
@@ -233,12 +249,13 @@ class ResultsTab extends Component {
     // Actions | Combinations
     selectCombination: PropTypes.func.isRequired,
 
-    showResultsModal: PropTypes.func.isRequired,
     hideResultsModal: PropTypes.func.isRequired,
 
     createOrUpdateCombination: PropTypes.func.isRequired,
     setSelectedCombinationText: PropTypes.func.isRequired,
     uploadCombinationImg: PropTypes.func.isRequired,
+
+    isFetching: PropTypes.bool.isRequired,
 
     // Actions | Measures
     fetchMeasures: PropTypes.func.isRequired,
@@ -250,9 +267,6 @@ class ResultsTab extends Component {
     removeMeasure: PropTypes.func.isRequired,
 
   };
-  state = {
-    showResultsModal: false
-  };
 
 
   render() {
@@ -261,14 +275,13 @@ class ResultsTab extends Component {
       resultsModalIsShowing,
       measuresModalIsShowing,
       selectedChallenge,
-      showResultsModal,
       hideResultsModal,
       showMeasuresModal,
       hideMeasuresModal,
       combinations,
       questions,
       missingCombinations,
-      invalidCombinations,
+      isFetching,
       selectedCombination,
       selectCombination,
       createOrUpdateCombination,
@@ -395,41 +408,44 @@ class ResultsTab extends Component {
       </ModalWrapper>;
     }
 
-    return (<>
-        <PaddingContainer>
-          <MissingCombinationsSection>
-            {missingCombinations.length > 0 &&
-            <div>
-              <h2>Resterende Kombinasjoner ({missingCombinations.length})</h2>
-              <p>Klikk på en kombinasjon for å legge den til.</p>
+    return (
+      <>
+        <ChallengeHeader/>
+        {isFetching ?
+          <LoadingView>
+            <Spinner animation={'grow'}/>
+            <p>Loading...</p>
+          </LoadingView> :
+          <PaddingContainer>
+            <MissingCombinationsSection>
+              {missingCombinations.length > 0 &&
+              <div>
+                <h2>Resterende Kombinasjoner ({missingCombinations.length})</h2>
+                <p>Klikk på en kombinasjon for å legge den til.</p>
 
-              <PillGrid>
-                {missingCombinations.map(combination => {
-                  return <Button variant={'ghost'} onClick={() => {
-                    createOrUpdateCombination(combination);
-                  }}>
-                    {combination.keyNumber}
-                  </Button>;
-                })}
-              </PillGrid>
-            </div>
+                <PillGrid>
+                  {missingCombinations.map(combination => {
+                    return <Button variant={'ghost'} onClick={() => {
+                      createOrUpdateCombination(combination);
+                    }}>
+                      {combination.keyNumber}
+                    </Button>;
+                  })}
+                </PillGrid>
+              </div>
+              }
+            </MissingCombinationsSection>
+
+            <Typography variant="h3">Kombinasjoner</Typography>
+            {combinations.length > 0 ?
+              renderTable(tableHeaders, combinations, (combination) => {
+                selectCombination(combination);
+              })
+              :
+              <p> {selectedChallenge ? 'Ingen kombinasjoner for valgt utfordring' : 'Velg en utfordring'}</p>
             }
-          </MissingCombinationsSection>
-
-          {invalidCombinations.length > 0 && <>
-            <Typography variant="h3">Ugyldige Kombinasjoner</Typography>
-            {renderTable(tableHeaders, combinations, () => showResultsModal())}</>
-          }
-          <Typography variant="h3">Kombinasjoner</Typography>
-          {combinations.length > 0 ?
-            renderTable(tableHeaders, combinations, (combination) => {
-              selectCombination(combination);
-            })
-            :
-            <p> {selectedChallenge ? 'Ingen kombinasjoner for valgt utfordring' : 'Velg en utfordring'}</p>
-          }
-        </PaddingContainer>
-
+          </PaddingContainer>
+        }
         {resultsModalIsShowing && renderCombinationModal()}
         {measuresModalIsShowing && renderMeasuresModal()}
       </>
@@ -445,15 +461,14 @@ const mapStateToProps = (state) => ({
   measuresModalIsShowing: getMeasuresModalIsShowing(state),
   combinations: getCombinations(state),
   missingCombinations: getMissingCombinations(state),
-  invalidCombinations: getInvalidCombinations(state),
   allQuestionsAreAnswered: getAllQuestionsAreAnswered(state),
   selectedCombination: getSelectedCombination(state),
   measures: getMeasures(state),
+  isFetching: getIsFetchingChallenges(state) || getIsFetchingQuestions(state) || getIsFetchingLabels(state) || getIsFetchingCombinations(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchMeasures: () => dispatch(measuresActions.fetchMeasures()),
-  showResultsModal: () => dispatch(appSettingsActions.showResultsModal()),
   hideResultsModal: () => dispatch(appSettingsActions.hideResultsModal()),
   showMeasuresModal: () => dispatch(appSettingsActions.showMeasuresModal()),
   hideMeasuresModal: () => dispatch(appSettingsActions.hideMeasuresModal()),

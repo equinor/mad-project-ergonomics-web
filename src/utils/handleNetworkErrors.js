@@ -6,12 +6,15 @@ const notPermissionToViewMessage = 'Your user does not have permission to view t
 const genericErrorMessage = 'An error happened';
 const processingErrorMessage = 'The API is having trouble processing this request.';
 
-export default function handelError(ex) {
+export default function handleError(ex) {
   // eslint-disable-next-line no-console
   console.log({ ex });
   if (!ex) {
     addToast({ text: genericErrorMessage, type: ToastTypes.ERROR });
     return;
+  }
+  if (!ex.status) {
+    addToast({ text: ex.toString(), type: ToastTypes.ERROR });
   }
   if (ex.status === 400) {
     addToast({ text: invalidRequestMessage, type: ToastTypes.ERROR });

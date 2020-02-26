@@ -34,28 +34,12 @@ function acquireToken(resource) {
 
 export const getSignedInUser = () => authContext.getCachedUser();
 
-export function isAuthenticated() {
-  const user = authContext.getCachedUser();
-  if (!user) return Promise.reject('No user');
-  const idToken = authContext.getCachedToken(authContext.config.loginResource);
-  if (!idToken) return Promise.reject('No id token');
-  return Promise.resolve(idToken);
-}
-
 export function authorize(resourceId) {
   const resource = getResource(resourceId);
   if (!resource) {
     return Promise.reject(`No resource configured for '${resourceId}'`);
   }
-  return isAuthenticated()
-    .then(
-      () => {
-        return acquireToken(resource.AzureADResourceId);
-      },
-      (ex) => {
-        return Promise.reject(ex);
-      },
-    );
+  return acquireToken(resource.AzureADResourceId);
 }
 
 export function handleCallback(hash) {

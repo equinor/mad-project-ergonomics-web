@@ -384,6 +384,7 @@ class ResultsTab extends Component {
         <Modal size={'small'}>
           <ModalTopBar>
             <Typography variant={'h2'}>Tiltak</Typography>
+            <Button variant="contained" onClick={() => hideMeasuresModal()}>Admin</Button>
             <Button variant="contained" onClick={() => hideMeasuresModal()}>Done</Button>
           </ModalTopBar>
           <div style={{ overflowY: 'auto' }}>
@@ -394,13 +395,17 @@ class ResultsTab extends Component {
                   display: 'flex',
                   paddingBottom: 12,
                   borderBottom: '1px solid #E6E6E6',
-                  marginBottom: '10px'
+                  marginBottom: '10px',
+                  justifyContent: 'space-between'
+
                 }}>
-                  <input style={{ marginRight: 12 }} type={'checkbox'} checked={measureIsAdded}
-                         onChange={(e) => e.target.checked ? addMeasure(measure, selectedCombination.id) : removeMeasure(measure, selectedCombination.id)}/>
-                  <ImageDrop parentEntity={measure}/>
-                  <p
-                    style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
+                  <div style={{ display: 'flex' }}>
+                    <input style={{ marginRight: 12 }} type={'checkbox'} checked={measureIsAdded}
+                           onChange={(e) => e.target.checked ? addMeasure(measure, selectedCombination.id) : removeMeasure(measure, selectedCombination.id)}/>
+                    <ImageDrop parentEntity={measure}/>
+                  </div>
+                  <p style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
+                  {/* <Button variant="contained" onClick={() => hideMeasuresModal()}>Edit</Button> */}
                 </div>;
               })}
           </div>

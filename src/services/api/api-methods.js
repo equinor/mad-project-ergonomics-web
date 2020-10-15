@@ -51,6 +51,7 @@ export const uploadImage = (parentEntity, id, image) => postImage(`/Graphics/${p
 export const uploadChallengeImage = ({ challengeId, image }) => uploadImage('Challenges', challengeId, image);
 export const uploadAnswerImage = ({ answerId, image }) => uploadImage('Answers', answerId, image);
 export const uploadCombinationImage = ({ combinationId, image }) => uploadImage('Combinations', combinationId, image);
+export const uploadMeasureImage = ({ measureId, image }) => uploadImage('Measures', measureId, image);
 
 // /ReOrdering things
 export const orderChallenges = (challenges) => submitDataWithLanguage(`/Challenges/ordering`, challenges);
@@ -87,6 +88,7 @@ export const updateChallengeText = ({ challengeId, text, languageCode }) => crea
 export const updateQuestionText = ({ questionId, text, languageCode }) => createOrUpdateTranslation('Questions', questionId, languageCode, text);
 export const updateAnswerText = ({ answerId, text, languageCode }) => createOrUpdateTranslation('Answers', answerId, languageCode, text);
 export const updateCombinationText = ({ combinationId, text, languageCode }) => createOrUpdateTranslation('Combinations', combinationId, languageCode, text);
+export const updateMeasureText = ({ measureId, text, languageCode }) => createOrUpdateTranslation('Measures', measureId, languageCode, text);
 
 export const patchLanguage = (languageCode, id, code, name) => submitData(`/Languages/${id}`, {
   id,

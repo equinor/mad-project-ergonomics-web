@@ -3,67 +3,65 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.css';
-import { cloneDeep } from 'lodash';
+import ReactMarkdown from 'react-markdown/with-html';
 import './SortableContainerStyle.css';
 import ImageDrop from '../components/common/ImageDrop';
-import { getPlaceholderText, getText } from '../utils/helpers';
+import { getText } from '../utils/helpers';
 import { getMeasures } from '../store/measures';
 import * as measuresActions from '../store/measures/actions';
 import { getCurrentLanguage } from '../store/languages';
 
+
 const Wrapper = styled.div`
-  padding:24px;
   flex: 1;
+  padding:24px;
+`;
+const Button = styled.button`
+  border-radius: 10px;
+  width: 80px;
+  height: 40px;
+  border-width: 0;
+  background-color:${props => props.danger ? '#ff9d9d' : null}
 `;
 
 class Measures extends Component {
   static propTypes = {
     fetchMeasures: PropTypes.func.isRequired,
-    measures: PropTypes.arrayOf(PropTypes.object),
+    history: PropTypes.object.isRequired,
+    measures: PropTypes.arrayOf(PropTypes.object).isRequired,
     uploadImg: PropTypes.func.isRequired,
-    updateMeasureText: PropTypes.func.isRequired,
-    language: PropTypes.object.isRequired,
+    newMeasure: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    measures: []
-  };
-
-  state = { filter: '', measures: [] };
+  state = { filter: '' };
 
   componentDidMount() {
     this.props.fetchMeasures();
   }
 
-  timer = {};
-  updateText(text, measure, language) {
-    const languageCode = language.code;
-    const newMeasures = cloneDeep(this.state.measures);
-    if (this.timer && this.timer[measure.id]) {
-      // If timer exists, stop the old one
-      clearTimeout(this.timer[measure.id]);
-    }
-    newMeasures[measure.id] = { measure };
-    newMeasures[measure.id].backgroundColor = 'orange';
-    this.setState({
-      measures: newMeasures
-    });
-    this.timer[measure.id] = setTimeout(() => {
-      newMeasures[measure.id].backgroundColor = null;
-      this.setState({
-        measures: newMeasures
-      });
-      this.props.updateMeasureText(measure.id, text, languageCode);
-    }, 2000);
-  }
-
   render() {
-    const { measures, uploadImg, language } = this.props;
+    const { measures, uploadImg } = this.props;
     if (!measures.length && measures.length > 0) {
-      return <div><p>No measures</p></div>;
+      return <Wrapper>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <h1>No measures</h1>
+          <Button
+            onClick={() => {
+              this.props.newMeasure((measure) => this.props.history.push(`measure/${measure.id}`));
+            }}>Opprett
+            tiltakskort</Button>
+        </div>
+      </Wrapper>;
     }
     return <Wrapper>
-      <h1>Measures</h1>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <h1>Measures</h1>
+        <Button
+          onClick={() => {
+            this.props.newMeasure((measure) => this.props.history.push(`measure/${measure.id}`));
+          }}>Opprett
+          tiltakskort</Button>
+      </div>
       <label htmlFor="filter">
         <input id={'filter'} type="text" placeholder={'Filter'} value={this.state.filter}
                onChange={(e) => this.setState({ filter: e.target.value })}/>
@@ -76,30 +74,35 @@ class Measures extends Component {
               .includes(`${this.state.filter}`.toLowerCase())
           )
           .map(measure => {
-            return <div style={{
-              display: 'flex',
-              paddingBottom: 12,
-              borderBottom: '1px solid #E6E6E6',
-              marginBottom: '10px',
-              justifyContent: 'space-between',
-            }}>
-              <p style={{ margin: 'auto', padding: 12 }}>{measure.id}</p>
+            return <div
+              key={measure.id}
+              style={{
+                borderBottom: '1px solid #E6E6E6',
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '10px',
+              }}>
+              <p style={{ padding: 12 }}>{measure.id}</p>
               <ImageDrop uploadImg={uploadImg} parentEntity={measure}/>
-              <textarea
+              <div style={{ flex: 1, marginLeft: 12, marginRight: 12 }}>
+                <ReactMarkdown
+                  source={getText(measure)}
+                  escapeHtml={false}
+                />
+              </div>
+
+              <button
                 style={{
-                  flex: 1,
-                  marginLeft: 12,
-                  marginRight: 12,
-                  backgroundColor: !getText(measure) && '#F7F7F7'
+                  backgroundColor: '#00717A',
+                  borderRadius: 10,
+                  borderWidth: 0,
+                  color: 'white',
+                  height: 40,
+                  width: 80,
                 }}
-                onChange={(e) => this.updateText(e.target.value, measure, language)}
-                placeholder={getPlaceholderText(measure)}>{getText(measure)}</textarea>
-              <div style={{
-                borderRadius: 20,
-                width: 40,
-                height: 40,
-                backgroundColor: !!this.state.measures[measure.id] && this.state.measures[measure.id].backgroundColor || '#00717A'
-              }}/>
+                onClick={(() => this.props.history.push(`measure/${measure.id}`))}
+              >Edit
+              </button>
             </div>;
           })}
       </div>
@@ -109,8 +112,8 @@ class Measures extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  language: getCurrentLanguage(state),
   measures: getMeasures(state),
-  language: getCurrentLanguage(state)
 });
 
 const mapDispatchToProps = dispatch => {
@@ -125,6 +128,7 @@ const mapDispatchToProps = dispatch => {
       newText,
       languageCode
     })),
+    newMeasure: (callback) => dispatch(measuresActions.createMeasure({ callback }))
   };
 };
 

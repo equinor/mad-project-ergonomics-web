@@ -16,6 +16,36 @@ function* getMeasures() {
   }
 }
 
+function* deleteMeasure(action) {
+  try {
+    const {measureId,callback} = action.payload;
+
+    yield put(actions.deleteMeasureRequested());
+    const response = yield call(api.deleteMeasure, measureId);
+    yield put(actions.deleteMeasureSucceeded(response));
+
+    if (callback) yield callback()
+  } catch (ex) {
+    yield call(handleError, ex);
+    yield put(actions.deleteMeasureFailed());
+  }
+}
+
+function* createMeasure(action) {
+  try {
+    const {callback} = action.payload;
+
+    yield put(actions.createMeasureRequested());
+    const response = yield call(api.newMeasure);
+    yield put(actions.createMeasureSucceeded(response));
+
+    if (callback) yield callback(response);
+  } catch (ex) {
+    yield call(handleError, ex);
+    yield put(actions.createMeasureFailed());
+  }
+}
+
 function* uploadMeasureImage(action) {
   try {
     const { measureId, image } = action.payload;
@@ -39,8 +69,7 @@ function* updateMeasureText(action) {
     });
     yield put(actions.updateMeasureTextSucceeded(response));
   } catch (e) {
-    console.log(e);
-    yield call(handleError, {message:'Failed to update text'});
+    yield call(handleError, { message: 'Failed to update text' });
     yield put(actions.updateMeasureTextFailed());
     // yield put(actions.fetchMeasures());
   }
@@ -48,6 +77,14 @@ function* updateMeasureText(action) {
 
 export default function* watchGetMeasures() {
   yield takeLatest(actions.fetchMeasures.toString(), getMeasures);
+}
+
+export function* watchDeleteMeasure() {
+  yield takeLatest(actions.deleteMeasure.toString(), deleteMeasure);
+}
+
+export function* watchCreateMeasure() {
+  yield takeLatest(actions.createMeasure.toString(), createMeasure);
 }
 
 export function* watchUploadMeasureImage() {

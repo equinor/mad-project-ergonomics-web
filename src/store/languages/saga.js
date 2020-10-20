@@ -6,6 +6,7 @@ import { fetchChallenges } from '../challenges/actions';
 import { fetchLabels } from '../labels/actions';
 import { getSelectedChallenge } from '../challenges/reducer';
 import { fetchQuestions } from '../questions/actions';
+import { fetchMeasures } from '../measures/actions';
 
 function* getLanguages() {
   try {
@@ -29,6 +30,7 @@ function* setCurrentLanguage(action) {
     if (selectedChallenge && selectedChallenge.id) {
       yield put(fetchQuestions(selectedChallenge.id));
     }
+    yield put(fetchMeasures());
   } catch (ex) {
     yield call(handleError, ex);
     yield put(actions.setLanguageFailed());

@@ -34,6 +34,8 @@ import {
   watchUploadCombinationImage
 } from './combinations/saga';
 import watchFetchMeasures, {
+  watchCreateMeasure,
+  watchDeleteMeasure,
   watchUpdateMeasureText,
   watchUploadMeasureImage
 } from './measures/saga';
@@ -70,6 +72,8 @@ const root = function* rootSaga() {
     watchSetSelectedCombinationText(),
     watchAddMeasureToCombination(),
     watchFetchMeasures(),
+    watchDeleteMeasure(),
+    watchCreateMeasure(),
     watchUploadMeasureImage(),
     watchUpdateMeasureText(),
     watchRemoveMeasureFromCombination(),

@@ -6,6 +6,7 @@ import MDEditor from '@uiw/react-md-editor';
 import _ from 'lodash';
 import ReactMarkdown from 'react-markdown/with-html';
 import { toast, ToastContainer } from 'react-toastify';
+import { Button } from '@equinor/eds-core-react';
 import { getMeasures } from '../store/measures';
 import { getCurrentLanguage } from '../store/languages';
 import * as measuresActions from '../store/measures/actions';
@@ -14,14 +15,6 @@ import ImageDrop from '../components/common/ImageDrop';
 const Wrapper = styled.div`
   padding:24px;
   flex: 1;
-`;
-
-const Button = styled.button`
-  border-radius: 10px;
-  width: 80px;
-  height: 40px;
-  border-width: 0;
-  background-color:${props => props.danger ? '#ff9d9d' : null}
 `;
 
 class EditMeasure extends Component {
@@ -85,7 +78,7 @@ class EditMeasure extends Component {
     if (!measure) {
       return <Wrapper>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Button onClick={() => this.props.history.goBack()}>Gå tilbake</Button>
+          <Button variant={'outlined'} onClick={() => this.props.history.push('/measures')}>Gå tilbake</Button>
           <h1>No measure {this.props.match.params.id}</h1>
           <div style={{
             borderRadius: 10,
@@ -98,7 +91,6 @@ class EditMeasure extends Component {
         </div>
       </Wrapper>;
     }
-    const { id } = measure;
     let { currentTranslation } = measure;
     if (!currentTranslation) currentTranslation = { text: '' };
     const { text } = currentTranslation;
@@ -106,22 +98,22 @@ class EditMeasure extends Component {
     return (
       <Wrapper>
         <ToastContainer
-          // enableMultiContainer
           autoClose={2000}
           pauseOnHover={false}
           pauseOnFocusLoss={false}
           position={'bottom-right'}
-          // onClick={() => toast('Undooo it!')}
         />
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Button onClick={() => this.props.history.goBack()}>Gå tilbake</Button>
-          <h1>Edit measure {id}</h1>
-          <Button danger onClick={() => {
+          <Button variant={'outlined'} onClick={() => this.props.history.push('/measures')}>Gå tilbake</Button>
+          <h1>Edit measure</h1>
+          <Button variant="outlined" color="danger" onClick={() => {
             this.props.deleteMeasure(measure.id, () => {
               toast(`Slettet tiltak ${measure.id}`);
               setTimeout(() => this.props.history.goBack(), 2000);
             });
-          }}>Slett</Button>
+          }}>
+            Slett
+          </Button>
         </div>
         <hr/>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -173,7 +165,10 @@ const mapDispatchToProps = dispatch => {
       newText,
       languageCode
     })),
-    deleteMeasure: (measureId,callback) => dispatch(measuresActions.deleteMeasure({ measureId ,callback }))
+    deleteMeasure: (measureId, callback) => dispatch(measuresActions.deleteMeasure({
+      measureId,
+      callback
+    }))
   };
 };
 

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactMarkdown from 'react-markdown/with-html';
+import { Button } from '@equinor/eds-core-react';
 import './SortableContainerStyle.css';
 import ImageDrop from '../components/common/ImageDrop';
 import { getText } from '../utils/helpers';
@@ -15,13 +16,6 @@ import { getCurrentLanguage } from '../store/languages';
 const Wrapper = styled.div`
   flex: 1;
   padding:24px;
-`;
-const Button = styled.button`
-  border-radius: 10px;
-  width: 80px;
-  height: 40px;
-  border-width: 0;
-  background-color:${props => props.danger ? '#ff9d9d' : null}
 `;
 
 class Measures extends Component {
@@ -62,7 +56,7 @@ class Measures extends Component {
           }}>Opprett
           tiltakskort</Button>
       </div>
-      <label htmlFor="filter">
+      <label htmlFor="filter" style={{ paddingBottom:12}}>
         <input id={'filter'} type="text" placeholder={'Filter'} value={this.state.filter}
                onChange={(e) => this.setState({ filter: e.target.value })}/>
       </label>
@@ -80,9 +74,9 @@ class Measures extends Component {
                 borderBottom: '1px solid #E6E6E6',
                 display: 'flex',
                 justifyContent: 'space-between',
-                marginBottom: '10px',
+                paddingBottom:12,
+                paddingTop:12
               }}>
-              <p style={{ padding: 12 }}>{measure.id}</p>
               <ImageDrop uploadImg={uploadImg} parentEntity={measure}/>
               <div style={{ flex: 1, marginLeft: 12, marginRight: 12 }}>
                 <ReactMarkdown
@@ -91,18 +85,10 @@ class Measures extends Component {
                 />
               </div>
 
-              <button
-                style={{
-                  backgroundColor: '#00717A',
-                  borderRadius: 10,
-                  borderWidth: 0,
-                  color: 'white',
-                  height: 40,
-                  width: 80,
-                }}
+              <Button
                 onClick={(() => this.props.history.push(`measure/${measure.id}`))}
               >Edit
-              </button>
+              </Button>
             </div>;
           })}
       </div>

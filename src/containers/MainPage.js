@@ -42,14 +42,13 @@ class MainPage extends Component {
         autoClose={8000}
         pauseOnHover={false}
         pauseOnFocusLoss={false}
-        // onClick={() => toast('Undooo it!')}
       />
       <Row>
         <ChallengeDrawer/>
         <Wrapper>
           {this.props.activeTab === 'Questions' ?
             <QuestionsTab/>
-            : <ResultsTab/>
+            : <ResultsTab {...this.props} />
           }
         </Wrapper>
       </Row>

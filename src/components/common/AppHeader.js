@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { Button } from '@equinor/eds-core-react';
 import userIcon from '../../../resources/images/userIcon.svg';
 import { getAppVersion } from '../../settings';
 import { getCurrentLanguage, getLanguages } from '../../store/languages';
@@ -58,7 +59,8 @@ class AppHeader extends Component {
     languages: PropTypes.array.isRequired,
     fetchLanguages: PropTypes.func.isRequired,
     currentLanguage: PropTypes.object.isRequired,
-    setCurrentLanguage: PropTypes.func.isRequired
+    setCurrentLanguage: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -96,22 +98,16 @@ class AppHeader extends Component {
     const { languages, currentLanguage, setCurrentLanguage } = this.props;
     return (
       <div className="navbar navbar-dark navbar-expand-md app-header">
-        {/* <NavLink onClick={() => this.onNavigateHome()} className="link" to={'/'} exact> */}
-        {/*  <span className="navbar-brand"> */}
-        {/*    <div className="brand"> */}
-        {/*      <img className="brand-logo" alt="Equinor" src={brandLogo}/> */}
-        {/*    </div> */}
-        {/*  </span> */}
-        {/* </NavLink> */}
         <button className="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#header-menu" aria-controls="header-menu" aria-expanded="false">
           <span className="navbar-toggler-icon"/>
         </button>
         <div className="collapse navbar-collapse" id="header-menu">
-          <ul className="navbar-nav mr-auto">
-            <li><h1 style={{ fontSize: '18px', marginBottom: '0px', }}>Equinor Ergonomics Admin</h1>
-            </li>
-          </ul>
+          <Button variant={'ghost'} onClick={() => this.props.history.push('/')}>
+            <p style={{ fontSize: '18px', marginBottom: '0px', }}>
+              Equinor Ergonomics Admin
+            </p>
+          </Button>
           <ul className="navbar-nav ml-auto" style={{
             display: 'flex',
             flexDirection: 'row',

@@ -379,13 +379,17 @@ class ResultsTab extends Component {
       </ModalWrapper>;
     }
 
-    function renderMeasuresModal() {
+    function renderMeasuresModal(props) {
       return <ModalWrapper>
         <Modal size={'small'}>
           <ModalTopBar>
             <Typography variant={'h2'}>Tiltak</Typography>
-            <Button variant="contained" onClick={() => hideMeasuresModal()}>Admin</Button>
+            <div>
+            <Button style={{marginRight:8}} variant={'outlined'} onClick={() => {
+              props.history.push('/measures');
+            }}>Administrer Tiltakskort</Button>
             <Button variant="contained" onClick={() => hideMeasuresModal()}>Done</Button>
+            </div>
           </ModalTopBar>
           <div style={{ overflowY: 'auto' }}>
             {measures.length > 0 && measures
@@ -405,7 +409,6 @@ class ResultsTab extends Component {
                     <ImageDrop parentEntity={measure}/>
                   </div>
                   <p style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
-                  {/* <Button variant="contained" onClick={() => hideMeasuresModal()}>Edit</Button> */}
                 </div>;
               })}
           </div>
@@ -452,7 +455,7 @@ class ResultsTab extends Component {
           </PaddingContainer>
         }
         {resultsModalIsShowing && renderCombinationModal()}
-        {measuresModalIsShowing && renderMeasuresModal()}
+        {measuresModalIsShowing && renderMeasuresModal(this.props)}
       </>
     );
   }

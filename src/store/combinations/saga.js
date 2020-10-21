@@ -171,7 +171,6 @@ function* uploadCombinationImage(action) {
     yield put(actions.uploadCombinationImageRequested());
     const response = yield call(api.uploadCombinationImage, { combinationId, image });
     yield put(actions.uploadCombinationImageSucceeded(response));
-    // TODO: FETCH SOMETHING?
     const selectedChallenge = yield select(getSelectedChallenge);
     yield put(actions.fetchCombinations(selectedChallenge.id));
   } catch (e) {

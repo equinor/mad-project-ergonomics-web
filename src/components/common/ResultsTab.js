@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import * as PropTypes from 'prop-types';
 import { Button, Typography } from '@equinor/eds-core-react';
 import { Spinner } from 'react-bootstrap';
+import ReactMarkdown from 'react-markdown/with-html';
 import {
   getActiveTab,
   getMeasuresModalIsShowing,
@@ -360,8 +361,12 @@ class ResultsTab extends Component {
           marginBottom: '10px'
         }}>
           <ImageDrop parentEntity={measure}/>
-          <p
-            style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
+          <div style={{ flex: 1, marginLeft: 12, marginRight: 12 }}>
+            <ReactMarkdown
+              source={getText(measure)}
+              escapeHtml={false}
+            />
+          </div>
         </div>;
       })}
     </div>;
@@ -385,30 +390,35 @@ class ResultsTab extends Component {
           <ModalTopBar>
             <Typography variant={'h2'}>Tiltak</Typography>
             <div>
-            <Button style={{marginRight:8}} variant={'outlined'} onClick={() => {
-              props.history.push('/measures');
-            }}>Administrer Tiltakskort</Button>
-            <Button variant="contained" onClick={() => hideMeasuresModal()}>Done</Button>
+              <Button style={{ marginRight: 8 }} variant={'outlined'} onClick={() => {
+                props.history.push('/measures');
+              }}>Administrer Tiltakskort</Button>
+              <Button variant="contained" onClick={() => hideMeasuresModal()}>Done</Button>
             </div>
           </ModalTopBar>
           <div style={{ overflowY: 'auto' }}>
             {measures.length > 0 && measures
               .map(measure => {
-                const measureIsAdded = selectedCombination.measures.findIndex(m => m.id === measure.id) !== -1;
+                const measureIsAdded =
+                  selectedCombination &&
+                  selectedCombination.measures.findIndex(m => m.id === measure.id) !== -1;
                 return <div style={{
                   display: 'flex',
                   paddingBottom: 12,
                   borderBottom: '1px solid #E6E6E6',
                   marginBottom: '10px',
-                  justifyContent: 'space-between'
-
                 }}>
                   <div style={{ display: 'flex' }}>
-                    <input style={{ marginRight: 12 }} type={'checkbox'} checked={measureIsAdded}
+                    <input style={{ margin: 12 }} type={'checkbox'} checked={measureIsAdded}
                            onChange={(e) => e.target.checked ? addMeasure(measure, selectedCombination.id) : removeMeasure(measure, selectedCombination.id)}/>
                     <ImageDrop parentEntity={measure}/>
                   </div>
-                  <p style={{ marginLeft: 12 }}>{getText(measure) || getPlaceholderText(measure) || 'Tiltak mangler text'}</p>
+                  <div style={{ flex: 1, marginLeft: 12, marginRight: 12 }}>
+                    <ReactMarkdown
+                      source={getText(measure)}
+                      escapeHtml={false}
+                    />
+                  </div>
                 </div>;
               })}
           </div>

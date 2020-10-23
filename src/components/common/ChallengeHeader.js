@@ -10,6 +10,7 @@ import { getSelectedChallenge, getSomeChallengeIsSelected } from '../../store/ch
 import * as challengeActions from '../../store/challenges/actions';
 import ImageDrop from './ImageDrop';
 import AppMenuBar from './AppMenuBar';
+import { Toggle } from './Toggle';
 
 
 const HeaderSection = styled.div`
@@ -62,7 +63,8 @@ class ChallengeHeader extends Component {
     selectedChallenge: PropTypes.object,
     deleteChallenge: PropTypes.func.isRequired,
     uploadChallengeImg: PropTypes.func.isRequired,
-    setChallengeTitle: PropTypes.func.isRequired
+    setChallengeTitle: PropTypes.func.isRequired,
+    setPublished: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -86,6 +88,8 @@ class ChallengeHeader extends Component {
               onChange={(change) => setChallengeTitle(selectedChallenge.id, change.target.value)}
             />
           </ChallengeTitleTextBox>
+        </HeaderSection>
+        <HeaderSection>
           <Button variant={'ghost'}
                   onClick={() => {
                     deleteChallenge(selectedChallenge.id);
@@ -95,6 +99,13 @@ class ChallengeHeader extends Component {
             <img src={IconDelete} alt={'Delete Challenge'}/>
             Slett utfordring
           </Button>
+          <Toggle
+            labelOn={"Published"}
+            labelOff={"Draft"}
+            value={selectedChallenge.published}
+            onToggle={(published) => this.props.setPublished(selectedChallenge.id, published)}
+            key={`Toggle-${selectedChallenge.id}`}
+          />
         </HeaderSection>
         <AppMenuBar/>
       </>
@@ -113,6 +124,10 @@ const mapDispatchToProps = dispatch => ({
   setChallengeTitle: (challengeId, text) => dispatch(challengeActions.setChallengeTitle({
     challengeId,
     newChallengeText: text
+  })),
+  setPublished: (challengeId, published) => dispatch(challengeActions.setChallengePublished({
+    challengeId,
+    published
   })),
   uploadChallengeImg: (challengeId, image) => dispatch(challengeActions.uploadChallengeImage({
     challengeId,

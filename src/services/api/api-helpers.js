@@ -64,6 +64,7 @@ export const submitData = (path, data, method = 'POST', resource = config.defaul
         headers: {
           ...config.jsonHeaders,
           Authorization: `Bearer ${r}`,
+          UserLanguage: 'NO'
         },
       })
         .then((response) => {

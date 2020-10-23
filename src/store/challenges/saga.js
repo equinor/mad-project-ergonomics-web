@@ -73,6 +73,25 @@ function* setChallengeTitle(action) {
   }
 }
 
+function* setChallengePublished(action) {
+  yield delay(360);
+  try {
+    const { challengeId, published } = action.payload;
+    const language = yield select(getCurrentLanguage);
+    yield put(actions.setChallengePublishedRequested());
+    const response = yield call(api.updateChallengePublished, {
+      challengeId,
+      published,
+      languageCode: language.code,
+    });
+    yield put(actions.setChallengePublishedSucceeded(response));
+    yield put(actions.fetchChallenges())
+  } catch (err) {
+    yield call(handleError, err);
+    yield put(actions.setChallengePublishedFailed());
+  }
+}
+
 function* uploadChallengeImage(action) {
   try {
     const { challengeId, image } = action.payload;
@@ -124,6 +143,9 @@ export default function* watchFetchChallenges() {
 
 export function* watchCreateChallenge() {
   yield takeLatest(actions.createChallenge.toString(), createChallenge);
+}
+export function* watchSetChallengePublished() {
+  yield takeLatest(actions.setChallengePublished.toString(), setChallengePublished);
 }
 
 export function* watchDeleteChallenge() {

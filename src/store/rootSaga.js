@@ -33,7 +33,12 @@ import {
   watchSetSelectedCombinationText,
   watchUploadCombinationImage
 } from './combinations/saga';
-import watchFetchMeasures from './measures/saga';
+import watchFetchMeasures, {
+  watchCreateMeasure,
+  watchDeleteMeasure,
+  watchUpdateMeasureText,
+  watchUploadMeasureImage
+} from './measures/saga';
 import watchSetActiveTab from './appSettings/saga';
 
 const root = function* rootSaga() {
@@ -68,6 +73,10 @@ const root = function* rootSaga() {
     watchSetSelectedCombinationText(),
     watchAddMeasureToCombination(),
     watchFetchMeasures(),
+    watchDeleteMeasure(),
+    watchCreateMeasure(),
+    watchUploadMeasureImage(),
+    watchUpdateMeasureText(),
     watchRemoveMeasureFromCombination(),
     watchUploadCombinationImage(),
     watchSetActiveTab(),

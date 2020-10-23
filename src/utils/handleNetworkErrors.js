@@ -14,9 +14,8 @@ export default function handleError(ex) {
     return;
   }
   if (!ex.status) {
-    addToast({ text: ex.toString(), type: ToastTypes.ERROR });
-  }
-  if (ex.status === 400) {
+    addToast({ text: ex.message, type: ToastTypes.ERROR });
+  } else if (ex.status === 400) {
     addToast({ text: invalidRequestMessage, type: ToastTypes.ERROR });
   } else if (ex.status === 401) {
     addToast({ text: notAuthorizedMessage, type: ToastTypes.ERROR });

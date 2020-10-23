@@ -126,7 +126,8 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3"
   },
   "dependencies": {
-    "@equinor/eds-core-react": "0.0.1-alpha.10",
+    "@equinor/eds-core-react": "^0.6.2",
+    "@uiw/react-md-editor": "^1.14.4",
     "adal-angular": "^1.0.17",
     "array-move": "^2.2.2",
     "global": "^4.4.0",
@@ -142,6 +143,7 @@
     "react-dropzone": "^10.2.2",
     "react-icons": "^2.2.7",
     "react-loaders": "^3.0.1",
+    "react-markdown": "^4.3.1",
     "react-redux": "^5.1.2",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

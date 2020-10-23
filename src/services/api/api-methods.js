@@ -26,7 +26,7 @@ export const getChallenges = (language) => fetchDataWithLanguage(`/Challenges`, 
 export const getChallenge = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}`, language);
 export const getQuestions = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Questions`, language);
 export const getGraphic = (graphicId) => fetchData(`/Graphics/${graphicId}`, `Ergonomics`, true);
-export const getAllMeasures = ({ language }) => fetchDataWithLanguage(`/Measures`, language);
+export const getMeasures = ({ language }) => fetchDataWithLanguage('/Measures', language);
 
 // Combinations
 export const getCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations`, language);
@@ -35,7 +35,6 @@ export const getInvalidCombinations = ({ challengeId, language }) => fetchDataWi
 export const getCombinationResult = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/result`, language);
 export const getAllPossibleCombinations = ({ challengeId, language }) => fetchDataWithLanguage(`/Challenges/${challengeId}/Combinations/allCombinations`, language);
 
-export const getMeasures = ({ language }) => fetchDataWithLanguage('/Measures', language);
 // --------------------------------------------------------------------------------------------- //
 
 
@@ -45,12 +44,14 @@ export const getMeasures = ({ language }) => fetchDataWithLanguage('/Measures', 
 export const newChallenge = () => submitDataWithLanguage(`/Challenges`);
 export const newQuestion = (challengeId) => submitDataWithLanguage(`/Challenges/${challengeId}/Questions`);
 export const newAnswerAlternative = (questionId) => submitDataWithLanguage(`/Questions/${questionId}/Answers`);
+export const newMeasure = () => submitDataWithLanguage(`/Measures`);
 
 // GRAPHICS
 export const uploadImage = (parentEntity, id, image) => postImage(`/Graphics/${parentEntity}/${id}`, image);
 export const uploadChallengeImage = ({ challengeId, image }) => uploadImage('Challenges', challengeId, image);
 export const uploadAnswerImage = ({ answerId, image }) => uploadImage('Answers', answerId, image);
 export const uploadCombinationImage = ({ combinationId, image }) => uploadImage('Combinations', combinationId, image);
+export const uploadMeasureImage = ({ measureId, image }) => uploadImage('Measures', measureId, image);
 
 // /ReOrdering things
 export const orderChallenges = (challenges) => submitDataWithLanguage(`/Challenges/ordering`, challenges);
@@ -87,6 +88,7 @@ export const updateChallengeText = ({ challengeId, text, languageCode }) => crea
 export const updateQuestionText = ({ questionId, text, languageCode }) => createOrUpdateTranslation('Questions', questionId, languageCode, text);
 export const updateAnswerText = ({ answerId, text, languageCode }) => createOrUpdateTranslation('Answers', answerId, languageCode, text);
 export const updateCombinationText = ({ combinationId, text, languageCode }) => createOrUpdateTranslation('Combinations', combinationId, languageCode, text);
+export const updateMeasureText = ({ measureId, text, languageCode }) => createOrUpdateTranslation('Measures', measureId, languageCode, text);
 
 export const updateChallengePublished = ({ challengeId, published }) => submitData(`/Challenges/${challengeId}/published`, { published });
 
@@ -101,7 +103,6 @@ export const patchLanguage = (languageCode, id, code, name) => submitData(`/Lang
 // /////////////////////////////////////////////
 // PUT-requests
 // ////////////////////////////////////////////
-// Todo:Remove challengeId = 0 ....
 export const addMeasureToCombination = ({ combinationId, measureId }) =>
   submitData(`/Combinations/${combinationId}/Measures/${measureId}`, null, 'PUT');
 
@@ -114,5 +115,6 @@ export const deleteLanguage = (id) => submitData(`/Languages/${id}`, null, `DELE
 export const deleteAnswer = (id) => submitData(`/Answers/${id}`, null, `DELETE`);
 export const deleteQuestion = (id) => submitData(`/Questions/${id}`, null, `DELETE`);
 export const deleteChallenge = (id) => submitData(`/Challenges/${id}`, null, `DELETE`);
+export const deleteMeasure = (id) => submitData(`/Measures/${id}`, null, `DELETE`);
 export const removeMeasureFromCombination = ({ combinationId, measureId }) =>
   submitData(`/Combinations/${combinationId}/Measures/${measureId}`, null, 'DELETE');

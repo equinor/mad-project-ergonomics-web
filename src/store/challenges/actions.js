@@ -30,6 +30,11 @@ export const setChallengeTitleRequested = createAction('Challenges_TEXT/PATCH_RE
 export const setChallengeTitleSucceeded = createAction('Challenges_TEXT/PATCH_SUCCEEDED');
 export const setChallengeTitleFailed = createAction('Challenges_TEXT/PATCH_FAILED');
 
+export const setChallengePublished = createAction('setChallengePublished/PATCH');
+export const setChallengePublishedRequested = createAction('setChallengePublished/PATCH_REQUESTED');
+export const setChallengePublishedSucceeded = createAction('setChallengePublished/PATCH_SUCCEEDED');
+export const setChallengePublishedFailed = createAction('setChallengePublished/PATCH_FAILED');
+
 // IMAGE UPLOAD (Challenge)
 export const uploadChallengeImage = createAction('CHALLENGE_IMAGE');
 export const uploadChallengeImageRequested = createAction('CHALLENGE_IMAGE/POST_REQUESTED');

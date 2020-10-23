@@ -90,6 +90,8 @@ export const updateAnswerText = ({ answerId, text, languageCode }) => createOrUp
 export const updateCombinationText = ({ combinationId, text, languageCode }) => createOrUpdateTranslation('Combinations', combinationId, languageCode, text);
 export const updateMeasureText = ({ measureId, text, languageCode }) => createOrUpdateTranslation('Measures', measureId, languageCode, text);
 
+export const updateChallengePublished = ({ challengeId, published }) => submitData(`/Challenges/${challengeId}/published`, { published });
+
 export const patchLanguage = (languageCode, id, code, name) => submitData(`/Languages/${id}`, {
   id,
   code,

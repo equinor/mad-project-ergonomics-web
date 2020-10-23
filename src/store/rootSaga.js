@@ -5,7 +5,7 @@ import watchFetchChallenges, {
   watchCreateChallenge,
   watchDeleteChallenge,
   watchReorderChallenge,
-  watchSelectChallenge,
+  watchSelectChallenge, watchSetChallengePublished,
   watchSetChallengeTitle,
   watchUploadChallengeImage
 } from './challenges/saga';
@@ -49,6 +49,7 @@ const root = function* rootSaga() {
     watchSetCurrentLanguage(),
     watchFetchChallenges(),
     watchCreateChallenge(),
+    watchSetChallengePublished(),
     watchDeleteChallenge(),
     watchFetchQuestions(),
     watchCreateQuestion(),

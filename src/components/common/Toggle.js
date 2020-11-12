@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export function Toggle({ value, onToggle, labelOff, labelOn }) {
+export function Toggle({ value, onToggle, labelOff, labelOn, disabled }) {
   const [enabled, setEnabled] = useState(value);
   return <div>
     <button
+      disabled={disabled}
       onClick={() => {
         const nextVal = !enabled;
         onToggle(nextVal);
         setEnabled(nextVal);
       }}
       style={{
+        opacity: disabled ? 0.5 : 1,
         backgroundColor: 'white',
         border: 'none',
         display: 'flex',
@@ -56,6 +58,7 @@ Toggle.propTypes = {
   value: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
   labelOff: PropTypes.string,
-  labelOn: PropTypes.string
+  labelOn: PropTypes.string,
+  disabled: PropTypes.bool
 };
-Toggle.defaultProps = { labelOff: null, labelOn: null };
+Toggle.defaultProps = { labelOff: null, labelOn: null, disabled: false };

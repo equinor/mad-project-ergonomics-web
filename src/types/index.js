@@ -34,7 +34,8 @@ export const stateKeys = {
   LABELS: 'labels',
   AppSettings: 'AppSettings',
   COMBINATIONS: 'Combinations',
-  MEASURES: 'Measures'
+  MEASURES: 'Measures',
+  CATEGORIES: 'Categories'
 };
 
 export const toastMessages = {

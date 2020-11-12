@@ -40,6 +40,10 @@ import watchFetchMeasures, {
   watchUploadMeasureImage
 } from './measures/saga';
 import watchSetActiveTab from './appSettings/saga';
+import watchFetchCategories, {
+  watchCreateCategory, watchDeleteCategory, watchReorderCategory, watchSelectCategory,
+  watchSetCategoryPublished, watchSetCategoryTitle, watchUploadCategoryImage
+} from './categories/saga';
 
 const root = function* rootSaga() {
   yield [
@@ -47,9 +51,13 @@ const root = function* rootSaga() {
     watchAuthentication(),
     watchGetLanguages(),
     watchSetCurrentLanguage(),
+    watchFetchCategories(),
     watchFetchChallenges(),
+    watchCreateCategory(),
     watchCreateChallenge(),
+    watchSetCategoryPublished(),
     watchSetChallengePublished(),
+    watchDeleteCategory(),
     watchDeleteChallenge(),
     watchFetchQuestions(),
     watchCreateQuestion(),
@@ -59,11 +67,14 @@ const root = function* rootSaga() {
     watchReorderQuestion(),
     watchReorderAnswers(),
     watchGetLabels(),
+    watchSetCategoryTitle(),
     watchSetChallengeTitle(),
     watchUpdateQuestionText(),
     watchUpdateAnswerText(),
+    watchUploadCategoryImage(),
     watchUploadChallengeImage(),
     watchUploadAnswerImage(),
+    watchReorderCategory(),
     watchReorderChallenge(),
     watchFetchCombinations(),
     watchFetchMissingCombinations(),
@@ -80,6 +91,7 @@ const root = function* rootSaga() {
     watchRemoveMeasureFromCombination(),
     watchUploadCombinationImage(),
     watchSetActiveTab(),
+    watchSelectCategory(),
     watchSelectChallenge(),
     watchSelectCombination(),
   ];

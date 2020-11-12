@@ -4,9 +4,21 @@ import { stateKeys } from '../../types';
 
 export default handleActions(
   {
-    [actions.toggleDrawer]: state => ({
+    [actions.toggleChallengeDrawer]: state => ({
       ...state,
-      drawer: { isOpen: !state.drawer.isOpen }
+      challengeDrawer: { isOpen: !state.challengeDrawer.isOpen }
+    }),
+    [actions.toggleCategoryDrawer]: state => ({
+      ...state,
+      categoryDrawer: { isOpen: !state.categoryDrawer.isOpen }
+    }),
+    [actions.showEditCategory]: state => ({
+      ...state,
+      showEditCategory: true
+    }),
+    [actions.hideEditCategory]: state => ({
+      ...state,
+      showEditCategory: false
     }),
     [actions.setActiveTab]: (state, action) => ({
       ...state,
@@ -29,10 +41,21 @@ export default handleActions(
       measuresModalIsShowing: false,
     }),
   },
-  { drawer: { isOpen: true }, activeTab: 'Questions', resultsModalIsShowing: false, measuresModalIsShowing: false }
+  {
+    challengeDrawer: { isOpen: true },
+    categoryDrawer: { isOpen: true },
+    activeTab: 'Questions',
+    resultsModalIsShowing: false,
+    measuresModalIsShowing: false,
+    showEditCategory: false,
+  }
 );
 
-export const getDrawerIsOpen = state => state[stateKeys.AppSettings].drawer.isOpen;
+export const getChallengeDrawerIsOpen = state => state[stateKeys.AppSettings].challengeDrawer.isOpen;
+
+export const getCategoryDrawerIsOpen = state => state[stateKeys.AppSettings].categoryDrawer.isOpen;
+
+export const getShowEditCategory = state => state[stateKeys.AppSettings].showEditCategory;
 
 export const getActiveTab = state => state[stateKeys.AppSettings].activeTab;
 

@@ -86,6 +86,8 @@ class ChallengeBody extends Component {
         </QuestionView>
       );
     }
+    // Todo: If no category is selected -> Please select a category
+    // Todo: If there is no category to select... -> Please create a category
     return (<LoadingView>
       <h2> {challenges.length > 0 ? 'Please select or create a challenge' : '<- Please create a challenge'}</h2>
     </LoadingView>);

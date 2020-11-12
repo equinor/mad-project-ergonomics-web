@@ -1,2 +1,2 @@
 // selectors
-export { getDrawerIsOpen } from './reducer';
+export { getChallengeDrawerIsOpen } from './reducer';

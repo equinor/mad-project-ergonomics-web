@@ -1,7 +1,7 @@
 import { stateKeys } from '../../types';
 import reducer, {
   getActiveTab,
-  getDrawerIsOpen,
+  getChallengeDrawerIsOpen,
   getMeasuresModalIsShowing,
   getResultsModalIsShowing
 } from './reducer';
@@ -11,12 +11,12 @@ import {
   setActiveTab,
   showMeasuresModal,
   showResultsModal,
-  toggleDrawer
+  toggleChallengeDrawer
 } from '../appSettings/actions';
 
 
 const defaultState = {
-  drawer: { isOpen: true },
+  challengeDrawer: { isOpen: true },
   activeTab: 'Questions',
   resultsModalIsShowing: false,
   measuresModalIsShowing: false
@@ -31,22 +31,22 @@ describe('AppSettings actions, reducers and selectors', () => {
   });
 
   it('can toggle the drawer', () => {
-    const action = toggleDrawer();
+    const action = toggleChallengeDrawer();
 
-    expect(getDrawerIsOpen(state))
+    expect(getChallengeDrawerIsOpen(state))
       .toBe(true);
 
     state = {
       [stateKeys.AppSettings]: reducer(state.AppSettings, action),
     };
-    expect(getDrawerIsOpen(state))
+    expect(getChallengeDrawerIsOpen(state))
       .toBe(false);
 
     state = {
       [stateKeys.AppSettings]: reducer(state.AppSettings, action),
     };
 
-    expect(getDrawerIsOpen(state))
+    expect(getChallengeDrawerIsOpen(state))
       .toBe(true);
   });
 

@@ -13,6 +13,8 @@ import * as challengeActions from '../../store/challenges/actions';
 import * as questionActions from '../../store/questions/actions';
 import Question from './Question';
 import { getCombinations, getMissingCombinations } from '../../store/combinations';
+import { getSelectedCategory } from '../../store/categories/reducer';
+import { getCategories } from '../../store/categories';
 
 
 const LoadingView = styled.div`
@@ -46,10 +48,12 @@ class ChallengeBody extends Component {
     someChallengeIsSelected: PropTypes.bool.isRequired,
     challenges: PropTypes.array.isRequired,
     combinations: PropTypes.array.isRequired,
+    category: PropTypes.object, categories: PropTypes.array,
   };
+  static defaultProps = { category: null, categories: [] };
 
   render() {
-    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges, combinations } = this.props;
+    const { reorderQuestion, someChallengeIsSelected, isFetching, questions, createQuestion, challenges, combinations, category, categories } = this.props;
     if (isFetching) {
       return (
         <LoadingView>
@@ -86,11 +90,28 @@ class ChallengeBody extends Component {
         </QuestionView>
       );
     }
-    // Todo: If no category is selected -> Please select a category
-    // Todo: If there is no category to select... -> Please create a category
+    if (categories.length < 1) {
+      return (<LoadingView>
+        <h2>{'Please create a category'}</h2>
+      </LoadingView>);
+    }
+
+    if (!category) {
+      return (<LoadingView>
+        <h2>{'Please select a category'}</h2>
+      </LoadingView>);
+    }
+
+    if (challenges.length > 0) {
+      return (<LoadingView>
+        <h2> {'Please select or create a challenge'}</h2>
+      </LoadingView>);
+    }
+
     return (<LoadingView>
-      <h2> {challenges.length > 0 ? 'Please select or create a challenge' : '<- Please create a challenge'}</h2>
+      <h2> {'<- Please create a challenge'}</h2>
     </LoadingView>);
+
   }
 }
 
@@ -102,6 +123,8 @@ const mapStateToProps = (state) => ({
   someChallengeIsSelected: getSomeChallengeIsSelected(state),
   combinations: getCombinations(state),
   missingCombinations: getMissingCombinations(state),
+  category: getSelectedCategory(state),
+  categories: getCategories(state),
 });
 
 const mapDispatchToProps = dispatch => ({

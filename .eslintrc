@@ -6,11 +6,13 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "plugin:cypress/recommended"
   ],
   "plugins": [
     "react",
-    "jest"
+    "jest",
+    "cypress"
   ],
   "parserOptions": {
     "ecmaVersion": 6,

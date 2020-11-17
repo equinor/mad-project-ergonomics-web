@@ -4,7 +4,7 @@ import * as actions from './actions';
 import handleError from '../../utils/handleNetworkErrors';
 import { getCurrentLanguage } from '../languages';
 import { getCategories } from './reducer';
-import { fetchChallenges } from '../challenges/actions';
+import { fetchChallenges, unselectChallenge } from '../challenges/actions';
 
 function* fetchCategories() {
   try {
@@ -116,6 +116,7 @@ function* reorderCategory(action) {
 
 function* selectCategory() {
   try {
+    yield put(unselectChallenge())
     yield put(fetchChallenges());
   } catch (ex) {
     yield call(handleError, ex);

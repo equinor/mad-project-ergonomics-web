@@ -90,6 +90,13 @@ class ChallengeHeader extends Component {
           </ChallengeTitleTextBox>
         </HeaderSection>
         <HeaderSection>
+          <Toggle
+            labelOn={"Published"}
+            labelOff={"Draft"}
+            value={selectedChallenge.published}
+            onToggle={(published) => this.props.setPublished(selectedChallenge.id, published)}
+            key={`Toggle-${selectedChallenge.id}`}
+          />
           <Button variant={'ghost'}
                   onClick={() => {
                     deleteChallenge(selectedChallenge.id);
@@ -99,13 +106,6 @@ class ChallengeHeader extends Component {
             <img src={IconDelete} alt={'Delete Challenge'}/>
             Slett utfordring
           </Button>
-          <Toggle
-            labelOn={"Published"}
-            labelOff={"Draft"}
-            value={selectedChallenge.published}
-            onToggle={(published) => this.props.setPublished(selectedChallenge.id, published)}
-            key={`Toggle-${selectedChallenge.id}`}
-          />
         </HeaderSection>
         <AppMenuBar/>
       </>

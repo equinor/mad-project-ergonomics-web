@@ -101,6 +101,7 @@ export const updateMeasureText = ({ measureId, text, languageCode }) => createOr
 export const updateCategoryText = ({  categoryId, text, languageCode }) => createOrUpdateTranslation('Categories', categoryId, languageCode, text);
 
 export const updateChallengePublished = ({ challengeId, published }) => submitData(`/Challenges/${challengeId}/published`, { published });
+export const updateCategoryPublished = ({ categoryId, published }) => submitData(`/Categories/${categoryId}/published`, { published });
 
 export const patchLanguage = (languageCode, id, code, name) => submitData(`/Languages/${id}`, {
   id,

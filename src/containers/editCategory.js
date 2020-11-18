@@ -10,6 +10,7 @@ import ImageDrop from '../components/common/ImageDrop';
 import { getPlaceholderText, getText } from '../utils/helpers';
 import { getCategories } from '../store/categories';
 import IconDelete from '../../resources/images/delete_24px.svg';
+import { Toggle } from '../components/common/Toggle';
 
 const Wrapper = styled.div`
   padding:24px;
@@ -69,7 +70,8 @@ class EditCategory extends Component {
     uploadImg: PropTypes.func.isRequired,
     setCategoryTitle: PropTypes.func.isRequired,
     deleteCategory: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    setPublished: PropTypes.func.isRequired
   };
   static defaultProps = { categories: [] };
   state = { category: {}, loading: true, };
@@ -127,15 +129,13 @@ class EditCategory extends Component {
                src={IconDelete} alt={'Delete Category'}/>
           Slett kategori
         </Button>
-        {/* Todo: Check if we want to toggle publish-status on a category */}
-        {/* <Toggle */}
-        {/*  disabled */}
-        {/*  labelOn={'Published'} */}
-        {/*  labelOff={'Draft'} */}
-        {/*  value={!!category.published} */}
-        {/*  // onToggle={(published) => this.props.setPublished(selectedChallenge.id, published)} */}
-        {/*  // key={`Toggle-${selectedChallenge.id}`} */}
-        {/* /> */}
+        <Toggle
+          labelOn={'Published'}
+          labelOff={'Draft'}
+          value={!!category.published}
+          onToggle={(published) => this.props.setPublished(category.id, published)}
+          key={`Toggle-${category.id}`}
+        />
       </HeaderSection>
     </Wrapper>;
 
@@ -145,13 +145,11 @@ class EditCategory extends Component {
 
 const mapStateToProps = (state) => ({
   language: getCurrentLanguage(state),
-  // selectedCategory: getSelectedCategory(state),
   categories: getCategories(state),
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    // fetchMeasures: () => dispatch(measuresActions.fetchMeasures()),
     fetchCategories: () => dispatch(categoryActions.fetchCategories()),
     uploadImg: (categoryId, image) => dispatch(categoryActions.uploadCategoryImage({
       categoryId,
@@ -164,7 +162,11 @@ const mapDispatchToProps = dispatch => {
     deleteCategory: (categoryId, callback) => dispatch(categoryActions.deleteCategory({
       categoryId,
       callback
-    }))
+    })),
+    setPublished: (categoryId, published) => dispatch(categoryActions.setCategoryPublished({
+      categoryId,
+      published
+    })),
   };
 };
 

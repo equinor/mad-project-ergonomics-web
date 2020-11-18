@@ -216,5 +216,5 @@ export function* watchUploadCombinationImage() {
 }
 
 export function* watchSelectCombination() {
-  yield takeEvery(actions.selectCombination.toString(), selectCombination);
+  yield takeLatest(actions.selectCombination.toString(), selectCombination);
 }

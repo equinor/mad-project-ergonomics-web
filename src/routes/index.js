@@ -5,6 +5,7 @@ import { userRoles } from '../types';
 import Main from '../containers/MainPage';
 import Measures from '../containers/Measures';
 import EditMeasure from '../containers/editMeasure';
+import EditCategory from '../containers/editCategory';
 
 // TO PROTECT A ROUTE:
 // 1. wrap component with 'withAuthorization
@@ -20,5 +21,7 @@ export default () => (
            component={withAuthorization(withRouter(Measures), allowedRoles)}/>
     <Route exact path="/measure/:id"
            component={withAuthorization(withRouter(EditMeasure), allowedRoles)}/>
+    <Route exact path="/category/:id"
+           component={withAuthorization(withRouter(EditCategory), allowedRoles)}/>
   </Switch>
 );

@@ -22,6 +22,10 @@ export const getLanguages = () => fetchData('/Languages');
 export const getQuestionsForChallenge = (challengeId, language) =>
   fetchDataWithLanguage(`/Challenges/${challengeId}/Questions`, language);
 export const getChallenges = (language) => fetchDataWithLanguage(`/Challenges`, language);
+export const getChallengesInCategory = ({ language, categoryId }) => fetchDataWithLanguage(`/Categories/${categoryId}`, language);
+export const getCategories = (language) => fetchDataWithLanguage(`/Categories`, language);
+export const getCategory = ({ language, categoryId }) => fetchDataWithLanguage(`/Category${categoryId}`, language);
+
 
 export const getChallenge = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}`, language);
 export const getQuestions = (challengeId, language) => fetchDataWithLanguage(`/Challenges/${challengeId}/Questions`, language);
@@ -45,15 +49,20 @@ export const newChallenge = () => submitDataWithLanguage(`/Challenges`);
 export const newQuestion = (challengeId) => submitDataWithLanguage(`/Challenges/${challengeId}/Questions`);
 export const newAnswerAlternative = (questionId) => submitDataWithLanguage(`/Questions/${questionId}/Answers`);
 export const newMeasure = () => submitDataWithLanguage(`/Measures`);
+export const newCategory = () => submitDataWithLanguage(`/Categories`);
+
+export const addChallengeToCategory = ({categoryId,payload})=> submitDataWithLanguage(`/Categories/${categoryId}/Challenges`,payload);
 
 // GRAPHICS
 export const uploadImage = (parentEntity, id, image) => postImage(`/Graphics/${parentEntity}/${id}`, image);
+export const uploadCategoryImage = ({ categoryId, image }) => uploadImage('Categories', categoryId, image);
 export const uploadChallengeImage = ({ challengeId, image }) => uploadImage('Challenges', challengeId, image);
 export const uploadAnswerImage = ({ answerId, image }) => uploadImage('Answers', answerId, image);
 export const uploadCombinationImage = ({ combinationId, image }) => uploadImage('Combinations', combinationId, image);
 export const uploadMeasureImage = ({ measureId, image }) => uploadImage('Measures', measureId, image);
 
 // /ReOrdering things
+export const orderCategories = (categories) => submitDataWithLanguage(`/Categories/ordering`, categories);
 export const orderChallenges = (challenges) => submitDataWithLanguage(`/Challenges/ordering`, challenges);
 export const orderQuestions = (challengeId, questions) => submitDataWithLanguage(`/Challenges/${challengeId}/Questions/ordering`, questions);
 export const orderAnswers = (questionId, answers) => submitDataWithLanguage(`/Questions/${questionId}/Answers/ordering`, answers);
@@ -89,8 +98,10 @@ export const updateQuestionText = ({ questionId, text, languageCode }) => create
 export const updateAnswerText = ({ answerId, text, languageCode }) => createOrUpdateTranslation('Answers', answerId, languageCode, text);
 export const updateCombinationText = ({ combinationId, text, languageCode }) => createOrUpdateTranslation('Combinations', combinationId, languageCode, text);
 export const updateMeasureText = ({ measureId, text, languageCode }) => createOrUpdateTranslation('Measures', measureId, languageCode, text);
+export const updateCategoryText = ({  categoryId, text, languageCode }) => createOrUpdateTranslation('Categories', categoryId, languageCode, text);
 
 export const updateChallengePublished = ({ challengeId, published }) => submitData(`/Challenges/${challengeId}/published`, { published });
+export const updateCategoryPublished = ({ categoryId, published }) => submitData(`/Categories/${categoryId}/published`, { published });
 
 export const patchLanguage = (languageCode, id, code, name) => submitData(`/Languages/${id}`, {
   id,
@@ -116,5 +127,6 @@ export const deleteAnswer = (id) => submitData(`/Answers/${id}`, null, `DELETE`)
 export const deleteQuestion = (id) => submitData(`/Questions/${id}`, null, `DELETE`);
 export const deleteChallenge = (id) => submitData(`/Challenges/${id}`, null, `DELETE`);
 export const deleteMeasure = (id) => submitData(`/Measures/${id}`, null, `DELETE`);
+export const deleteCategory = (id) => submitData(`/Categories/${id}`, null, `DELETE`);
 export const removeMeasureFromCombination = ({ combinationId, measureId }) =>
   submitData(`/Combinations/${combinationId}/Measures/${measureId}`, null, 'DELETE');

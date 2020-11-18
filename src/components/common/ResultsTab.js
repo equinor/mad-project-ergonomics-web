@@ -425,7 +425,9 @@ class ResultsTab extends Component {
         </Modal>
       </ModalWrapper>;
     }
-
+    if(!selectedChallenge){
+      return null;
+    }
     return (
       <>
         <ChallengeHeader/>

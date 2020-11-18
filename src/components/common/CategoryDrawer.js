@@ -3,16 +3,17 @@ import { connect } from 'react-redux';
 import * as PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+import { Button } from '@equinor/eds-core-react';
 import IconCloseDrawer from '../../../resources/images/close_drawer.svg';
 import IconOpenDrawer from '../../../resources/images/open_drawer.svg';
 import IconAdd from '../../../resources/images/add_24px.svg';
 import IconDragNode from '../../../resources/images/dragNode.svg';
 import { getPlaceholderText, getText } from '../../utils/helpers';
-import { getChallenges } from '../../store/challenges';
-import * as challengeActions from '../../store/challenges/actions';
-import { getChallengeDrawerIsOpen } from '../../store/appSettings';
 import * as appSettingsActions from '../../store/appSettings/actions';
 import ImageDrop from './ImageDrop';
+import { getCategoryDrawerIsOpen } from '../../store/appSettings/reducer';
+import * as categoryActions from '../../store/categories/actions';
+import { getCategories } from '../../store/categories';
 
 const ToggleDrawerButton = styled.button`
   margin: 8px;
@@ -77,8 +78,8 @@ const DrawerLabel = styled.div`
 }};
 `;
 
-const SortableChallengeWrapper = SortableElement(({ challenge, renderMethod }) => {
-  return renderMethod(challenge);
+const SortableCategoryWrapper = SortableElement(({ category, renderMethod }) => {
+  return renderMethod(category);
 });
 
 const MySortableContainer = SortableContainer(({ children }) => {
@@ -88,44 +89,47 @@ const MySortableContainer = SortableContainer(({ children }) => {
 const DragHandle = SortableHandle(() => {
   return <div style={{ padding: 8, paddingLeft: 16, paddingRight: 16 }}>
     <img src={IconDragNode}
-         alt={'Drag handle for reordering challenges'}/>
+         alt={'Drag handle for reordering categories'}/>
   </div>;
 });
 
 
-class ChallengeDrawer extends Component {
+class CategoryDrawer extends Component {
   static propTypes = {
-    challenges: PropTypes.array.isRequired,
-    createChallenge: PropTypes.func.isRequired,
-    selectChallenge: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    createCategory: PropTypes.func.isRequired,
+    selectCategory: PropTypes.func.isRequired,
     drawerOpen: PropTypes.bool.isRequired,
     toggleDrawer: PropTypes.func.isRequired,
-    reorderChallenges: PropTypes.func.isRequired
+    reorderCategories: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
-
-  renderDrawerChallenge = challenge => {
-    return (
-      <DrawerAlternative key={`${challenge.id}`}
-                         active={challenge.isSelected}
-                         drawerOpen={this.props.drawerOpen}
-                         onClick={() => this.props.selectChallenge(challenge)}>
-        {this.props.drawerOpen && <DragHandle/>}
-        <ImageDrop parentEntity={challenge}/>
-        {this.props.drawerOpen &&
-        <>
-          <DrawerLabel active={challenge.isSelected}>
-            {getText(challenge) || getPlaceholderText(challenge) || 'New challenge'}
-          </DrawerLabel>
-        </>
-        }
-
-      </DrawerAlternative>
+  renderDrawerCategory = category => {
+    return (<>
+        <DrawerAlternative key={`${category.id}`}
+                           active={category.isSelected}
+                           drawerOpen={this.props.drawerOpen}
+                           onClick={() => this.props.selectCategory(category)}>
+          {this.props.drawerOpen && <DragHandle/>}
+          <ImageDrop parentEntity={category}/>
+          {this.props.drawerOpen &&
+          <>
+            <DrawerLabel active={category.isSelected}>
+              {getText(category) || getPlaceholderText(category) || 'New category'}
+            </DrawerLabel>
+            <Button variant={'ghost'} onClick={() => {
+              this.props.history.push(`category/${category.id}`);
+            }} style={{ margin: 'auto' }}>Edit</Button>
+          </>
+          }
+        </DrawerAlternative>
+      </>
     );
   };
 
   render() {
-    const { createChallenge, drawerOpen, challenges, reorderChallenges } = this.props;
+    const { createCategory, drawerOpen, categories, reorderCategories } = this.props;
     return <Drawer open={drawerOpen}>
       <ToggleDrawerButton onClick={() => this.props.toggleDrawer()}>
         <DrawerIcon src={drawerOpen ? IconCloseDrawer : IconOpenDrawer}
@@ -137,44 +141,41 @@ class ChallengeDrawer extends Component {
         lockToContainerEdges
         helperClass='pop' // This adds a nice shadow to the card when moving it
         onSortEnd={({ oldIndex, newIndex }) => {
-          return reorderChallenges({
+          return reorderCategories({
             oldIndex,
             newIndex,
           });
         }}
       >
-        {challenges.map((challenge, index) => (
-          <SortableChallengeWrapper key={`item-${challenge.id}`}
-                                    index={index}
-                                    challenge={challenge}
-                                    renderMethod={this.renderDrawerChallenge}/>
+        {categories.map((category, index) => (
+          <SortableCategoryWrapper key={`item-${category.id}`}
+                                   index={index}
+                                   category={category}
+                                   renderMethod={this.renderDrawerCategory}/>
         ))}
       </MySortableContainer>
-      <DrawerAlternative onClick={() => createChallenge()}>
-        <DrawerIcon src={IconAdd} alt={'New challenge'}/>
+      <DrawerAlternative onClick={() => createCategory()}>
+        <DrawerIcon src={IconAdd} alt={'New category'}/>
       </DrawerAlternative>
     </Drawer>;
   }
 }
 
 const mapStateToProps = state => ({
-  challenges: getChallenges(state),
-  drawerOpen: getChallengeDrawerIsOpen(state)
+  categories: getCategories(state),
+  drawerOpen: getCategoryDrawerIsOpen(state),
 });
 
 const mapDispatchToProps = (dispatch) => {
   return ({
-    reorderChallenges: payload => dispatch(challengeActions.reorderChallenges(payload)),
-    createChallenge: () => dispatch(challengeActions.createChallenge()),
-    toggleDrawer: () => dispatch(appSettingsActions.toggleChallengeDrawer()),
-    selectChallenge: (challenge) => {
-      dispatch(challengeActions.selectChallenge(challenge));
+    reorderCategories: payload => dispatch(categoryActions.reorderCategories(payload)),
+    createCategory: () => dispatch(categoryActions.createCategory()),
+    showEditCategory: () => dispatch(appSettingsActions.showEditCategory()),
+    toggleDrawer: () => dispatch(appSettingsActions.toggleCategoryDrawer()),
+    selectCategory: (category) => {
+      dispatch(categoryActions.selectCategory(category));
     },
-    uploadChallengeImg: (challengeId, image) => dispatch(challengeActions.uploadChallengeImage({
-      challengeId,
-      image
-    })),
   });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChallengeDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryDrawer);

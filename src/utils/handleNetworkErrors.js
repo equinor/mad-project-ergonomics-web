@@ -13,7 +13,7 @@ export default function handleError(ex) {
     addToast({ text: genericErrorMessage, type: ToastTypes.ERROR });
     return;
   }
-  if (!ex.status) {
+  if (!ex.status && ex.message) {
     addToast({ text: ex.message, type: ToastTypes.ERROR });
   } else if (ex.status === 400) {
     addToast({ text: invalidRequestMessage, type: ToastTypes.ERROR });
@@ -23,7 +23,9 @@ export default function handleError(ex) {
     addToast({ text: notPermissionToViewMessage, type: ToastTypes.ERROR });
   } else if (ex.status === 500) {
     addToast({ text: processingErrorMessage, type: ToastTypes.ERROR });
-  } else {
+  } else if (ex.status && ex.message) {
     addToast({ text: `${ex.status} - ${ex.message}`, type: ToastTypes.ERROR });
+  } else {
+    addToast({ text: ex.toString(), type: ToastTypes.ERROR });
   }
 }

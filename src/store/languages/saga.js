@@ -7,6 +7,8 @@ import { fetchLabels } from '../labels/actions';
 import { getSelectedChallenge } from '../challenges/reducer';
 import { fetchQuestions } from '../questions/actions';
 import { fetchMeasures } from '../measures/actions';
+import { fetchCategories } from '../categories/actions';
+import { fetchCombinations } from '../combinations/actions';
 
 function* getLanguages() {
   try {
@@ -25,10 +27,12 @@ function* setCurrentLanguage(action) {
     //  Update stuff that has it's own language and needs to be refreshed
 
     yield put(fetchLabels());
+    yield put(fetchCategories());
     yield put(fetchChallenges());
     const selectedChallenge = yield select(getSelectedChallenge);
     if (selectedChallenge && selectedChallenge.id) {
       yield put(fetchQuestions(selectedChallenge.id));
+      yield put(fetchCombinations(selectedChallenge.id));
     }
     yield put(fetchMeasures());
   } catch (ex) {

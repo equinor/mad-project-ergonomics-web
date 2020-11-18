@@ -2,8 +2,8 @@ import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
 import api from '../../services/api';
 import * as actions from './actions';
 import handleError from '../../utils/handleNetworkErrors';
-import { getCurrentLanguage } from '../languages/reducer';
-import { getChallenges } from '../challenges/reducer';
+import { getCurrentLanguage } from '../languages';
+import { getChallenges } from './reducer';
 import { getActiveTab } from '../appSettings/reducer';
 import {
   fetchCombinations,
@@ -11,12 +11,26 @@ import {
   fetchMissingCombinations
 } from '../combinations/actions';
 import { fetchQuestions } from '../questions/actions';
+import * as categoryReducer from '../categories/reducer';
 
 function* fetchChallenges() {
   try {
     yield put(actions.fetchChallengesRequested());
     const language = yield select(getCurrentLanguage);
-    const response = yield call(api.getChallenges, language.code);
+    const category = yield select(categoryReducer.getSelectedCategory);
+    let response = [];
+
+    if (category && category.id) {
+      const r = yield call(api.getChallengesInCategory, {
+        language: language.code,
+        categoryId: category.id
+      });
+      if (r && r.challenges) response = r.challenges;
+    }
+    // else {
+    // Todo: Use this to show all challenges. No matter if they are assigned a category or not
+    //   response = yield call(api.getChallenges, language.code);
+    // }
     yield put(actions.fetchChallengesSucceeded(response));
   } catch (ex) {
     yield call(handleError, ex);
@@ -27,7 +41,19 @@ function* fetchChallenges() {
 function* createChallenge() {
   try {
     yield put(actions.createChallengeRequested());
+    const category = yield select(categoryReducer.getSelectedCategory);
     const response = yield call(api.newChallenge);
+    const challengeId = response.id;
+    if (category && category.id) {
+      const categoryId = category.id;
+      yield call(api.addChallengeToCategory, {
+        categoryId,
+        payload: {
+          challengeId
+        }
+      });
+    }
+
     yield put(actions.createChallengeSucceeded(response));
 
     yield put(actions.fetchChallenges());
@@ -85,7 +111,7 @@ function* setChallengePublished(action) {
       languageCode: language.code,
     });
     yield put(actions.setChallengePublishedSucceeded(response));
-    yield put(actions.fetchChallenges())
+    yield put(actions.fetchChallenges());
   } catch (err) {
     yield call(handleError, err);
     yield put(actions.setChallengePublishedFailed());
@@ -144,6 +170,7 @@ export default function* watchFetchChallenges() {
 export function* watchCreateChallenge() {
   yield takeLatest(actions.createChallenge.toString(), createChallenge);
 }
+
 export function* watchSetChallengePublished() {
   yield takeLatest(actions.setChallengePublished.toString(), setChallengePublished);
 }
@@ -166,5 +193,4 @@ export function* watchReorderChallenge() {
 
 export function* watchSelectChallenge() {
   yield takeLatest(actions.selectChallenge.toString(), selectChallenge);
-
 }

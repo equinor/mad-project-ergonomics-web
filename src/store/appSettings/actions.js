@@ -1,7 +1,11 @@
 import { createAction } from 'redux-actions';
 
 
-export const toggleDrawer = createAction('Drawer/Toggle');
+export const toggleChallengeDrawer = createAction('Drawer/ChallengeToggle');
+export const toggleCategoryDrawer = createAction('Drawer/CategoryToggle');
+
+export const showEditCategory = createAction('Category/ShowEdit');
+export const hideEditCategory = createAction('Category/HideEdit');
 
 export const setActiveTab = createAction('Navigate/TAB');
 

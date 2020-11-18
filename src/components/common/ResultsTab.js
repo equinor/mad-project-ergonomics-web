@@ -331,6 +331,7 @@ class ResultsTab extends Component {
                     risk: change.target.value,
                   });
                 }}>
+          <option value={'NotApplicable'}>--NA--</option>
           <option value={'Green'}>Alt OK</option>
           <option value={'Yellow'}>Vis Hensyn</option>
           <option value={'Red'}>Tiltak Anbefales</option>

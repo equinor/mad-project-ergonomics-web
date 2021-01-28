@@ -154,7 +154,7 @@
     "redux": "^3.7.2",
     "redux-actions": "^2.6.5",
     "redux-persist": "^5.9.1",
-    "redux-saga": "^0.15.6",
+    "redux-saga": "^0.16.2",
     "reselect": "^3.0.1",
     "styled-components": "^4.4.1",
     "toastr": "^2.1.4"

@@ -128,7 +128,7 @@
   "dependencies": {
     "@equinor/eds-core-react": "^0.6.2",
     "@uiw/react-md-editor": "^1.14.4",
-    "adal-angular": "^1.0.17",
+    "adal-angular": "^1.0.18",
     "array-move": "^2.2.2",
     "global": "^4.4.0",
     "jquery": "^3.5.1",

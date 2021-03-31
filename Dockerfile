@@ -11,7 +11,7 @@ RUN npm run build -s
 
 
 # ---- Prod ----
-FROM nginx
+FROM nginx:1.19.9
 
 EXPOSE 5000
 ENV APPSETTING_ENV=local

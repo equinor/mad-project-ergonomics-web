@@ -133,7 +133,7 @@
     "global": "^4.4.0",
     "jquery": "^3.5.1",
     "loaders.css": "^0.1.2",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.29.0",
     "normalizr": "^3.6.0",
     "popper.js": "^1.16.1",

@@ -2,12 +2,37 @@
 
 This is a web-admin-interface for the internal app `Equinor Ergonomics`.
 
-## Build status
-Todo: Change url for the build-status-indicators (currently pointing to PleaseMove)
-|Branch | Build Status|
-| ---- | ---- | 
-|Master|[![Build Status](https://statoil-mad.visualstudio.com/PleaseMove/_apis/build/status/PleaseMove%20-%20iOS%20-%20Build?branchName=master)](https://statoil-mad.visualstudio.com/PleaseMove/_build/latest?definitionId=192&branchName=master)|
-|Develop|[![Build Status](https://statoil-mad.visualstudio.com/PleaseMove/_apis/build/status/PleaseMove%20-%20iOS%20-%20Build?branchName=develop)](https://statoil-mad.visualstudio.com/PleaseMove/_build/latest?definitionId=192&branchName=develop)|
+## Table of contents
+- [Equinor Ergonomics | Admin Web Interface](#equinor-ergonomics--admin-web-interface)
+  - [Table of contents](#table-of-contents)
+  - [Environments](#environments)
+  - [Build status - NB: NOT CONFIGURED CORRECTLY](#build-status---nb-not-configured-correctly)
+  - [Developer help](#developer-help)
+    - [How to get it up and running](#how-to-get-it-up-and-running)
+    - [Run it in a docker container](#run-it-in-a-docker-container)
+    - [Run tests with jest](#run-tests-with-jest)
+  - [UI, API-requests and State-handling](#ui-api-requests-and-state-handling)
+    - [Separating UI and Logic (Presenter & Controller)](#separating-ui-and-logic-presenter--controller)
+  - [More info](#more-info)
+
+## Environments
+
+| Environments | Url                                           | Note                                                                                                               |
+| ------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| DEV          | https://ergonomics-web-dev.azurewebsites.net  |                                                                                                                    |
+| TEST         | https://ergonomics-web-test.azurewebsites.net |                                                                                                                    |
+| QA           | https://ergonomics-web-qa.azurewebsites.net   | Webpage is up, but api is not available atm. because _Omnia_ doesn't support QA Environments without doing a hack. |
+| PROD         | https://ergonomics-web-prod.azurewebsites.net |                                                                                                                    |
+
+
+## Build status - NB: NOT CONFIGURED CORRECTLY
+Todo: 
+- [ ] Change url for the build-status-indicators (currently pointing to PleaseMove)
+
+| Branch  | Build Status                                                                                                                                                                                                                                 |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Master  | [![Build Status](https://statoil-mad.visualstudio.com/PleaseMove/_apis/build/status/PleaseMove%20-%20iOS%20-%20Build?branchName=master)](https://statoil-mad.visualstudio.com/PleaseMove/_build/latest?definitionId=192&branchName=master)   |
+| Develop | [![Build Status](https://statoil-mad.visualstudio.com/PleaseMove/_apis/build/status/PleaseMove%20-%20iOS%20-%20Build?branchName=develop)](https://statoil-mad.visualstudio.com/PleaseMove/_build/latest?definitionId=192&branchName=develop) |
 
 
 ## Developer help

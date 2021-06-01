@@ -2,19 +2,6 @@
 
 This is a web-admin-interface for the internal app `Equinor Ergonomics`.
 
-## Table of contents
-- [Equinor Ergonomics | Admin Web Interface](#equinor-ergonomics--admin-web-interface)
-  - [Table of contents](#table-of-contents)
-  - [Environments](#environments)
-  - [Build status - NB: NOT CONFIGURED CORRECTLY](#build-status---nb-not-configured-correctly)
-  - [Developer help](#developer-help)
-    - [How to get it up and running](#how-to-get-it-up-and-running)
-    - [Run it in a docker container](#run-it-in-a-docker-container)
-    - [Run tests with jest](#run-tests-with-jest)
-  - [UI, API-requests and State-handling](#ui-api-requests-and-state-handling)
-    - [Separating UI and Logic (Presenter & Controller)](#separating-ui-and-logic-presenter--controller)
-  - [More info](#more-info)
-
 ## Environments
 
 | Environments | Url                                           | Note                                                                                                               |

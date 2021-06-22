@@ -126,7 +126,7 @@
     "webpack-md5-hash": "^0.0.5"
   },
   "dependencies": {
-    "@equinor/eds-core-react": "^0.6.2",
+    "@equinor/eds-core-react": "^0.8.3",
     "@uiw/react-md-editor": "^1.14.4",
     "adal-angular": "^1.0.17",
     "array-move": "^2.2.2",
